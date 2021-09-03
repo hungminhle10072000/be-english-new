@@ -28,9 +28,9 @@ export default class App extends Component {
                 <div id="layoutSidenav">
                   <AdminSideNav />
                     <div id="layoutSidenav_content">
-                      <div className="col">
+                      {/* <div className="col"> */}
                         <AdminRoutes />
-                      </div>
+                      {/* </div> */}
                     </div>
                 </div>
               </div>

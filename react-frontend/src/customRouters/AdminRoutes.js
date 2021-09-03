@@ -5,11 +5,10 @@ import {
     Redirect,
     BrowserRouter
 } from "react-router-dom";
-import AdminAccount from '../components/AdminAccount/AdminAccount';
 import AdminHomePage from '../pages/AdminHomePage/AdminHomePage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
-import UserHomePage from '../pages/UserHomePage/UserHomePage';
+import AdminAccountPage from '../pages/AdminAccountPage/AdminAccountPage';
 
 
 class AdminRoutes extends Component {
@@ -34,7 +33,7 @@ class AdminRoutes extends Component {
             <div>
                 <Switch>
                     <Route exact path="/" component={AdminHomePage} />
-                    <Route exact path="/admin/account" component={AdminAccount} />
+                    <Route exact path="/admin/account" component={AdminAccountPage} />
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>

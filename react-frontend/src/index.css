@@ -11676,7 +11676,6 @@ body {
   border-radius: 0.25rem !important;
 }
 
-
 /* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11690,3 +11689,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 } */
+
+/* Css Account */
+
+/* Thanh search account */
+input.searchAccount {
+  display: block;
+  width: 20%;
+  margin-top: 10px;
+  -webkit-transition: width 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out;
+  border-radius: 5%;
+}
+
+input.searchAccount:focus {
+  width: 100%;
+}
+
+
+
