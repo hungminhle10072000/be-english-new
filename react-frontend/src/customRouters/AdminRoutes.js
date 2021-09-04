@@ -9,6 +9,7 @@ import AdminHomePage from '../pages/AdminHomePage/AdminHomePage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import AdminAccountPage from '../pages/AdminAccountPage/AdminAccountPage';
+import AdminAddAccountPage from '../pages/AdminAddAccountPage/AdminAddAccountPage';
 
 
 class AdminRoutes extends Component {
@@ -34,6 +35,7 @@ class AdminRoutes extends Component {
                 <Switch>
                     <Route exact path="/" component={AdminHomePage} />
                     <Route exact path="/admin/account" component={AdminAccountPage} />
+                    <Route exact path="/admin/add/account" component={AdminAddAccountPage} />
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>

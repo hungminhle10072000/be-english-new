@@ -12,6 +12,7 @@ export default class AdminHomePage extends Component {
     render() {
         return (
                 <div>
+                    Chưa có gì cho trang quản trị
                 </div>
         )
     }

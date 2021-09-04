@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import {
     Link
   } from "react-router-dom";
-
-// import TableChartOutlinedIcon from '@material-ui/icons/TableChartOutlined';
-// import SupervisorAccountOutlinedIcon from '@material-ui/icons/SupervisorAccountOutlined';
+import {BsTable} from 'react-icons/bs'
+import {AiOutlineUsergroupDelete} from 'react-icons/ai'
 
 export default class AdminSideNav extends Component {
     render() {
@@ -14,11 +13,10 @@ export default class AdminSideNav extends Component {
               <div className="sb-sidenav-menu">
                 <div className="nav">
                     <div>
-                        <Link className="nav-link me-lg-3" to="/admin/dashboard"> &nbsp; Quản trị</Link>
+                        <Link className="nav-link me-lg-3" to="/"> <BsTable /> &nbsp; Quản trị</Link>
                     </div>
                     <div>
-                      
-                        <Link className="nav-link me-lg-3" to="/admin/account"> &nbsp; Tài khoản</Link>
+                        <Link className="nav-link me-lg-3" to="/admin/account"> <AiOutlineUsergroupDelete /> &nbsp; Tài khoản</Link>
                     </div>
                 </div>
               </div>
