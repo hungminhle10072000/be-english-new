@@ -29,10 +29,10 @@ export default class App extends Component {
     if(this.state.role === 0){
       return (
         <Router>
-          <div className="main-admin-wrapper">
-              <AdminNavBar />
-              <AdminRoutes />
-          </div>    
+            <div className="main-admin-wrapper">
+                <AdminNavBar />
+                <AdminRoutes />        
+            </div>    
         </Router>
       )
     } if(this.state.role === 1){
