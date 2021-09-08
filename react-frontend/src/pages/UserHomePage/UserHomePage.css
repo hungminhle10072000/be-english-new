@@ -1,0 +1,11 @@
+.navtranghome {
+    height: 80px;
+    background-color: yellow !important;
+    margin-bottom: 20px;
+}
+
+.foottranghome {
+    height: 80px;
+    background-color: red;
+    margin-top: 20px;
+}
