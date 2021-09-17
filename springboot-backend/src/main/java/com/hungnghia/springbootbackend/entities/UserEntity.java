@@ -1,57 +1,59 @@
 package com.hungnghia.springbootbackend.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
+import lombok.Data;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
+
+@Data
 @Entity
+@Table(name= "User")
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "fullname")
     private String fullname;
+
+    @Column(name= "username")
     private String username;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name= "gender")
+    private String gender;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phonenumber")
+    private String phonenumber;
+
+    @Column(name = "birthday")
+    private Date birthday;
+
+    @Column(name = "avartar")
+    private String avartar;
+
+    @Column(name= "role")
     private String role;
 
-    public long getId() {
-        return id;
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private Set<User_Course_Entity> user_course_entitySet;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private Set<ResultDetailEntity> resultDetailEntitySet;
 
-    public String getFullname() {
-        return fullname;
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private Set<ResultEntity> resultEntitySet;
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private Set<CommentEntity> commentEntitySet;
 }
