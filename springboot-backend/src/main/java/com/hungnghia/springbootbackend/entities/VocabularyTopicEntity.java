@@ -3,7 +3,8 @@ package com.hungnghia.springbootbackend.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
+
 
 @Data
 @Entity
@@ -21,8 +22,8 @@ public class VocabularyTopicEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vocabularyTopicEntity", cascade = CascadeType.ALL)
-    private Set<CommentEntity> commentEntitySet;
+    private List<CommentEntity> commentEntityList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vocabularyTopicEntity", cascade = CascadeType.ALL)
-    private Set<VocabularyEntity> vocabularyEntitySet;
+    private List<VocabularyEntity> vocabularyEntityList;
 }

@@ -5,7 +5,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+
 
 @Data
 @Entity
@@ -46,14 +47,14 @@ public class UserEntity {
     private String role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private Set<User_Course_Entity> user_course_entitySet;
+    private List<User_Course_Entity> user_course_entityList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private Set<ResultDetailEntity> resultDetailEntitySet;
+    private List<ResultDetailEntity> resultDetailEntityList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private Set<ResultEntity> resultEntitySet;
+    private List<ResultEntity> resultEntityList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
-    private Set<CommentEntity> commentEntitySet;
+    private List<CommentEntity> commentEntityList;
 }

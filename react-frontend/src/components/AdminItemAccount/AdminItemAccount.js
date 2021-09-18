@@ -10,16 +10,16 @@ export default class AdminItemAccount extends Component {
         return (
             <Fragment>
                 <tr>
-                    <td>1</td>
-                    <td>Hoàng Dương Hùng</td>
-                    <td>hungadmin</td>
-                    <td>minhle2000</td>
-                    <td>hungduong.mess32@gmail.com</td>
-                    <td>Nam</td>
-                    <td>Thủ Đức</td>
-                    <td>01236659181</td>
+                    <td>{this.props.id}</td>
+                    <td>{this.props.fullname}</td>
+                    <td>{this.props.username}</td>
+                    <td>{this.props.password}</td>
+                    <td>{this.props.email}</td>
+                    <td>{this.props.gender}</td>
+                    <td>{this.props.address}</td>
+                    <td>{this.props.phonenumber}</td>
                     <td>10-08-2000</td>
-                    <td>admin</td>
+                    <td>{this.props.role}</td>
                     <td>Null</td>
                     <td>
                         <Link to="/admin/account/edit">
