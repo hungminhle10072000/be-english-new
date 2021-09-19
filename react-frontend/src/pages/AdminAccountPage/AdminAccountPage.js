@@ -4,8 +4,40 @@ import { Link } from 'react-router-dom'
 import AdminItemAccount from '../../components/AdminItemAccount/AdminItemAccount'
 import AdminPagination from '../../components/AdminPagination/AdminPagination'
 import { BsFillPersonPlusFill } from "react-icons/bs";
+import { connect } from 'react-redux'
+import allActions from '../../actions'
 
-export default class AdminAccountPage extends Component {
+
+class AdminAccountPage extends Component {
+
+    componentDidMount() {
+        this.props.getAllUsers();
+    }
+
+    showItemAccount(users) {
+        var result = null;
+        if(users.length > 0 ){
+            result = users.map((user, key) => {
+                return (
+                    <AdminItemAccount 
+                        key={key}
+                        id={user.id}
+                        fullname={user.fullname}
+                        username={user.username}
+                        password={user.password}
+                        email={user.email}
+                        gender={user.gender}
+                        address={user.address}
+                        phonenumber={user.phonenumber}
+                        birthday={user.birthday}
+                        avartar={user.avartar}
+                        role={user.role}
+                    />
+                )
+            })
+        }
+        return result;
+    }
     render() {
         return (
             <div className="container-fluid content-admin-acconut">
@@ -46,16 +78,7 @@ export default class AdminAccountPage extends Component {
                                     </thead>
                                     <tbody>
                                         {/* Item account */}
-                                        <AdminItemAccount />
-                                        <AdminItemAccount />
-                                        <AdminItemAccount />
-                                        <AdminItemAccount />
-                                        <AdminItemAccount /> 
-                                        <AdminItemAccount /> 
-                                        <AdminItemAccount /> 
-                                        <AdminItemAccount /> 
-                                        <AdminItemAccount /> 
-                                        <AdminItemAccount />  
+                                        {this.showItemAccount(this.props.users)}
                                     </tbody> 
                                     <tfoot>
                                         <tr>
@@ -82,3 +105,19 @@ export default class AdminAccountPage extends Component {
         )
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        users: state.users
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        getAllUsers: () => {
+            dispatch(allActions.userAction.actFetchUsersRequest());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (AdminAccountPage)

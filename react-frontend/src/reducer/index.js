@@ -1,7 +1,9 @@
 import { combineReducers } from "redux";
-import accounts from "./account";
+import users from './users'
+import admin_alert_info from './admin_alert_info'
 
 const appReducers = combineReducers({
-    accounts
+    users,
+    admin_alert_info
 });
 export default appReducers;

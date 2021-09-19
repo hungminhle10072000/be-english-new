@@ -3,7 +3,8 @@ package com.hungnghia.springbootbackend.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
+
 
 @Data
 @Entity
@@ -25,8 +26,8 @@ public class LessonEntity {
     private ChapterEntity chapterEntity;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lessonEntity", cascade = CascadeType.ALL)
-    private Set<CommentEntity> commentEntitySet;
+    private List<CommentEntity> commentEntityList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lessonEntity", cascade = CascadeType.ALL)
-    private Set<QuestionEntity> questionEntitySet;
+    private List<QuestionEntity> questionEntityList;
 }

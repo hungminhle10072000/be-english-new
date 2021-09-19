@@ -3,7 +3,8 @@ package com.hungnghia.springbootbackend.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
+
 
 @Data
 @Entity
@@ -24,5 +25,5 @@ public class GrammarEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "grammarEntity", cascade = CascadeType.ALL)
-    private Set<CommentEntity> commentEntitySet;
+    private List<CommentEntity> commentEntityList;
 }

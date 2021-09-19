@@ -5,9 +5,9 @@ import {
     Switch,
     Route
   } from "react-router-dom";
-  import AdminNavBar from '../../components/AdminNavBar/AdminNavBar';
-  import AdminRoutes from '../../customRoutes/AdminRoutes';
-
+import AdminNavBar from '../../components/AdminNavBar/AdminNavBar';
+import AdminRoutes from '../../customRoutes/AdminRoutes';
+import AdminAlertInfo from '../../components/AdminAlertInfo/AdminAlertInfo'
 
 export default class AdminHomePage extends Component {
     render() {
@@ -15,6 +15,7 @@ export default class AdminHomePage extends Component {
             <Router>
                 <div className="main-admin-wrapper">
                     <AdminNavBar />
+                    <AdminAlertInfo />
                     <AdminRoutes />        
                 </div>    
             </Router>
