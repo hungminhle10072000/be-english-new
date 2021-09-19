@@ -1,12 +1,11 @@
 package com.hungnghia.springbootbackend.controller;
 
 import com.hungnghia.springbootbackend.entities.UserEntity;
-import com.hungnghia.springbootbackend.repository.UserRepository;
+import com.hungnghia.springbootbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.security.core.userdetails.User;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,14 +20,29 @@ public class UserController {
 //        System.out.println("User Login!");
 //    }
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
 
-    ///get all user
-    @GetMapping("/users")
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+    @Autowired
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
+    /*Get all user*/
+    @GetMapping("/users")
+    public List<UserEntity> getAllUsers() {
+        return userService.getUsers();
+    }
 
+    /*Add user*/
+    @PostMapping("/users")
+    public UserEntity addUser(@RequestBody UserEntity userEntity) {
+        return userService.addUser(userEntity);
+    }
+
+    /*Delete User*/
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<UserEntity> deleteUser(@PathVariable Long id){
+        UserEntity userEntity = userService.deleteUser(id);
+        return ResponseEntity.ok(userEntity);
+    }
 }

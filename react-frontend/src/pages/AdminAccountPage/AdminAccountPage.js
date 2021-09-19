@@ -38,7 +38,6 @@ class AdminAccountPage extends Component {
         }
         return result;
     }
-    
     render() {
         return (
             <div className="container-fluid content-admin-acconut">
