@@ -10,14 +10,27 @@ class AdminAddAccountPage extends Component {
     constructor(props){
         super(props);
 
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var todayDate = String(date.getDate()).padStart(2, '0');
+        if(month < 10){
+            month = "0" + String(month);
+        }
+        if(todayDate < 10){
+            todayDate = "0" + todayDate;
+        }
+        var datePattern = year + '-' + month + '-' + todayDate;
+      
         this.state = {
             fullname: '',
             username: '',
             password: '',
+            phonenumber: '',
             email: '',
             gender: 'Nam',
             address: '',
-            birthday: '',
+            birthday: datePattern,
             role: 'Admin',
             confirmDialog: false
         }
@@ -142,7 +155,7 @@ class AdminAddAccountPage extends Component {
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Số điện thoại" name="phonenumber" id="phonenumber" />
                                     
                                     <label htmlFor="birthday"><b>Ngày sinh</b></label>  
-                                    <input onChange={(event) => this.isChange(event)} className="input-field" type="date" placeholder="Ngày sinh" name="birthday" id="birthday" />
+                                    <input onChange={(event) => this.isChange(event)} className="input-field" type="date" placeholder="Ngày sinh" name="birthday" id="birthday" value={this.state.birthday}/>
                                     
                                     <label htmlFor="role"><b>Quyền</b></label>
                                     <div>

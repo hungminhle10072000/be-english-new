@@ -10,6 +10,14 @@ import allActions from '../../actions'
 
 class AdminAccountPage extends Component {
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            term: ''
+        }
+    }
+
     componentDidMount() {
         this.props.getAllUsers();
     }
@@ -38,7 +46,28 @@ class AdminAccountPage extends Component {
         }
         return result;
     }
+
+    callback = (term) => {
+        this.setState({
+            term: term
+        })
+    }
+
     render() {
+
+        var dataSearch = this.state.term;
+        var dataTable = this.props.users;
+        var resultSearch = []
+        dataTable.forEach((item) => {
+            let idSearch = item.id.toString();
+            if(idSearch.indexOf(dataSearch) !== -1 || item.fullname.indexOf(dataSearch) !== -1 || item.username.indexOf(dataSearch) !== -1
+            || item.password.indexOf(dataSearch) !== -1 || item.email.indexOf(dataSearch) !== -1 || item.gender.indexOf(dataSearch) !== -1
+            || item.address.indexOf(dataSearch) !== -1 || item.phonenumber.indexOf(dataSearch) !== -1 || item.role.indexOf(dataSearch) !== -1
+            || item.birthday.indexOf(dataSearch) !== -1){
+                resultSearch.push(item);
+            }
+        })
+
         return (
             <div className="container-fluid content-admin-acconut">
                 <div className="row">
@@ -52,7 +81,8 @@ class AdminAccountPage extends Component {
                                 <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
                             </Link>
                          
-                            <input type="text" name="search" placeholder="Tìm kiếm ..." className="searchAccount" />
+                            <input onChange={(event) => this.callback(event.target.value)}
+                            type="text" name="search" placeholder="Tìm kiếm ..." className="searchAccount" />
                         </div>
                     </div>
                 </div>
@@ -78,7 +108,7 @@ class AdminAccountPage extends Component {
                                     </thead>
                                     <tbody>
                                         {/* Item account */}
-                                        {this.showItemAccount(this.props.users)}
+                                        {this.showItemAccount(resultSearch)}
                                     </tbody> 
                                     <tfoot>
                                         <tr>
