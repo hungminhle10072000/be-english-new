@@ -21,6 +21,7 @@ class AdminItemAccount extends Component {
                 label: 'Xác nhận',
                 onClick: () => {
                     this.props.onDeleteUser(this.props.id);
+                    this.props.changeAdminAlertOn("Xóa thành công","danger");
                 }
               },
               {
@@ -69,6 +70,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onDeleteUser : (id) => {
             dispatch(allActions.userAction.actDeleteUserRequest(id));
+        },
+        changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
+            dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
         }
     }
 }

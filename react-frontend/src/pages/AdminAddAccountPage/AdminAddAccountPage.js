@@ -46,6 +46,7 @@ class AdminAddAccountPage extends Component {
         user.role = this.state.role;
         this.props.onAddUser(user);
         window.history.back();
+        this.props.changeAdminAlertOn("Thêm thành công","success");     
 
     }
 
@@ -180,6 +181,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onAddUser: (user) => {
             dispatch(allActions.userAction.actAddUserRequest(user))
+        },
+        changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
+            dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
         }
     }
 }
