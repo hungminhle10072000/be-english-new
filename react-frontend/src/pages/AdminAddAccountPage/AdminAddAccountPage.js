@@ -4,11 +4,14 @@ import { BiSave, BiReset } from "react-icons/bi";
 import './AdminAddAccountPage.css'
 import { connect } from 'react-redux';
 import allActions from '../../actions/index';
+import validator from 'validator';
  
 class AdminAddAccountPage extends Component {
 
     constructor(props){
         super(props);
+        this.selectFile = this.selectFile.bind(this);
+        this.upload = this.upload.bind(this);
 
         var date = new Date();
         var year = date.getFullYear();
@@ -23,18 +26,81 @@ class AdminAddAccountPage extends Component {
         var datePattern = year + '-' + month + '-' + todayDate;
       
         this.state = {
+
+            // init value
             fullname: '',
             username: '',
             password: '',
+            repeat_password: '',
             phonenumber: '',
             email: '',
             gender: 'Nam',
             address: '',
             birthday: datePattern,
             role: 'Admin',
-            confirmDialog: false
+            confirmDialog: false,
+
+            // preview image
+            currentFile: undefined,
+            previewImage: undefined,
+
+            // validation
+            validationMsg: {}
+
+
         }
     }
+
+    validateAll = () => {
+        const msg = {}
+        if(validator.isEmpty(this.state.fullname)){
+            msg.fullname = "Yêu cầu nhập tên !"
+        }
+        if(validator.isEmpty(this.state.username)){
+            msg.username = "Yêu cầu nhập tên đăng nhập !"
+        }
+        if(validator.isEmpty(this.state.password)){
+            msg.password = "Yêu cầu nhập mật khẩu !"
+        }
+        if(validator.isEmpty(this.state.repeat_password)){
+            msg.repeat_password = "Yêu cầu nhập lại mật khẩu !"
+        } else if (!validator.equals(this.state.password, this.state.repeat_password)) {
+            msg.repeat_password = "Mật khẩu nhập lại không khớp !"
+        }
+        if(validator.isEmpty(this.state.phonenumber)){
+            msg.phonenumber = "Yêu cầu nhập số điện thoại !"
+        } else if (!validator.isMobilePhone(this.state.phonenumber)){
+            msg.phonenumber = "Yêu cầu nhập đúng số điện thoại !"
+        }
+        if(validator.isEmpty(this.state.email)){
+            msg.email = "Yêu cầu nhập địa chỉ gmail !"
+        } else if (!validator.isEmail(this.state.email)) {
+            msg.email = "Yêu cầu nhập đúng gmail !"
+        }
+        if(validator.isEmpty(this.state.address)){
+            msg.address = "Yêu cầu nhập địa chỉ !"
+        }
+
+        this.setState({
+            validationMsg: msg
+        })
+        if(Object.keys(msg).length > 0) return false
+        return true;
+    }
+
+    selectFile(event) {
+        this.setState({
+            currentFile: event.target.files[0],
+            previewImage: URL.createObjectURL(event.target.files[0])
+        });
+    }
+
+    upload() {
+        this.setState({
+            progress: 0,
+        });
+    }
+    
 
     isChange = (event) => {
         const name = event.target.name;
@@ -65,22 +131,31 @@ class AdminAddAccountPage extends Component {
 
     handleConfirmationBox = (event) => {
         event.preventDefault();
-        if(!this.state.confirmDialog){
-            document.querySelector(".confirm-bg").style.display = "flex"
-            document.querySelector(".container-dialog").style.display = "flex"
-            this.setState({
-                confirmDialog: true
-            })
-        } else {
-            document.querySelector(".confirm-bg").style.display = "none"
-            document.querySelector(".container-dialog").style.display = "none"
-            this.setState({
-                confirmDialog: false
-            })
+        const isValid = this.validateAll()
+        if(!isValid) return 
+        else {
+            if(!this.state.confirmDialog){
+                document.querySelector(".confirm-bg").style.display = "flex"
+                document.querySelector(".container-dialog").style.display = "flex"
+                this.setState({
+                    confirmDialog: true
+                })
+            } else {
+                document.querySelector(".confirm-bg").style.display = "none"
+                document.querySelector(".container-dialog").style.display = "none"
+                this.setState({
+                    confirmDialog: false
+                })
+            }
         }
     }
 
     render() {
+        const {
+            previewImage,
+            validationMsg
+        } = this.state;
+
         return (
             <div className="container-fluid container-admin-add-account">
                 <div className="container-dialog">
@@ -124,19 +199,24 @@ class AdminAddAccountPage extends Component {
 
                                     <label htmlFor="fullname"><b>Họ tên</b></label>      
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Họ tên" name="fullname" id="fullname"/>
+                                    <p className="msg-error">{validationMsg.fullname}</p>
 
                                     <label htmlFor="username"><b>Tên đăng nhập</b></label>    
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Tên đăng nhập" name="username" id="username" />
+                                    <p className="msg-error">{validationMsg.username}</p>
 
                                     <label htmlFor="password"><b>Mật khẩu</b></label>
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="password" placeholder="Mật khẩu" name="password" id="password" />
+                                    <p className="msg-error">{validationMsg.password}</p>
 
                                     <label htmlFor="repeat_password"><b>Nhập lại mật khẩu</b></label>
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="password" placeholder="Nhập lại mật khẩu" name="repeat_password" id="repeat_password" />
+                                    <p className="msg-error">{validationMsg.repeat_password}</p>
 
                                     <label htmlFor="email"><b>Email</b></label>
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="email" placeholder="Email" id="email" name="email" />
-                    
+                                    <p className="msg-error">{validationMsg.email}</p>
+
                                     <label htmlFor="gender"><b>Giới tính</b></label>
                                         <div>
                                             <input  onChange={(event) => this.isChange(event)} type="radio" id="nam" name="gender" value="Nam" defaultChecked />
@@ -150,9 +230,11 @@ class AdminAddAccountPage extends Component {
                                 <div className="col-sm-6">
                                     <label htmlFor="address"><b>Địa chỉ</b></label>  
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Địa chỉ" name="address" id="address" />
-
+                                    <p className="msg-error">{validationMsg.address}</p>
+                                    
                                     <label htmlFor="phonenumber"><b>Số điện thoại</b></label>  
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Số điện thoại" name="phonenumber" id="phonenumber" />
+                                    <p className="msg-error">{validationMsg.phonenumber}</p>
                                     
                                     <label htmlFor="birthday"><b>Ngày sinh</b></label>  
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="date" placeholder="Ngày sinh" name="birthday" id="birthday" value={this.state.birthday}/>
@@ -163,9 +245,18 @@ class AdminAddAccountPage extends Component {
                                         <label htmlFor="Admin">&nbsp; Admin</label> &nbsp; &nbsp; &nbsp;
                                         <input onChange={(event) => this.isChange(event)} type="radio" id="User" name="role" value="User"  />
                                         <label htmlFor="User">&nbsp;  User</label><br />
-                                    </div>    
-                                    <label htmlFor="avatar"><b>Ảnh đại diện</b></label>  
-                                    <input className="input-field" type="file" placeholder="Ảnh đại diện" id="avatar" name="avatar"/>
+                                    </div>
+
+
+                                    <label htmlFor="avatar"><b>Ảnh đại diện</b></label>
+                                    <input className="input-field" type="file" placeholder="Ảnh đại diện" onChange={this.selectFile} accept="image/*" id="avatar" name="avatar"/>
+                                    
+                                    {previewImage && (
+                                        <div>
+                                            <img className="preview" src={previewImage} alt="" style={{height: 150, with: 150}}/>
+                                        </div>
+                                    )}
+
                                 </div>
                             </div>
 

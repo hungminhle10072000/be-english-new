@@ -104,3 +104,8 @@ input.input-field:focus {
     background-color: #b2b2b2;
     cursor: pointer;
 }
+/* msg error */
+p.msg-error {
+    color: red;
+    font-size: 0.8rem;
+}
