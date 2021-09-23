@@ -54,7 +54,6 @@ class AdminAccountPage extends Component {
     }
 
     render() {
-
         var dataSearch = this.state.term;
         var dataTable = this.props.users;
         var resultSearch = []

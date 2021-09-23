@@ -45,4 +45,19 @@ public class UserController {
         UserEntity userEntity = userService.deleteUser(id);
         return ResponseEntity.ok(userEntity);
     }
+
+    /*Edit User*/
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody UserEntity userEntity){
+        UserEntity updateUser = userService.updateUser(id, userEntity);
+        return ResponseEntity.ok(updateUser);
+    }
+
+    /*Get User with id*/
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserEntity> getUserById(@PathVariable Long id){
+        UserEntity userEntity = userService.getUser(id);
+        return ResponseEntity.ok(userEntity);
+    }
+
 }

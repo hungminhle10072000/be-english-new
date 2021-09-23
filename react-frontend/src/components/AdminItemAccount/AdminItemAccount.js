@@ -49,7 +49,7 @@ class AdminItemAccount extends Component {
                     <td>{this.props.role}</td>
                     <td>Null</td>
                     <td>
-                        <Link to="/admin/account/edit">
+                        <Link to={`/admin/account/edit/${this.props.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-account">Sửa</button>
                         </Link>
                         <button onClick={() => this.onDelete()}
