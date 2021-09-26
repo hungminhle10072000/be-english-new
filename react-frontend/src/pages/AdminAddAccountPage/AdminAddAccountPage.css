@@ -53,7 +53,7 @@ input.input-field:focus {
     flex-direction: column;
     position: fixed;
     background-color: #f37736;
-    width: 300px;
+    width: 310px;
     top: 60%;
     left: 50%;
     transform: translate(-50%, -75%);
@@ -103,4 +103,9 @@ input.input-field:focus {
 .cancel-button:hover {
     background-color: #b2b2b2;
     cursor: pointer;
+}
+/* msg error */
+p.msg-error {
+    color: red;
+    font-size: 0.8rem;
 }

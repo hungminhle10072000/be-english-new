@@ -18,7 +18,7 @@ export default class AdminRoutes extends Component {
                     <Route exact path="/admin" render={() => <Redirect to="/admin/account" />} />
                     <Route exact path="/admin/account" component={AdminAccountPage}/>
                     <Route exact path="/admin/account/add" component={AdminAddAccountPage}/>
-                    <Route exact path="/admin/account/edit" component={AdminAccountEdit}/>
+                    <Route exact path="/admin/account/edit/:id" component={AdminAccountEdit}/>
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>   
             </Fragment>

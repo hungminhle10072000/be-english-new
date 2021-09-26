@@ -15,7 +15,7 @@ var findIndex = (users, id) => {
 const users = (state = usersInitialState, action) => {
     
     var index = -1;
-    var {id}=action
+    var {id, user}=action
 
     switch (action.type) {
         case Types.FETCH_USERS:
@@ -28,6 +28,13 @@ const users = (state = usersInitialState, action) => {
             index = findIndex(state, id)
             state.splice(index,1)
             return[...state]
+        case Types.UPDATE_USER:
+            state.forEach((itemUser, index) => {
+                if (itemUser.id === user.id) {
+                  state[index] = user;
+                }
+            });
+            return [...state]
         default:
             return state
     }

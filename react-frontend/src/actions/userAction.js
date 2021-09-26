@@ -55,8 +55,48 @@ const actDeleteUser = (id) => {
     }
 }
 
+// get user by id
+const actGetUserRequest = (id) => {
+    return dispatch => {
+        return (
+            UserService.getUserById(id).then((res) => {
+                dispatch(actGetUser(res.data));
+            })
+        )
+    }
+}
+
+const actGetUser = (user) => {
+    return {
+        type:Types.EDIT_USER,
+        user
+    }
+}
+
+
+// update user
+const actUpdateUserRequest = (user) => {
+    return dispatch => {
+        return (
+            UserService.updateUser(user, user.id).then( res => {
+                dispatch(actUpdateUser(res.data));
+            })
+        )
+    }
+}
+
+const actUpdateUser = (user) => {
+    return {
+        type: Types.UPDATE_USER,
+        user
+    }
+}
+
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
     actFetchUsersRequest,
     actAddUserRequest,
-    actDeleteUserRequest
+    actDeleteUserRequest,
+    actUpdateUserRequest,
+    actGetUserRequest
 }
