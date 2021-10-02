@@ -10,8 +10,22 @@ class UserService {
     }
 
     // add user
-    createUser(user) {
-        return axios.post(USER_API_BASE_URL, user);
+    createUser(userDto, file){
+        let formData = new FormData();
+
+        const json = JSON.stringify(userDto);
+        const blob = new Blob([json], {
+            type: 'application/json'
+        });
+
+        formData.append("userDto",blob);
+        formData.append("file",file);
+
+        return axios.post(USER_API_BASE_URL,formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
     }
     
     // delete user

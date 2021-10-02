@@ -20,10 +20,10 @@ const actFetchUsers = (users) => {
 }
 
 // add user
-const actAddUserRequest = (user) => {
+const actAddUserRequest = (userDto,file) => {
     return(dispatch) => {
         return(
-            UserService.createUser(user).then((res) => {
+            UserService.createUser(userDto,file).then((res) => {
                 dispatch(actAddUser(res.data))
             })
         )
