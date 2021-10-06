@@ -1,35 +1,27 @@
 package com.hungnghia.springbootbackend.service;
 
-import com.cloudinary.utils.ObjectUtils;
-import com.hungnghia.springbootbackend.config.ConfigCloudinary;
 import com.hungnghia.springbootbackend.dto.UserDto;
 import com.hungnghia.springbootbackend.entities.UserEntity;
 import com.hungnghia.springbootbackend.exception.ResourceNotFoundException;
 import com.hungnghia.springbootbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
+
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ConfigCloudinary configCloudinary;
+    private final AmazonClient amazonClient;
 
     @Autowired
-    public UserService(UserRepository userRepository, ConfigCloudinary configCloudinary) {
+    public UserService(UserRepository userRepository, AmazonClient amazonClient) {
         this.userRepository = userRepository;
-        this.configCloudinary = configCloudinary;
+        this.amazonClient = amazonClient;
     }
 
     public List<UserEntity> getUsers(){
@@ -48,23 +40,9 @@ public class UserService {
         Date dateBirthday = Date.valueOf(userDto.getBirthday());
         userEntity.setBirthday(dateBirthday);
         userEntity.setRole(userDto.getRole());
-        try {
-            File uploadedFile = convertMultiPartToFile(file);
-            Map uploadResult = configCloudinary.cloudinaryConfig().uploader().upload(uploadedFile, ObjectUtils.emptyMap());
-            String urlAvatar = uploadResult.get("url").toString();
-            userEntity.setAvartar(urlAvatar);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        String avatarUrl = amazonClient.uploadFile(file);
+        userEntity.setAvartar(avatarUrl);
         return userRepository.save(userEntity);
-    }
-
-    private File convertMultiPartToFile(MultipartFile file) throws IOException {
-        File convFile = new File(file.getOriginalFilename());
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
     }
 
     public UserEntity getUser(Long id){
