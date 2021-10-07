@@ -1,12 +1,14 @@
 package com.hungnghia.springbootbackend.controller;
 
+import com.hungnghia.springbootbackend.dto.UserDto;
 import com.hungnghia.springbootbackend.entities.UserEntity;
 import com.hungnghia.springbootbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.userdetails.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -22,6 +24,7 @@ public class UserController {
 
     private final UserService userService;
 
+
     @Autowired
     public UserController(UserService userService){
         this.userService = userService;
@@ -34,9 +37,14 @@ public class UserController {
     }
 
     /*Add user*/
-    @PostMapping("/users")
+/*    @PostMapping("/users")
     public UserEntity addUser(@RequestBody UserEntity userEntity) {
         return userService.addUser(userEntity);
+    }*/
+
+    @PostMapping("/users")
+    public UserEntity addUser(@RequestPart("userDto") UserDto userDto, @RequestPart("file") MultipartFile file){
+        return userService.addUser(userDto, file);
     }
 
     /*Delete User*/

@@ -5,6 +5,7 @@ import './AdminAddAccountPage.css'
 import { connect } from 'react-redux';
 import allActions from '../../actions/index';
 import validator from 'validator';
+
  
 class AdminAddAccountPage extends Component {
 
@@ -21,10 +22,10 @@ class AdminAddAccountPage extends Component {
             month = "0" + String(month);
         }
         if(todayDate < 10){
-            todayDate = "0" + todayDate;
+            todayDate = todayDate;
         }
+        
         var datePattern = year + '-' + month + '-' + todayDate;
-      
         this.state = {
 
             // init value
@@ -113,17 +114,18 @@ class AdminAddAccountPage extends Component {
 
     addUser = (event) => {
         event.preventDefault();
-        var user = {}
-        user.fullname = this.state.fullname;
-        user.username = this.state.username;
-        user.password = this.state.password;
-        user.email = this.state.email;
-        user.gender = this.state.gender;
-        user.address = this.state.address;
-        user.phonenumber = this.state.phonenumber;
-        user.birthday = this.state.birthday;
-        user.role = this.state.role;
-        this.props.onAddUser(user);
+        var userDto = {}
+        userDto.fullname = this.state.fullname;
+        userDto.username = this.state.username;
+        userDto.password = this.state.password;
+        userDto.email = this.state.email;
+        userDto.gender = this.state.gender;
+        userDto.address = this.state.address;
+        userDto.phonenumber = this.state.phonenumber;
+        userDto.birthday = this.state.birthday;
+        userDto.role = this.state.role;
+        // UserService.createUser(user,this.state.currentFile);
+        this.props.onAddUser(userDto,this.state.currentFile);
         window.history.back();
         this.props.changeAdminAlertOn("Thêm thành công","success");     
 
@@ -283,8 +285,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        onAddUser: (user) => {
-            dispatch(allActions.userAction.actAddUserRequest(user))
+        onAddUser: (userDto,file) => {
+            dispatch(allActions.userAction.actAddUserRequest(userDto,file))
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
