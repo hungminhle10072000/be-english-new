@@ -127,7 +127,7 @@ class AdminAccountPage extends Component {
                                     </tfoot>           
                                 </table>
                             </div>
-                        <AdminPagination />
+                        {/* <AdminPagination /> */}
                     </div>
                 </div>
             </div>

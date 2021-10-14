@@ -45,6 +45,28 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
+    /*Edit User*/
+    @Transactional
+    public UserEntity updateUser (Long id, UserDto userDto, MultipartFile file){
+        UserEntity userToEdit = getUser(id);
+
+        userToEdit.setFullname(userDto.getFullname());
+        userToEdit.setUsername(userDto.getUsername());
+        userToEdit.setPassword(userDto.getPassword());
+        userToEdit.setEmail(userDto.getEmail());
+        userToEdit.setAddress(userDto.getAddress());
+        userToEdit.setGender(userDto.getGender());
+        userToEdit.setPhonenumber(userDto.getPhonenumber());
+        userToEdit.setRole(userDto.getRole());
+        Date dateBirthday = Date.valueOf(userDto.getBirthday());
+        userToEdit.setBirthday(dateBirthday);
+        String avatarUrl = amazonClient.uploadFile(file);
+        userToEdit.setAvartar(avatarUrl);
+
+        userRepository.save(userToEdit);
+        return userToEdit;
+    }
+
     public UserEntity getUser(Long id){
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tồn tại user với id :" + id));
     }
@@ -55,22 +77,5 @@ public class UserService {
         return userEntity;
     }
     
-    /*Edit User*/
-    @Transactional
-    public UserEntity updateUser (Long id, UserEntity userEntity){
-        UserEntity userToEdit = getUser(id);
 
-        userToEdit.setFullname(userEntity.getFullname());
-        userToEdit.setUsername(userEntity.getUsername());
-        userToEdit.setPassword(userEntity.getPassword());
-        userToEdit.setEmail(userEntity.getEmail());
-        userToEdit.setAddress(userEntity.getAddress());
-        userToEdit.setGender(userEntity.getGender());
-        userToEdit.setPhonenumber(userEntity.getPhonenumber());
-        userToEdit.setRole(userEntity.getRole());
-        userToEdit.setBirthday(userEntity.getBirthday());
-
-        userRepository.save(userToEdit);
-        return userToEdit;
-    }
 }

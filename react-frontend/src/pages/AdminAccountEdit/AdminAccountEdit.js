@@ -11,6 +11,10 @@ class AdminAccountEdit extends Component {
 
     constructor(props){
         super(props);
+
+        this.selectFile = this.selectFile.bind(this);
+        this.upload = this.upload.bind(this);
+
         this.state = {
             id: this.props.match.params.id,
             user: {
@@ -25,10 +29,31 @@ class AdminAccountEdit extends Component {
                 birthday: '',
                 role: ''
             },
+
+            // preview image
+            currentFile: undefined,
+            previewImage: undefined,
+            statuschossefile: false,
+
             // validation
             validationMsg: {}
         }
     }
+
+    selectFile(event) {
+        this.setState({
+            currentFile: event.target.files[0],
+            statuschossefile: true,
+            previewImage: URL.createObjectURL(event.target.files[0])
+        });
+    }
+
+    upload() {
+        this.setState({
+            process: 0,
+        });
+    }
+
 
     componentDidMount() {
         this.props.onEditUser(this.state.id);
@@ -53,7 +78,7 @@ class AdminAccountEdit extends Component {
 
     updateUser = (event) => {
         event.preventDefault();
-        this.props.onUpdateUser(this.state.user);
+        this.props.onUpdateUser(this.state.user, this.state.currentFile);
         this.props.history.goBack();
         this.props.changeAdminAlertOn("Cập nhật thành công","success");
     }
@@ -119,12 +144,21 @@ class AdminAccountEdit extends Component {
         event.preventDefault();
         const {itemUserEdit} = this.props
         this.setState({
-            user: {...itemUserEdit,repeat_password: itemUserEdit.password}
+            user: {...itemUserEdit,repeat_password: itemUserEdit.password},
+            // preview image
+            currentFile: undefined,
+            previewImage: undefined,
+            statuschossefile: false,
+
+            // validation
+            validationMsg: {}
         })
      }
 
     render() {
-        const {
+        const checkavartar = this.state.user.avatar !== '' && this.state.statuschossefile === false;
+        const { 
+            previewImage,
             validationMsg
         } = this.state;
 
@@ -229,8 +263,16 @@ class AdminAccountEdit extends Component {
                                         <label htmlFor="User">&nbsp;  User</label><br />
                                     </div>   
 
-                                    <label htmlFor="avatar"><b>Ảnh đại diện</b></label>  
-                                    <input className="input-field" type="file" placeholder="Ảnh đại diện" id="avatar" name="avatar"/>
+                                    
+                                    
+                                    <label htmlFor="avatar"><b>Ảnh đại diện</b></label>
+                                    <input className="input-field" type="file" placeholder="Ảnh đại diện" onChange={this.selectFile} accept="image/*" id="avatar" name="avatar"/>
+                                    {checkavartar && <img style={{width:150, height:150}} src={this.state.user.avartar} />}
+                                    {previewImage && (
+                                        <div>
+                                            <img className="preview" src={previewImage} alt="" style={{height: 150, width: 150}}/>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -261,8 +303,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onEditUser: (id) => {
             dispatch(allActions.userAction.actGetUserRequest(id));
         },
-        onUpdateUser: (user) => {
-            dispatch(allActions.userAction.actUpdateUserRequest(user));
+        onUpdateUser: (userDto, file) => {
+            dispatch(allActions.userAction.actUpdateUserRequest(userDto, file));
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));

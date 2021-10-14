@@ -255,7 +255,7 @@ class AdminAddAccountPage extends Component {
                                     
                                     {previewImage && (
                                         <div>
-                                            <img className="preview" src={previewImage} alt="" style={{height: 150, with: 150}}/>
+                                            <img className="preview" src={previewImage} alt="" style={{height: 150, width: 150}}/>
                                         </div>
                                     )}
 

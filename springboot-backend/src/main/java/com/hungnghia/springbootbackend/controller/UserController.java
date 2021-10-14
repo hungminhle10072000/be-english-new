@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.sql.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -37,11 +35,6 @@ public class UserController {
     }
 
     /*Add user*/
-/*    @PostMapping("/users")
-    public UserEntity addUser(@RequestBody UserEntity userEntity) {
-        return userService.addUser(userEntity);
-    }*/
-
     @PostMapping("/users")
     public UserEntity addUser(@RequestPart("userDto") UserDto userDto, @RequestPart("file") MultipartFile file){
         return userService.addUser(userDto, file);
@@ -56,10 +49,11 @@ public class UserController {
 
     /*Edit User*/
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody UserEntity userEntity){
-        UserEntity updateUser = userService.updateUser(id, userEntity);
+    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestPart("userDto") UserDto userDto, @RequestPart("file") MultipartFile file){
+        UserEntity updateUser = userService.updateUser(id, userDto, file);
         return ResponseEntity.ok(updateUser);
     }
+
 
     /*Get User with id*/
     @GetMapping("/users/{id}")
