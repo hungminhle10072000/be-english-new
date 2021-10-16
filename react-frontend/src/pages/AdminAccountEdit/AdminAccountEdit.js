@@ -78,7 +78,7 @@ class AdminAccountEdit extends Component {
 
     updateUser = (event) => {
         event.preventDefault();
-        this.props.onUpdateUser(this.state.user, this.state.currentFile);
+        this.props.onUpdateUser(this.state.user, this.state.currentFile, this.state.statuschossefile);
         this.props.history.goBack();
         this.props.changeAdminAlertOn("Cập nhật thành công","success");
     }
@@ -303,8 +303,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onEditUser: (id) => {
             dispatch(allActions.userAction.actGetUserRequest(id));
         },
-        onUpdateUser: (userDto, file) => {
-            dispatch(allActions.userAction.actUpdateUserRequest(userDto, file));
+        onUpdateUser: (userDto, file, checkFile) => {
+            dispatch(allActions.userAction.actUpdateUserRequest(userDto, file, checkFile));
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));

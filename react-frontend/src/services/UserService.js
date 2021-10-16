@@ -29,22 +29,25 @@ class UserService {
     }
 
     // update user
-    updateUser(userDto, userId, file){
-        let formData = new FormData();
+    updateUser(userDto, userId, file, checkFile){
 
-        const json = JSON.stringify(userDto);
-        const blob = new Blob([json], {
-            type: 'application/json'
-        });
+        if(checkFile === false){
+            return axios.put(USER_API_BASE_URL + '/edit2/' + userId, userDto);
+        } else {
+            let formData = new FormData();
 
-        formData.append("userDto", blob);
-        formData.append("file", file);
-
-        return axios.put(USER_API_BASE_URL + '/' + userId, formData,{
-            headers: {
-                'Content-Type' : 'multipart/form-data'
-            }
-        })
+            const json = JSON.stringify(userDto);
+            const blob = new Blob([json], {
+                type: 'application/json'
+            });
+            formData.append("userDto", blob);
+            formData.append("file", file);
+            return axios.put(USER_API_BASE_URL + '/' + userId, formData,{
+                headers: {
+                    'Content-Type' : 'multipart/form-data'
+                }
+            })
+        }
     }
     
     // delete user

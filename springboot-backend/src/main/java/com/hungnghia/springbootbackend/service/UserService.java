@@ -5,6 +5,7 @@ import com.hungnghia.springbootbackend.entities.UserEntity;
 import com.hungnghia.springbootbackend.exception.ResourceNotFoundException;
 import com.hungnghia.springbootbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,11 +18,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final AmazonClient amazonClient;
+    private final PasswordEncoder bcryptEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, AmazonClient amazonClient) {
+    public UserService(UserRepository userRepository, AmazonClient amazonClient, PasswordEncoder bcryptEncoder) {
         this.userRepository = userRepository;
         this.amazonClient = amazonClient;
+        this.bcryptEncoder = bcryptEncoder;
     }
 
     public List<UserEntity> getUsers(){
@@ -32,7 +35,7 @@ public class UserService {
         UserEntity userEntity = new UserEntity();
         userEntity.setFullname(userDto.getFullname());
         userEntity.setUsername(userDto.getUsername());
-        userEntity.setPassword(userDto.getPassword());
+        userEntity.setPassword(bcryptEncoder.encode(userDto.getPassword()));
         userEntity.setEmail(userDto.getEmail());
         userEntity.setGender(userDto.getGender());
         userEntity.setAddress(userDto.getAddress());
@@ -52,7 +55,7 @@ public class UserService {
 
         userToEdit.setFullname(userDto.getFullname());
         userToEdit.setUsername(userDto.getUsername());
-        userToEdit.setPassword(userDto.getPassword());
+        userToEdit.setPassword(bcryptEncoder.encode(userDto.getPassword()));
         userToEdit.setEmail(userDto.getEmail());
         userToEdit.setAddress(userDto.getAddress());
         userToEdit.setGender(userDto.getGender());
@@ -60,9 +63,10 @@ public class UserService {
         userToEdit.setRole(userDto.getRole());
         Date dateBirthday = Date.valueOf(userDto.getBirthday());
         userToEdit.setBirthday(dateBirthday);
-        String avatarUrl = amazonClient.uploadFile(file);
-        userToEdit.setAvartar(avatarUrl);
-
+        if(!(file == null)){
+            String avatarUrl = amazonClient.uploadFile(file);
+            userToEdit.setAvartar(avatarUrl);
+        }
         userRepository.save(userToEdit);
         return userToEdit;
     }

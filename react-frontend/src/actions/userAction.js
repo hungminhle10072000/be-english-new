@@ -75,10 +75,10 @@ const actGetUser = (user) => {
 
 
 // update user
-const actUpdateUserRequest = (userDto, file) => {
+const actUpdateUserRequest = (userDto, file, checkFile) => {
     return dispatch => {
         return (
-            UserService.updateUser(userDto, userDto.id, file).then( res => {
+            UserService.updateUser(userDto, userDto.id, file, checkFile).then( res => {
                 dispatch(actUpdateUser(res.data));
             })
         )

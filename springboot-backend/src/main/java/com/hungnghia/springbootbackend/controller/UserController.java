@@ -4,6 +4,8 @@ import com.hungnghia.springbootbackend.dto.UserDto;
 import com.hungnghia.springbootbackend.entities.UserEntity;
 import com.hungnghia.springbootbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,6 +55,13 @@ public class UserController {
         UserEntity updateUser = userService.updateUser(id, userDto, file);
         return ResponseEntity.ok(updateUser);
     }
+
+    @PutMapping("/users/edit2/{id}")
+    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
+        UserEntity updateUser = userService.updateUser(id, userDto, null);
+        return ResponseEntity.ok(updateUser);
+    }
+
 
 
     /*Get User with id*/
