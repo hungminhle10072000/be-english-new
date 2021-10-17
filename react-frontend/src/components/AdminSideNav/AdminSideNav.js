@@ -9,6 +9,12 @@ export const AdminSideNav = [
     cName: 'nav-text'
   },
   {
+    title: 'Quản lí khoá học',
+    path: '/admin/course',
+    icon: <FaIcons.FaUserFriends />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Đăng xuất',
     path: '/',
     icon: <FaIcons.FaSignOutAlt />,
