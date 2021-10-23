@@ -2,22 +2,30 @@ import React,{Component} from 'react'
 import { Link } from 'react-router-dom'
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import AdminItemCourse from '../../components/AdminItemCourse/AdminItemCourse'
+import allActions from '../../actions';
+import {connect} from 'react-redux'
 
 class AdminCoursePage extends Component {
     constructor(props) {
         super(props)
-        this.showItemsCourse = this.showItemsCourse.bind(this)
     }
 
     showItemsCourse(courses) {
+        console.log(courses)
         var result = null;
-        if (courses.length > 0) {
+        if (courses!= undefined && courses.length > 0) {
             result = courses.map((course,key) => <AdminItemCourse course={course} key={key}/>) 
         }
         return result;
     }
 
+    componentDidMount() {
+        this.props.getAllCourses();
+    }
+
+
     render() {
+        
         return(
             <div className="container-fluid content-admin-acconut">
                 <div className="row">
@@ -27,7 +35,7 @@ class AdminCoursePage extends Component {
                                 <h2>Quản lí tài khoản</h2>  
                             </div>
                             
-                            <Link to="/admin/account/add" style={{textDecoration:"none"}}>
+                            <Link to="/admin/course/add" style={{textDecoration:"none"}}>
                                 <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
                             </Link>
                          
@@ -51,7 +59,7 @@ class AdminCoursePage extends Component {
                                     </thead>
                                     <tbody>
                                         {/* Item course */}
-                                        {showItemsCourse(this.props.course)}
+                                        {this.showItemsCourse(this.props.courseReducer)}
                                     </tbody>      
                                 </table>
                             </div>
@@ -63,4 +71,18 @@ class AdminCoursePage extends Component {
     }
 }
 
-export default AdminCoursePage
+const mapStateToProps = (state) => {
+    return {
+        courseReducer:state.courseReducer
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllCourses: () => {
+            dispatch(allActions.courseAction.actFetchCourseRequest())
+        } 
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (AdminCoursePage)
