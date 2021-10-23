@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import allActions from '../../actions/index'
 import { confirmAlert } from 'react-confirm-alert';
 
-class AdminItemCourse extends Component {
+class AdminItemChapter extends Component {
     constructor(props) {
         super(props)
     }
@@ -18,7 +18,7 @@ class AdminItemCourse extends Component {
               {
                 label: 'Xác nhận',
                 onClick: () => {
-                    this.props.onDeleteCourse(this.props.course.id);
+                    this.props.onDeleteChapter(this.props.chapter.id);
                     this.props.changeAdminAlertOn("Xóa thành công","danger");
                 }
               },
@@ -34,15 +34,15 @@ class AdminItemCourse extends Component {
         return(
             <Fragment>
                 <tr>
-                    <td>{this.props.course.id}</td>
-                    <td>{this.props.course.name}</td>
-                    <td>{this.props.course.introduce}</td>
-                    <td><img style={{width:100, height:100}} src={this.props.course.image}/></td>
+                    <td>{this.props.chapter.id}</td>
+                    <td>{this.props.chapter.name}</td>
+                    <td>{this.props.chapter.number}</td>
+                    <td>{this.props.chapter.courseName}</td>
                     <td>
-                        <Link to={`/admin/chapter/${this.props.course.id}`}>
+                        <Link to={`/admin/chapter/detail/${this.props.chapter.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-account">Chi tiết</button>
                         </Link>
-                        <Link to={`/admin/course/edit/${this.props.course.id}`}>
+                        <Link to={`/admin/chapter/edit/${this.props.chapter.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-account">Sửa</button>
                         </Link>
                         <button onClick={() => this.onDelete()}
@@ -60,12 +60,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        onDeleteCourse : (id) => {
-            dispatch(allActions.courseAction.actDeleteCourseRequest(id));
+        onDeleteChapter : (id) => {
+            dispatch(allActions.chapterAction.actDeleteChapterRequest(id));
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
         }
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps) (AdminItemCourse);
+export default connect(mapStateToProps,mapDispatchToProps) (AdminItemChapter);

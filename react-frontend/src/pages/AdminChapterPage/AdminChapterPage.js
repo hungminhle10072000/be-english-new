@@ -1,30 +1,35 @@
 import React,{Component} from 'react'
 import { Link } from 'react-router-dom'
 import { BsFillPersonPlusFill } from "react-icons/bs";
-import AdminItemCourse from '../../components/AdminItemCourse/AdminItemCourse'
+import AdminItemChapter from '../../components/AdminItemChapter/AdminItemChapter'
 import allActions from '../../actions';
 import {connect} from 'react-redux'
 
-class AdminCoursePage extends Component {
+class AdminChapterPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            id: this.props.match.params.id,
             term: '',
-            courses:[]
+            chapters:[]
         }
     }
 
-    showItemsCourse(courses) {
-        console.log(courses)
+    showItemsChapter(chapters) {
         var result = null;
-        if (courses!= undefined && courses.length > 0) {
-            result = courses.map((course,key) => <AdminItemCourse course={course} key={key}/>) 
+        if (chapters!= undefined && chapters.length > 0) {
+            result = chapters.map((chapter,key) => <AdminItemChapter chapter={chapter} key={key}/>) 
         }
         return result;
     }
 
     componentDidMount() {
-        this.props.getAllCourses();
+        if (this.state.id != -1) {
+            this.props.getChaptersByCourseId(this.state.id);
+        } else {
+            this.props.getAllChapters();
+        }
+        
     }
 
     callback = (term) => {
@@ -35,11 +40,11 @@ class AdminCoursePage extends Component {
 
     render() {
         var keyword = this.state.term;
-        var course = this.props.courseReducer;
+        var chapters = this.props.chapters;
         var resultSearch = []
-        course.forEach(x => {
+        chapters.forEach(x => {
             if (x.id.toString().indexOf(keyword)!=-1 || x.name.indexOf(keyword)!=-1 ||
-             x.introduce.indexOf(keyword)!= -1) {
+             x.courseName.indexOf(keyword)!= -1) {
                  resultSearch.push(x)
              }
         });
@@ -50,10 +55,10 @@ class AdminCoursePage extends Component {
                     <div className="col-12">
                         <div style={{marginTop: 10}}>
                             <div className="jumbotron manager-account">
-                                <h2>Quản lí khoá học</h2>  
+                                <h2>Quản lí chương học</h2>  
                             </div>
                             
-                            <Link to="/admin/course/add" style={{textDecoration:"none"}}>
+                            <Link to={`/admin/chapter/add/${this.state.id}`} style={{textDecoration:"none"}}>
                                 <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
                             </Link>
                          
@@ -69,15 +74,15 @@ class AdminCoursePage extends Component {
                                     <thead>
                                         <tr>
                                             <th scope="col">ID</th>
-                                            <th scope="col">Tên khoá học</th>
-                                            <th scope="col">Giới Thiệu</th>
-                                            <th scope="col">Ảnh khoá học</th>
+                                            <th scope="col">Tên chương học</th>
+                                            <th scope="col">Số bài</th>
+                                            <th scope="col">Khoá học</th>
                                             <th scope="col">Chức năng</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* Item course */}
-                                        {this.showItemsCourse(resultSearch)}
+                                        {/* Item chapter */}
+                                        {this.showItemsChapter(resultSearch)}
                                     </tbody>      
                                 </table>
                             </div>
@@ -91,16 +96,19 @@ class AdminCoursePage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        courseReducer:state.courseReducer
+        chapters:state.chapterReducer
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllCourses: () => {
-            dispatch(allActions.courseAction.actFetchCourseRequest())
-        } 
+        getAllChapters: () => {
+            dispatch(allActions.chapterAction.actFetchChapterRequest())
+        },
+        getChaptersByCourseId: (courseId) => {
+            dispatch(allActions.chapterAction.actGetChapterByCourseIdRequest(courseId))
+        }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (AdminCoursePage)
+export default connect(mapStateToProps, mapDispatchToProps) (AdminChapterPage)

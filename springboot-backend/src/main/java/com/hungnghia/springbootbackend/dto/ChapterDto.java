@@ -18,5 +18,6 @@ public class ChapterDto {
     private String name;
     private int number; // Number of lesson
     private int courseId;
+    private String courseName;
     private List<LessonDto> lessons;
 }

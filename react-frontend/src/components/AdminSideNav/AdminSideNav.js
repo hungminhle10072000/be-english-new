@@ -15,6 +15,12 @@ export const AdminSideNav = [
     cName: 'nav-text'
   },
   {
+    title: 'Quản lí chương học',
+    path: `/admin/chapter/${-1}`,
+    icon: <FaIcons.FaUserFriends />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Đăng xuất',
     path: '/',
     icon: <FaIcons.FaSignOutAlt />,

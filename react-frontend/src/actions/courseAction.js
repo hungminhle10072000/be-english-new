@@ -56,8 +56,20 @@ const actGetCourse = (course) => {
     }
 }
 //update course 
-const actUpdateCourseRequest = (id,image) => {
-    
+const actUpdateCourseRequest = (course,image) => {
+    console.log("Update", image)
+    return dispatch => {
+        CourseService.updateCourse(course,image).then((res) => {
+            dispatch(actUpdateCourse(res.data))
+        })
+    }
+}
+
+const actUpdateCourse = (course) =>{
+    return {
+        type: Types.UPDATE_COURSE,
+        course
+    }
 }
 
 //delete course by id
@@ -83,5 +95,6 @@ export default {
     actFetchCourseRequest,
     actAddCourseRequest,
     actGetCourseRequest,
-    actDeleteCourseRequest
+    actDeleteCourseRequest,
+    actUpdateCourseRequest
 }

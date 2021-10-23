@@ -12,8 +12,9 @@ import AdminCoursePage from '../pages/AdminCoursePage/AdminCoursePage';
 import AdminAddCoursePage from '../pages/AdminAddCoursePage/AdminAddCoursePage';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage'
 import AdminEditCoursePage from '../pages/AdminEditCoursePage/AdminEditCoursePage'
-
-
+import AdminChapterPage from '../pages/AdminChapterPage/AdminChapterPage';
+import AdminAddChapterPage from '../pages/AdminAddChapterPage/AdminAddChapterPage';
+import AdminEditChapterPage from '../pages/AdminEditChapterPage/AdminEditChapterPage';
 
 export default class AdminRoutes extends Component {
     render() {
@@ -24,13 +25,13 @@ export default class AdminRoutes extends Component {
                     <Route exact path="/admin/account" component={AdminAccountPage}/>
                     <Route exact path="/admin/account/add" component={AdminAddAccountPage}/>
                     <Route exact path="/admin/account/edit/:id" component={AdminAccountEdit}/>
-                    {/* <Provider store={courseStore}> */}
-                        <Route exact path="/admin/course" component={AdminCoursePage}/> 
-                        <Route exact path="/admin/course/add" component={AdminAddCoursePage}/>
-                        <Route exact path="/admin/course/edit/:id" component={AdminEditCoursePage}/>
-                    {/* </Provider> */}
-                    
-                                      
+                    <Route exact path="/admin/course" component={AdminCoursePage}/> 
+                    <Route exact path="/admin/course/add" component={AdminAddCoursePage}/>
+                    <Route exact path="/admin/course/edit/:id" component={AdminEditCoursePage}/>
+                    <Route exact path="/admin/chapter/add/:courseId" component={AdminAddChapterPage}/>   
+                    <Route exact path="/admin/chapter/:id" component={AdminChapterPage}/>     
+                    <Route exact path="/admin/chapter/edit/:id" component={AdminEditChapterPage}/>          
+   
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>   
             </Fragment>

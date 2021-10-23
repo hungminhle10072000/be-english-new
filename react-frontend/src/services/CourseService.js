@@ -30,6 +30,23 @@ class CourseService {
     deleteCourse(id) {
         return axios.delete(COURSE_API_BASE_URL+'/delete/'+id);
     }
+
+    updateCourse(course,image) {
+        let formData = new FormData()
+        const jsonCourse = JSON.stringify(course)
+        const blob = new Blob([jsonCourse], {
+            type: 'application/json'
+        });
+        
+        formData.append("courseDto",blob)
+        formData.append("file",image)
+        return axios.put(COURSE_API_BASE_URL+'/update',formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    }
+
 }
 
 export default new CourseService()

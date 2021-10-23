@@ -1,4 +1,4 @@
-import {FETCH_COURSES, ADD_COURSE, EDIT_COURSE, DELETE_COURSE} from '../../constants/ActionTypes'
+import {FETCH_COURSES, ADD_COURSE, EDIT_COURSE, DELETE_COURSE, UPDATE_COURSE} from '../../constants/ActionTypes'
 
 // const initialState = { courses: [] }
 const initialState = []
@@ -23,8 +23,16 @@ const courseReducer = (state=initialState, action) => {
                     state.splice(i, 1);
                 }
                }
+            
             return [...state]
-
+        case UPDATE_COURSE:
+            console.log("UpdateReducer:",state)
+            for (var i = state.length - 1; i >= 0; i--) {
+                if (state[i].id === action.course.id) {
+                    state[i]=action.course;
+                }
+            }
+            return [...state]        
         default:
             return state
     }

@@ -1,56 +1,45 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './AdminEditCoursePage.css'
+import './AdminAddChapterPage.css'
 import { Link } from 'react-router-dom'
 import { BiSave, BiReset } from "react-icons/bi";
-import courseAction from "../../actions/courseAction"
+import chapterAction from "../../actions/chapterAction"
 import { connect } from 'react-redux';
 import validator from 'validator';
-import allActions from '../../actions/index'
+import allActions from '../../actions';
 
-class AdminEditCoursePage extends React.Component {
+class AdminAddChapterPage extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {   
-            course: {
-                id: this.props.match.params.id,
+        this.state = {  
+            chapter: {
+                courseId:this.props.match.params.courseId,
                 name: '',
-                image: '',
-                introduce: ''
+                courseName:''
             },
             validationMsg: {},
-            currentFile: undefined,
-            previewImage: 'https://bitly.com.vn/p8elul',
             confirmDialog: false,
         }
 
     }
     componentDidMount() {
-        this.props.onEditCourse(this.state.course.id);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(nextProps && nextProps.course){
-            var {course} = nextProps;
-            this.setState({
-                course: {...course}
-            })
-        }
-    }
-
-    selectFile(event) {
+        this.props.onGetCourseById(this.state.chapter.courseId)
         this.setState({
-            currentFile: event.target.files[0],
-            previewImage: URL.createObjectURL(event.target.files[0])
-        });
+            chapter: {
+                ...this.state.chapter,
+                courseName: this.props.course.name
+            }
+        })
+        console.log('Component Did: ',this.props.course)
     }
+
     isChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
 
         this.setState({
-            course: {
-                ...this.state.course,
+            chapter: {     
+                ...this.state.chapter,
                 [name]: value
             }
         })
@@ -58,37 +47,27 @@ class AdminEditCoursePage extends React.Component {
     resetForm(event) {
         event.preventDefault();
         this.setState({
-            course: this.props.course,
+            chapter: {
+                ...this.state.chapter,
+                name: ''
+            },
             validationMsg: {},
-            currentFile: undefined,
-            previewImage: 'https://bitly.com.vn/p8elul',
             confirmDialog: false,
         }) 
     }
-    editCourse = (event) => {
+    addChapter = (event) => {
         event.preventDefault();
-        var courseDto = {}
-        courseDto.id = this.state.course.id;
-        courseDto.name = this.state.course.name;
-        courseDto.image = this.state.course.image;
-        courseDto.introduce = this.state.course.introduce;
-
+        var chapterDto = {}
+        chapterDto.courseId = this.state.chapter.courseId;
+        chapterDto.name = this.state.chapter.name;
         window.history.back();
-        this.props.onUpdateCourse(courseDto, this.state.currentFile)
+        this.props.onAddChapter(chapterDto)
     }
     validateAll = () => {
         const msg = {}
 
-        console.log(this.state.course)
-        // console.log(this.state.introduce)
-        if (validator.isEmpty(this.state.course.name)) {
-            msg.name = "Yêu cầu nhập tên khoá học !"
-        }
-        if (validator.isEmpty(this.state.course.introduce)) {
-            msg.introduce = "Yêu cầu nhập giới thiệu về khoá học !"
-        }
-        if (!this.state.currentFile) {
-            msg.image = "Yêu cầu thêm ảnh của khoá học!"
+        if (validator.isEmpty(this.state.chapter.name.trim())) {
+            msg.name = "Yêu cầu nhập tên chương !"
         }
         this.setState({
             validationMsg: msg
@@ -119,12 +98,11 @@ class AdminEditCoursePage extends React.Component {
     }
 
     render() {
-    
         return (
             <div>
                 <h2>___________________________________________________________________________________________________________</h2>
 
-                <div className="row container-admin-edit-course">
+                <div className="row container-admin-add-chapter">
                     <div className="container-dialog">
                         <div className="confirmation-text">
                             Bạn có chắc chắn muốn lưu ?
@@ -137,7 +115,7 @@ class AdminEditCoursePage extends React.Component {
                             </button>
                             <button
                                 className="confirmation-button btn-confirm"
-                                onClick={(event) => this.editCourse(event)} >
+                                onClick={(event) => this.addChapter(event)} >
                                 Xác nhận
                             </button>
                         </div>
@@ -148,31 +126,21 @@ class AdminEditCoursePage extends React.Component {
                     </div>
                     <div className="col-sm-3"></div>
                     <div className="col-sm-6">
-                        <h2>Sửa khoá học</h2>
+                        <h2>Thêm chương học</h2>
                         <br></br>
                         <lable htmlFor="name"><b>Tên khoá học:</b></lable>
-                        <input onChange={(event) => this.isChange(event)} className="input-field" 
-                          value={this.state.course.name}  type="text" placeholder="Tên khoá học" name="name" id="courseName" />
+
+                        <input  className="input-field" readOnly="true"
+                          value={this.state.chapter.courseName}  type="text" placeholder="Tên khoá học" name="nameCourse" id="chapterName" />
+
+
+                        <lable htmlFor="name"><b>Tên chương:</b></lable>
+                        <input onChange={(event) => this.isChange(event)} className="input-field" type="text"
+                            value={this.state.chapter.name} placeholder="Nhập tên chương" name="name" id="name" />
                         <p className="msg-error">{this.state.validationMsg.name}</p>
                         <br></br>
-                        <lable htmlFor="image"><b>Ảnh khoá học:</b></lable>
-                        <input onChange={(event) => this.selectFile(event)} className="input-field" type="file"
-                         placeholder="Ảnh khoá học" name="image" id="image" />
-                        <p className="msg-error">{this.state.validationMsg.image}</p>
-                        {this.state.previewImage && (
-                                        <div>
-                                            <img className="preview" src={this.state.previewImage} alt="" style={{height: 150, width: 150}}/>
-                                        </div>
-                                    )}
-
-                        <br></br>
-                        <lable htmlFor="introduce"><b>Giới thiệu:</b></lable>
-                        <input onChange={(event) => this.isChange(event)} className="input-field" type="text"
-                            value={this.state.course.introduce} placeholder="Giới thiệu về khoá học" name="introduce" id="introduce" />
-                        <p className="msg-error">{this.state.validationMsg.introduce}</p>
-                        <br></br>
                         <div className="div-button-account">
-                            <Link to="/admin/course">
+                            <Link to="/admin/chapter">
                                 <button onClick={(event) => this.handleConfirmationBox(event)}
                                     type="button" className="btn btn-success btn-save-account">Lưu <BiSave /></button>
                             </Link>
@@ -196,14 +164,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onEditCourse: (id) => {
-            dispatch(allActions.courseAction.actGetCourseRequest(id))
+        onAddChapter: (chapterDto, file) => {
+            dispatch(allActions.chapterAction.actAddChapterRequest(chapterDto))
         },
-
-        onUpdateCourse: (courseDto, file) => {
-            dispatch(allActions.courseAction.actUpdateCourseRequest(courseDto, file))
+        onGetCourseById: (courseId) => {
+            dispatch(allActions.courseAction.actGetCourseRequest(courseId))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminEditCoursePage);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminAddChapterPage);
