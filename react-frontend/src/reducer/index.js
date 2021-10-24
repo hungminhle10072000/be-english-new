@@ -6,7 +6,7 @@ import  courseReducer  from '../reducer/courseReducer/courseReducer'
 import courseEditReducer from '../reducer/courseReducer/courseEditReducer'
 import chapterReducer from '../reducer/chapterReducer/chapterReducer'
 import chapterEditReducer from "../reducer/chapterReducer/chapterEditReducer";
-
+import lessonReducer from "./lessonReducer/lessonReducer";
 const appReducers = combineReducers({
     users,
     courseReducer,
@@ -14,6 +14,7 @@ const appReducers = combineReducers({
     admin_alert_info, 
     courseEditReducer,
     chapterReducer,
-    chapterEditReducer
+    chapterEditReducer,
+    lessonReducer
 });
 export default appReducers;

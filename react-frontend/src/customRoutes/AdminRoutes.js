@@ -15,6 +15,8 @@ import AdminEditCoursePage from '../pages/AdminEditCoursePage/AdminEditCoursePag
 import AdminChapterPage from '../pages/AdminChapterPage/AdminChapterPage';
 import AdminAddChapterPage from '../pages/AdminAddChapterPage/AdminAddChapterPage';
 import AdminEditChapterPage from '../pages/AdminEditChapterPage/AdminEditChapterPage';
+import AdminLessonPage from '../pages/AdminLessonPage/AdminLessonPage';
+import AdminAddLessonPage from '../pages/AdminAddLessonPage/AdminAddLessonPage';
 
 export default class AdminRoutes extends Component {
     render() {
@@ -30,8 +32,10 @@ export default class AdminRoutes extends Component {
                     <Route exact path="/admin/course/edit/:id" component={AdminEditCoursePage}/>
                     <Route exact path="/admin/chapter/add/:courseId" component={AdminAddChapterPage}/>   
                     <Route exact path="/admin/chapter/:id" component={AdminChapterPage}/>     
-                    <Route exact path="/admin/chapter/edit/:id" component={AdminEditChapterPage}/>          
-   
+                    <Route exact path="/admin/chapter/edit/:id" component={AdminEditChapterPage}/>    
+                    <Route exact path="/admin/lesson/add" component={AdminAddLessonPage}/>         
+                    <Route exact path="/admin/lesson/:id" component={AdminLessonPage}/>   
+                   
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>   
             </Fragment>

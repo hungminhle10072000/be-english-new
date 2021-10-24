@@ -32,6 +32,8 @@ public class LessonConverter {
         lessonDto.setNumber(lessonEntity.getNumber());
         lessonDto.setVideo(lessonEntity.getVideo());
         lessonDto.setChapterId((int)lessonEntity.getChapterEntity().getId());
+        lessonDto.setChapterName(lessonEntity.getChapterEntity().getName());
+        lessonDto.setCourseName(lessonEntity.getChapterEntity().getCourseEntity().getName());
         return lessonDto;
     }
 

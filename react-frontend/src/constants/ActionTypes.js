@@ -17,3 +17,9 @@ export const ADD_CHAPTER = 'ADD_CHAPTER';
 export const EDIT_CHAPTER = 'EDIT_CHAPTER';
 export const DELETE_CHAPTER = 'DELETE_CHAPTER';
 export const UPDATE_CHAPTER = 'UPDATE_CHAPTER';
+//Lesson
+export const FETCH_LESSONS = 'FETCH_LESSONS';
+export const ADD_LESSON = 'ADD_LESSON';
+export const EDIT_LESSON = 'EDIT_LESSON';
+export const DELETE_LESSON = 'DELETE_LESSON';
+export const UPDATE_LESSON = 'UPDATE_LESSON';
