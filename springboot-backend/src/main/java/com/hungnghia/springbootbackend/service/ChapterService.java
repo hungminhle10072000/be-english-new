@@ -43,7 +43,28 @@ public class ChapterService {
         if (newChapterEntity.getLessonEntityList() ==null) {
             newChapterEntity.setLessonEntityList(oldChapterEntity.getLessonEntityList());
         }
-        ChapterDto chapter = chapterConverter.toDto(newChapterEntity);
+        ChapterEntity chapterEntity = chapterRepository.save(newChapterEntity);
+        ChapterDto chapter = chapterConverter.toDto(chapterEntity);
         return chapter;
+    }
+
+    public List<ChapterDto> getChapterByCourseId(long courseId) {
+        List<ChapterEntity> chapterEntities = chapterRepository.getChapterEntitiesByCourseEntity_Id(courseId);
+        return chapterConverter.toListDto(chapterEntities);
+    }
+
+    public ChapterDto deleteChapter(long id) {
+        try {
+            ChapterEntity chapter = chapterRepository.getById(id);
+            chapterRepository.deleteById(id);
+            return chapterConverter.toDto(chapter);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public ChapterDto getChapterById(long id) {
+        ChapterEntity chapterEntity = chapterRepository.getById(id);
+        return chapterConverter.toDto(chapterEntity);
     }
 }

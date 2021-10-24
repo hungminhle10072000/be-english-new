@@ -50,4 +50,19 @@ public class CourseService  {
         return courseConverter.toListDto(lstCourseEntity);
     }
 
+    public CourseDto getCourseById(long id) {
+        CourseEntity courseEntity = courseRepository.getById(id);
+        return courseConverter.toDto(courseEntity);
+    }
+
+    public CourseDto deleteCourse(long id) {
+        CourseEntity courseEntity = courseRepository.getById(id);
+        try {
+            courseRepository.delete(courseEntity);
+        } catch (Exception ex) {
+            return null;
+        }
+        return courseEntity != null ? courseConverter.toDto(courseEntity): null ;
+    }
+
 }

@@ -39,7 +39,7 @@ public class ChapterConverter {
         chapterDto.setName(chapterEntity.getName());
         chapterDto.setNumber(chapterEntity.getNumber());
         chapterDto.setCourseId((int)chapterEntity.getCourseEntity().getId());
-
+        chapterDto.setCourseName(chapterEntity.getCourseEntity().getName());
         List<LessonEntity> lstLessonEntity = chapterEntity.getLessonEntityList();
         List<LessonDto> lessons = lessonConverter.toListDtos(lstLessonEntity);
         chapterDto.setLessons(lessons);
