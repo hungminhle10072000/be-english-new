@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -32,30 +33,36 @@ public class UserService {
     }
 
     public UserEntity addUser(UserDto userDto, MultipartFile file){
-        UserEntity userEntity = new UserEntity();
-        userEntity.setFullname(userDto.getFullname());
-        userEntity.setUsername(userDto.getUsername());
-        userEntity.setPassword(bcryptEncoder.encode(userDto.getPassword()));
-        userEntity.setEmail(userDto.getEmail());
-        userEntity.setGender(userDto.getGender());
-        userEntity.setAddress(userDto.getAddress());
-        userEntity.setPhonenumber(userDto.getPhonenumber());
-        Date dateBirthday = Date.valueOf(userDto.getBirthday());
-        userEntity.setBirthday(dateBirthday);
-        userEntity.setRole(userDto.getRole());
-        String avatarUrl = amazonClient.uploadFile(file);
-        userEntity.setAvartar(avatarUrl);
-        return userRepository.save(userEntity);
+        boolean checkExistUserName = userRepository.findByUsername(userDto.getUsername()) != null;
+        if(checkExistUserName){
+            return null;
+        } else {
+            UserEntity userEntity = new UserEntity();
+            userEntity.setFullname(userDto.getFullname());
+            userEntity.setUsername(userDto.getUsername());
+            userEntity.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+            userEntity.setEmail(userDto.getEmail());
+            userEntity.setGender(userDto.getGender());
+            userEntity.setAddress(userDto.getAddress());
+            userEntity.setPhonenumber(userDto.getPhonenumber());
+            Date dateBirthday = Date.valueOf(userDto.getBirthday());
+            userEntity.setBirthday(dateBirthday);
+            userEntity.setRole(userDto.getRole());
+            String avatarUrl = amazonClient.uploadFile(file);
+            userEntity.setAvartar(avatarUrl);
+            return userRepository.save(userEntity);
+        }
     }
 
     /*Edit User*/
     @Transactional
     public UserEntity updateUser (Long id, UserDto userDto, MultipartFile file){
         UserEntity userToEdit = getUser(id);
-
         userToEdit.setFullname(userDto.getFullname());
         userToEdit.setUsername(userDto.getUsername());
-        userToEdit.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+//        Khong set lai password
+//        Chuc nang doi mat khau rieng
+        /*userToEdit.setPassword(bcryptEncoder.encode(userDto.getPassword()));*/
         userToEdit.setEmail(userDto.getEmail());
         userToEdit.setAddress(userDto.getAddress());
         userToEdit.setGender(userDto.getGender());
@@ -80,6 +87,9 @@ public class UserService {
         userRepository.delete(userEntity);
         return userEntity;
     }
-    
 
+    public UserEntity getUser(String username){
+        Optional<UserEntity> optional = Optional.ofNullable(userRepository.findByUsername(username));
+        return optional.orElseThrow(() -> new ResourceNotFoundException("Không tồn tại user với username :" + username));
+    }
 }

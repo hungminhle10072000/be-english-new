@@ -4,9 +4,11 @@ import com.hungnghia.springbootbackend.config.JwtTokenUtil;
 import com.hungnghia.springbootbackend.dto.JwtRequest;
 import com.hungnghia.springbootbackend.dto.JwtResponse;
 import com.hungnghia.springbootbackend.dto.UserDto;
+import com.hungnghia.springbootbackend.entities.UserEntity;
 import com.hungnghia.springbootbackend.service.JwtUserDetailsService;
 import com.hungnghia.springbootbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -34,6 +38,10 @@ public class JwtAuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestPart("userDto") UserDto userDto, @RequestPart("file") MultipartFile file){
+        UserEntity userEntity = userService.addUser(userDto, file);
+        if(userEntity == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return ResponseEntity.ok(userService.addUser(userDto, file));
     }
 
@@ -46,9 +54,11 @@ public class JwtAuthenticationController {
                 loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
-
-
-        return ResponseEntity.ok(new JwtResponse(token));
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("token", new JwtResponse(token));
+        UserEntity rsUser = userService.getUser(authenticationRequest.getUsername());
+        rs.put("user", rsUser);
+        return ResponseEntity.ok(rs);
     }
 
     private void authenticate(String username, String password) throws Exception {

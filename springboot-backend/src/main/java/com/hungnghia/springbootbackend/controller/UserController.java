@@ -11,19 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
-//@RequestMapping("/user/product")
 @RequestMapping("/api/")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
-//    @GetMapping
-//    public void getProduct() {
-//        System.out.println("User Login!");
-//    }
-
     private final UserService userService;
-
 
     @Autowired
     public UserController(UserService userService){
@@ -61,8 +55,6 @@ public class UserController {
         UserEntity updateUser = userService.updateUser(id, userDto, null);
         return ResponseEntity.ok(updateUser);
     }
-
-
 
     /*Get User with id*/
     @GetMapping("/users/{id}")
