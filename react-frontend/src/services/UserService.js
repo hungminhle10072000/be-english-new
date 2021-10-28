@@ -1,12 +1,22 @@
 import axios from "axios";
+import {authHeader} from './auth-header'
 
-const USER_API_BASE_URL = "http://localhost:8080/api/users";
+const USER_API_END_POINT = "/api/users";
+const USER_API_LOGIN = "http://localhost:8080/authenticate";
+
+const headers = {
+    'Content-Type': 'application/json;charset=UTF-8',
+    "Access-Control-Allow-Origin": "*",
+    Accept: "application/json"
+}
 
 class UserService {
-    
+
     ///get all user
     getUsers() {
-        return axios.get(USER_API_BASE_URL);
+        return axios.get(USER_API_END_POINT, {
+            headers: {...headers, ...authHeader()},
+        })
     }
 
     // add user
@@ -21,10 +31,8 @@ class UserService {
         formData.append("userDto",blob);
         formData.append("file",file);
 
-        return axios.post(USER_API_BASE_URL,formData,{
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+        return axios.post(USER_API_END_POINT,formData,{
+            headers:{...headers, ...authHeader(),'Content-Type': 'multipart/form-data'}
         })
     }
 
@@ -32,7 +40,11 @@ class UserService {
     updateUser(userDto, userId, file, checkFile){
 
         if(checkFile === false){
-            return axios.put(USER_API_BASE_URL + '/edit2/' + userId, userDto);
+            return axios.put(USER_API_END_POINT + '/edit2/' + userId, userDto, {
+                headers: {
+                    ...headers,...authHeader(),
+                }
+            })
         } else {
             let formData = new FormData();
 
@@ -42,24 +54,48 @@ class UserService {
             });
             formData.append("userDto", blob);
             formData.append("file", file);
-            return axios.put(USER_API_BASE_URL + '/' + userId, formData,{
-                headers: {
-                    'Content-Type' : 'multipart/form-data'
-                }
+            return axios.put(USER_API_END_POINT + '/' + userId, formData,{
+                headers:{...headers,...authHeader(),'Content-Type': 'multipart/form-data'}
             })
         }
     }
     
     // delete user
     deleteUser(userId){
-        return axios.delete(USER_API_BASE_URL + '/' + userId);
+        return axios.delete(USER_API_END_POINT + '/' + userId,{headers: {...headers,...authHeader()}});
     }
 
     //get user by id
     getUserById(userId){
-        return axios.get(USER_API_BASE_URL + '/' + userId);
+        return axios.get(USER_API_END_POINT + '/' + userId,{headers: {...headers, ...authHeader()}});
     }
 
+    // login
+    login(username, password){
+        let jwtrequest = {
+            username: username,
+            password: password
+        }
+        return axios.post('http://localhost:8080/authenticate', jwtrequest);
+    }
+
+    ///register
+    register(userDto, file) {
+        let formData = new FormData();
+
+        const json = JSON.stringify(userDto);
+        const blob = new Blob([json], {
+            type: 'application/json'
+        });
+
+        formData.append("userDto",blob);
+        formData.append("file",file);
+
+        return axios.post('http://localhost:8080/register', formData,{
+            headers:{'Content-Type': 'multipart/form-data'}
+        })
+    }
+    
 }
 
 export default new UserService()

@@ -10,18 +10,20 @@ import AdminAddAccountPage from '../pages/AdminAddAccountPage/AdminAddAccountPag
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage'
 
 
-export default class AdminRoutes extends Component {
+class AdminRoutes extends Component {
     render() {
         return (
-            <Fragment>
-                <Switch>
-                    <Route exact path="/admin" render={() => <Redirect to="/admin/account" />} />
-                    <Route exact path="/admin/account" component={AdminAccountPage}/>
-                    <Route exact path="/admin/account/add" component={AdminAddAccountPage}/>
-                    <Route exact path="/admin/account/edit/:id" component={AdminAccountEdit}/>
-                    <Route exact path="*" component={NotFoundPage} />
-                </Switch>   
-            </Fragment>
-        )
-    }
+                <Fragment>
+                    <Switch>
+                        <Route exact path="/admin" render={() => <Redirect to="/admin/account" />} />
+                        <Route exact path="/admin/account" component={AdminAccountPage}/>
+                        <Route exact path="/admin/account/add" component={AdminAddAccountPage}/>
+                        <Route exact path="/admin/account/edit/:id" component={AdminAccountEdit}/>
+                        <Route path="*" component={NotFoundPage} />
+                    </Switch>   
+                </Fragment>
+            )
+        }    
 }
+
+export default AdminRoutes

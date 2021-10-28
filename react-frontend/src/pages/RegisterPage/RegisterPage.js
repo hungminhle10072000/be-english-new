@@ -1,19 +1,35 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { BiSave, BiReset } from "react-icons/bi";
-import './AdminAddAccountPage.css'
-import { connect } from 'react-redux';
-import allActions from '../../actions/index';
+import { connect } from 'react-redux'
+import { withRouter, Redirect } from 'react-router-dom';
+import AdminAlertInfo from '../../components/AdminAlertInfo/AdminAlertInfo';
+import './RegisterPage.css';
 import validator from 'validator';
+import { BiSave, BiReset, BiLogIn } from "react-icons/bi";
+import { Link } from 'react-router-dom';
+import allActions from '../../actions/index';
+import PropTypes from "prop-types";
 
- 
-class AdminAddAccountPage extends Component {
+
+class RegisterPage extends Component {
+
+    static propTypes = {
+        history: PropTypes.object.isRequired
+    };
+
+    componentWillReceiveProps(nextProps) {
+        const {history} = this.props
+        if(nextProps && nextProps.statusRegister){
+            history.push('/login');
+            this.props.changeAdminAlertOn("Đăng ký tài khoản thành công","success");
+        }
+    }
+    
 
     constructor(props){
+
         super(props);
         this.selectFile = this.selectFile.bind(this);
         this.upload = this.upload.bind(this);
-
         var date = new Date();
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
@@ -26,7 +42,9 @@ class AdminAddAccountPage extends Component {
         }
         
         var datePattern = year + '-' + month + '-' + todayDate;
+
         this.state = {
+            
 
             // init value
             fullname: '',
@@ -38,7 +56,7 @@ class AdminAddAccountPage extends Component {
             gender: 'Nam',
             address: '',
             birthday: datePattern,
-            role: 'Admin',
+            role: 'User',
             confirmDialog: false,
 
             // preview image
@@ -50,6 +68,7 @@ class AdminAddAccountPage extends Component {
 
 
         }
+        
     }
 
     validateAll = () => {
@@ -115,85 +134,73 @@ class AdminAddAccountPage extends Component {
         })
     }
 
-    addUser = (event) => {
+    hadnleRegister = (event) => {
         event.preventDefault();
-        var userDto = {}
-        userDto.fullname = this.state.fullname;
-        userDto.username = this.state.username;
-        userDto.password = this.state.password;
-        userDto.email = this.state.email;
-        userDto.gender = this.state.gender;
-        userDto.address = this.state.address;
-        userDto.phonenumber = this.state.phonenumber;
-        userDto.birthday = this.state.birthday;
-        userDto.role = this.state.role;
-        // UserService.createUser(user,this.state.currentFile);
-        this.props.onAddUser(userDto,this.state.currentFile);
-        window.history.back();
-        this.props.changeAdminAlertOn("Thêm thành công","success");     
+        const isValid = this.validateAll()
+        if(!isValid) return
+        else {
+            var userDto = {}
+            userDto.fullname = this.state.fullname;
+            userDto.username = this.state.username;
+            userDto.password = this.state.password;
+            userDto.email = this.state.email;
+            userDto.gender = this.state.gender;
+            userDto.address = this.state.address;
+            userDto.phonenumber = this.state.phonenumber;
+            userDto.birthday = this.state.birthday;
+            userDto.role = this.state.role;
+            this.props.onAddUser(userDto,this.state.currentFile);
+        }
 
     }
 
-    handleConfirmationBox = (event) => {
-        event.preventDefault();
-        const isValid = this.validateAll()
-        if(!isValid) return 
-        else {
-            if(!this.state.confirmDialog){
-                document.querySelector(".confirm-bg").style.display = "flex"
-                document.querySelector(".container-dialog").style.display = "flex"
-                this.setState({
-                    confirmDialog: true
-                })
-            } else {
-                document.querySelector(".confirm-bg").style.display = "none"
-                document.querySelector(".container-dialog").style.display = "none"
-                this.setState({
-                    confirmDialog: false
-                })
-            }
+    handleResest = () => {
+
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var todayDate = String(date.getDate()).padStart(2, '0');
+        if(month < 10){
+            month = "0" + String(month);
         }
+        if(todayDate < 10){
+            todayDate = todayDate;
+        }
+        
+        var datePattern = year + '-' + month + '-' + todayDate;
+
+        this.setState({
+
+            // init value
+            fullname: '',
+            username: '',
+            password: '',
+            repeat_password: '',
+            phonenumber: '',
+            email: '',
+            gender: 'Nam',
+            address: '',
+            birthday: datePattern,
+            role: 'User',
+            confirmDialog: false,
+
+            // preview image
+            currentFile: undefined,
+            previewImage: undefined
+        })
     }
 
     render() {
-        const {
-            previewImage,
-            validationMsg
-        } = this.state;
-
+        const {validationMsg, previewImage} = this.state
         return (
-            <div className="container-fluid container-admin-add-account">
-                <div className="container-dialog">
-                    <div className="confirmation-text">
-                        Bạn có chắc chắn muốn lưu ?
-                    </div>
-                    <div className="button-container">
-                        <button 
-                            className="confirmation-button cancel-button" 
-                            onClick={(event) => this.handleConfirmationBox(event)}>
-                            Hủy
-                        </button>
-                        <button 
-                            className="confirmation-button btn-confirm"
-                            onClick={(event) => this.addUser(event)} >
-                            Xác nhận
-                        </button>
+            <div className="container-fluid container-register">
+                <AdminAlertInfo />
+                <div className="row mt-5">
+                    <div className="col-sm-12 d-flex justify-content-center">
+                        <h1 className="title-register">ĐĂNG KÝ</h1>
                     </div>
                 </div>
-                <div 
-                    className="confirm-bg"
-                    onClick={(event) => this.handleConfirmationBox(event)}> 
-                </div>
-                <div className="row">
-                    <div className="col-12">
-                        <div style={{marginTop: 10}}>
-                            <div className="jumbotron manager-account">
-                                <h2>Thêm tài khoản</h2>  
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-                <div className="row">
+                <div className="row mt-3">
                     <div className="col-12">
                     <form>
                             <div className="row">
@@ -204,23 +211,23 @@ class AdminAddAccountPage extends Component {
 
                                     <label htmlFor="fullname"><b>Họ tên</b></label>      
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Họ tên" name="fullname" id="fullname"/>
-                                    <p className="msg-error">{validationMsg.fullname}</p>
+                                    <p className="msg-error-register">{validationMsg.fullname}</p>
 
                                     <label htmlFor="username"><b>Tên đăng nhập</b></label>    
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Tên đăng nhập" name="username" id="username" />
-                                    <p className="msg-error">{validationMsg.username}</p>
+                                    <p className="msg-error-register">{validationMsg.username}</p>
 
                                     <label htmlFor="password"><b>Mật khẩu</b></label>
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="password" placeholder="Mật khẩu" name="password" id="password" />
-                                    <p className="msg-error">{validationMsg.password}</p>
+                                    <p className="msg-error-register">{validationMsg.password}</p>
 
                                     <label htmlFor="repeat_password"><b>Nhập lại mật khẩu</b></label>
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="password" placeholder="Nhập lại mật khẩu" name="repeat_password" id="repeat_password" />
-                                    <p className="msg-error">{validationMsg.repeat_password}</p>
+                                    <p className="msg-error-register">{validationMsg.repeat_password}</p>
 
                                     <label htmlFor="email"><b>Email</b></label>
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="email" placeholder="Email" id="email" name="email" />
-                                    <p className="msg-error">{validationMsg.email}</p>
+                                    <p className="msg-error-register">{validationMsg.email}</p>
 
                                     <label htmlFor="gender"><b>Giới tính</b></label>
                                         <div>
@@ -235,27 +242,18 @@ class AdminAddAccountPage extends Component {
                                 <div className="col-sm-6">
                                     <label htmlFor="address"><b>Địa chỉ</b></label>  
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Địa chỉ" name="address" id="address" />
-                                    <p className="msg-error">{validationMsg.address}</p>
+                                    <p className="msg-error-register">{validationMsg.address}</p>
                                     
                                     <label htmlFor="phonenumber"><b>Số điện thoại</b></label>  
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Số điện thoại" name="phonenumber" id="phonenumber" />
-                                    <p className="msg-error">{validationMsg.phonenumber}</p>
+                                    <p className="msg-error-register">{validationMsg.phonenumber}</p>
                                     
                                     <label htmlFor="birthday"><b>Ngày sinh</b></label>  
                                     <input onChange={(event) => this.isChange(event)} className="input-field" type="date" placeholder="Ngày sinh" name="birthday" id="birthday" value={this.state.birthday}/>
                                     
-                                    <label htmlFor="role"><b>Quyền</b></label>
-                                    <div>
-                                        <input onChange={(event) => this.isChange(event)} type="radio" id="Admin" name="role" value="Admin" defaultChecked/>
-                                        <label htmlFor="Admin">&nbsp; Admin</label> &nbsp; &nbsp; &nbsp;
-                                        <input onChange={(event) => this.isChange(event)} type="radio" id="User" name="role" value="User"  />
-                                        <label htmlFor="User">&nbsp;  User</label><br />
-                                    </div>
-
-
                                     <label htmlFor="avatar"><b>Ảnh đại diện</b></label>
                                     <input className="input-field" type="file" placeholder="Ảnh đại diện" onChange={this.selectFile} accept="image/*" id="avatar" name="avatar"/>
-                                    <p className="msg-error">{validationMsg.avatar}</p>
+                                    <p className="msg-error-register">{validationMsg.avatar}</p>
 
                                     {previewImage && (
                                         <div>
@@ -265,13 +263,19 @@ class AdminAddAccountPage extends Component {
 
                                 </div>
                             </div>
-
                             <div className="div-button-account">
-                                <Link to="/admin/add/account">
-                                    <button onClick={(event) => this.handleConfirmationBox(event)} 
-                                    type="button" className="btn btn-success btn-save-account">Lưu <BiSave /></button> 
+                                <Link to="/">
+                                    <button onClick={(event) => this.hadnleRegister(event)} 
+                                    type="button" className="btn btn-success btn-save-account">Tạo tài khoản <BiSave /></button> 
                                 </Link>
-                                <button type="reset" className="btn btn-warning">Reset <BiReset /></button> 
+
+                                <Link to="/login">
+                                    <button type="button" className="btn btn-success btn-return-login">Đăng nhập<BiLogIn /></button> 
+                                </Link>
+
+                                <button onClick={() => this.handleResest()} 
+                                type="reset" className="btn btn-warning">Reset <BiReset /></button>
+                                 
                             </div>
                         </form>
                     </div>
@@ -281,20 +285,22 @@ class AdminAddAccountPage extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
-        users: state.users
+        statusRegister: state.statusRegister
     }
 }
+
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onAddUser: (userDto,file) => {
-            dispatch(allActions.userAction.actAddUserRequest(userDto,file))
+            dispatch(allActions.userAction.actRegisterRequest(userDto,file))
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps) (AdminAddAccountPage)
+
+export default connect(mapStateToProps, mapDispatchToProps) (withRouter(RegisterPage))

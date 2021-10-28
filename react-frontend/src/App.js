@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import AdminNavBar from './components/AdminNavBar/AdminNavBar';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,25 +9,46 @@ import './App.css'
 import UserHomePage from './pages/UserHomePage/UserHomePage'
 import LoginPage from './pages/LoginPage/LoginPage';
 import AdminHomePage from './pages/AdminHomePage/AdminHomePage';
-import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 
-export default class App extends Component {
 
+class App extends Component {
+
+  // eslint-disable-next-line no-useless-constructor
   constructor(props){
     super(props);
+    this.state = {
+      role: ''
+    }
   }
 
+  componentWillReceiveProps(nextProps) {
+      if(nextProps && nextProps.itemUserLogin){
+          let {itemUserLogin} = nextProps
+          this.setState({
+            role: itemUserLogin.role
+          })
+      }
+  }
+  
+  
+
   render() {
+    const checkRoleAdmin = (localStorage.getItem('w2rt3') === "popqw")
     return(
       <Router>
         <Switch>
             <Route exact path="/" component={UserHomePage} />
             <Route exact path="/login" component={LoginPage} />
-            <Route path= "/admin" component={AdminHomePage} />
+            <Route exact path="/register" component={RegisterPage} />
+            <Route render={
+              () => ((localStorage.getItem('token') && checkRoleAdmin) ? <AdminHomePage /> : <Redirect to={{pathname: '/login'}}/>)
+            } />
             <Route path= "*" component={UserHomePage} />
-            {/* <Redirect to="/" component={UserHomePage} /> */}
         </Switch>
       </Router>
     )
   }
 }
+
+export default (App);
