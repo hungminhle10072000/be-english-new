@@ -40,7 +40,6 @@ class AdminItemAccount extends Component {
                     <td>{this.props.id}</td>
                     <td>{this.props.fullname}</td>
                     <td>{this.props.username}</td>
-                    <td>{this.props.password}</td>
                     <td>{this.props.email}</td>
                     <td>{this.props.gender}</td>
                     <td>{this.props.address}</td>

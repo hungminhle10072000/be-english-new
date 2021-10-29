@@ -16,7 +16,7 @@ class AdminAlertInfo extends Component {
         } else {
             return (
                 <AlertContainer>
-                    <Alert type={this.props.AdminAlertType} onDismiss={() => this.handleDismiss()} timeout={1000}>
+                    <Alert type={this.props.AdminAlertType} onDismiss={() => this.handleDismiss()} timeout={5000}>
                         {this.props.AdminAlertContent}
                     </Alert>
                 </AlertContainer>

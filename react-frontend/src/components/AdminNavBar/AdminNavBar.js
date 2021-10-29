@@ -17,6 +17,8 @@ export default class AdminNavBar extends Component {
 
     logout = (e) => {
         e.preventDefault();
+        localStorage.removeItem("token");
+        localStorage.removeItem("w2rt3");
         window.location.pathname = "/"
     }
 

@@ -18,7 +18,7 @@ import AdminEditChapterPage from '../pages/AdminEditChapterPage/AdminEditChapter
 import AdminLessonPage from '../pages/AdminLessonPage/AdminLessonPage';
 import AdminAddLessonPage from '../pages/AdminAddLessonPage/AdminAddLessonPage';
 
-export default class AdminRoutes extends Component {
+class AdminRoutes extends Component {
     render() {
         return (
             <Fragment>
@@ -42,3 +42,5 @@ export default class AdminRoutes extends Component {
         )
     }
 }
+
+export default AdminRoutes

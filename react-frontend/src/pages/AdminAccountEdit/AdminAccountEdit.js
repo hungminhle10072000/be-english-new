@@ -20,8 +20,8 @@ class AdminAccountEdit extends Component {
             user: {
                 fullname: '',
                 username: '',
-                password: '',
-                repeat_password: '',
+                // password: '',
+                // repeat_password: '',
                 phonenumber: '',
                 email: '',
                 gender: '',
@@ -63,7 +63,7 @@ class AdminAccountEdit extends Component {
         if(nextProps && nextProps.itemUserEdit){
             var {itemUserEdit} = nextProps;
             this.setState({
-                user: {...itemUserEdit, repeat_password: itemUserEdit.password}
+                user: {...itemUserEdit}
             })
         }
     }
@@ -111,14 +111,14 @@ class AdminAccountEdit extends Component {
         if(validator.isEmpty(this.state.user.username)){
             msg.username = "Yêu cầu nhập tên đăng nhập !"
         }
-        if(validator.isEmpty(this.state.user.password)){
-            msg.password = "Yêu cầu nhập mật khẩu !"
-        }
-        if(validator.isEmpty(this.state.user.repeat_password)){
-            msg.repeat_password = "Yêu cầu nhập lại mật khẩu !"
-        } else if (!validator.equals(this.state.user.password, this.state.user.repeat_password)) {
-            msg.repeat_password = "Mật khẩu nhập lại không khớp !"
-        }
+        // if(validator.isEmpty(this.state.user.password)){
+        //     msg.password = "Yêu cầu nhập mật khẩu !"
+        // }
+        // if(validator.isEmpty(this.state.user.repeat_password)){
+        //     msg.repeat_password = "Yêu cầu nhập lại mật khẩu !"
+        // } else if (!validator.equals(this.state.user.password, this.state.user.repeat_password)) {
+        //     msg.repeat_password = "Mật khẩu nhập lại không khớp !"
+        // }
         if(validator.isEmpty(this.state.user.phonenumber)){
             msg.phonenumber = "Yêu cầu nhập số điện thoại !"
         } else if (!validator.isMobilePhone(this.state.user.phonenumber)){
@@ -144,7 +144,8 @@ class AdminAccountEdit extends Component {
         event.preventDefault();
         const {itemUserEdit} = this.props
         this.setState({
-            user: {...itemUserEdit,repeat_password: itemUserEdit.password},
+            user: {...itemUserEdit},
+
             // preview image
             currentFile: undefined,
             previewImage: undefined,
@@ -215,7 +216,7 @@ class AdminAccountEdit extends Component {
                                     type="text" placeholder="Tên đăng nhập" name="username" id="username" />
                                     <p className="msg-error">{validationMsg.username}</p>
 
-                                    <label htmlFor="password"><b>Mật khẩu</b></label>
+                                    {/* <label htmlFor="password"><b>Mật khẩu</b></label>
                                     <input className="input-field" type="password" value={this.state.user.password} onChange={(event) => this.isChange(event)}
                                     placeholder="Mật khẩu" name="password" id="password" />
                                     <p className="msg-error">{validationMsg.password}</p>
@@ -223,20 +224,29 @@ class AdminAccountEdit extends Component {
                                     <label htmlFor="repeat_password"><b>Nhập lại mật khẩu</b></label>
                                     <input className="input-field" type="password" value={this.state.user.repeat_password} onChange={(event) => this.isChange(event)}
                                     placeholder="Nhập lại mật khẩu" name="repeat_password" id="repeat_password" />
-                                    <p className="msg-error">{validationMsg.repeat_password}</p>
+                                    <p className="msg-error">{validationMsg.repeat_password}</p> */}
 
                                     <label htmlFor="email"><b>Email</b></label>
                                     <input className="input-field" type="email" value={this.state.user.email} onChange={(event) => this.isChange(event)}
                                     placeholder="Email" id="email" name="email" />
                                     <p className="msg-error">{validationMsg.email}</p>
-                    
+
                                     <label htmlFor="gender"><b>Giới tính</b></label>
                                     <div>
                                         <input  onChange={(event) => this.isChange(event)} type="radio" id="nam" name="gender" value="Nam" checked={this.state.user.gender === "Nam"} />
                                         <label htmlFor="nam">&nbsp; Nam</label> &nbsp; &nbsp; &nbsp;
                                         <input  onChange={(event) => this.isChange(event)} type="radio" id="nu" name="gender" value="Nữ" checked={this.state.user.gender === "Nữ"}/>
                                         <label htmlFor="nu">&nbsp;  Nữ</label><br />
-                                    </div>  
+                                    </div>
+
+                                     <label htmlFor="role"><b>Quyền</b></label>
+                                    <div>
+                                        <input onChange={(event) => this.isChange(event)} type="radio" id="Admin" name="role" value="Admin" checked={this.state.user.role === "Admin"}/>
+                                        <label htmlFor="Admin">&nbsp; Admin</label> &nbsp; &nbsp; &nbsp;
+                                        <input onChange={(event) => this.isChange(event)} type="radio" id="User" name="role" value="User" checked={this.state.user.role === "User"} />
+                                        <label htmlFor="User">&nbsp;  User</label><br />
+                                    </div>   
+
                                 </div>
 
                                 {/* Right */}
@@ -255,16 +265,6 @@ class AdminAccountEdit extends Component {
                                     <input className="input-field" type="date" value={this.state.user.birthday} onChange={(event) => this.isChange(event)}
                                     placeholder="Ngày sinh" name="birthday" id="birthday" />
                                     
-                                    <label htmlFor="role"><b>Quyền</b></label>
-                                    <div>
-                                        <input onChange={(event) => this.isChange(event)} type="radio" id="Admin" name="role" value="Admin" checked={this.state.user.role === "Admin"}/>
-                                        <label htmlFor="Admin">&nbsp; Admin</label> &nbsp; &nbsp; &nbsp;
-                                        <input onChange={(event) => this.isChange(event)} type="radio" id="User" name="role" value="User" checked={this.state.user.role === "User"} />
-                                        <label htmlFor="User">&nbsp;  User</label><br />
-                                    </div>   
-
-                                    
-                                    
                                     <label htmlFor="avatar"><b>Ảnh đại diện</b></label>
                                     <input className="input-field" type="file" placeholder="Ảnh đại diện" onChange={this.selectFile} accept="image/*" id="avatar" name="avatar"/>
                                     {checkavartar && <img style={{width:150, height:150}} src={this.state.user.avartar} />}
@@ -273,6 +273,7 @@ class AdminAccountEdit extends Component {
                                             <img className="preview" src={previewImage} alt="" style={{height: 150, width: 150}}/>
                                         </div>
                                     )}
+ 
                                 </div>
                             </div>
 

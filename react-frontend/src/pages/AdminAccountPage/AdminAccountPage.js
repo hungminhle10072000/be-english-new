@@ -94,7 +94,6 @@ class AdminAccountPage extends Component {
                                             <th scope="col">ID</th>
                                             <th scope="col">Họ Tên</th>
                                             <th scope="col">Tên đăng nhập</th>
-                                            <th scope="col">Mật khẩu</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Giới tính</th>
                                             <th scope="col">Địa chỉ</th>
@@ -114,7 +113,6 @@ class AdminAccountPage extends Component {
                                             <th scope="col">ID</th>
                                             <th scope="col">Họ Tên</th>
                                             <th scope="col">Tên đăng nhập</th>
-                                            <th scope="col">Mật khẩu</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Giới tính</th>
                                             <th scope="col">Địa chỉ</th>
