@@ -13,7 +13,7 @@ var findIndex = (users, id) => {
 }
 
 const users = (state = usersInitialState, action) => {
-    
+
     var index = -1;
     var {id, user}=action
 

@@ -12,18 +12,7 @@ public class LessonDto {
     private int number;
     private String video;
     private int chapterId;
-   /* @Autowired
-    private ChapterService chapterService;
+    private String chapterName;
+    private String courseName;
 
-
-    public LessonEntity toEntity() {
-
-        LessonEntity lesson = new LessonEntity();
-        lesson.setId(this.id);
-        lesson.setName(this.name);
-        lesson.setNumber(this.number);
-        lesson.setChapterEntity(chapterService.getById(this.id));
-
-        return lesson;
-    }*/
 }
