@@ -38,11 +38,14 @@ public class JwtAuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestPart("userDto") UserDto userDto, @RequestPart("file") MultipartFile file){
-        UserEntity userEntity = userService.addUser(userDto, file);
-        if(userEntity == null){
+        if(userService.checkExistUserName(userDto.getUsername())){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        else if(userService.checkExistEmail(userDto.getEmail())){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(userService.addUser(userDto, file));
+        else return ResponseEntity.ok(userService.addUser(userDto, file));
+
     }
 
     @PostMapping("/authenticate")

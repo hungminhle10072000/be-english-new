@@ -32,26 +32,29 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public boolean checkExistUserName(String username){
+        return userRepository.findByUsername(username) != null;
+    }
+
+    public boolean checkExistEmail(String email) {
+        return userRepository.findByEmail(email) != null;
+    }
+
     public UserEntity addUser(UserDto userDto, MultipartFile file){
-        boolean checkExistUserName = userRepository.findByUsername(userDto.getUsername()) != null;
-        if(checkExistUserName){
-            return null;
-        } else {
-            UserEntity userEntity = new UserEntity();
-            userEntity.setFullname(userDto.getFullname());
-            userEntity.setUsername(userDto.getUsername());
-            userEntity.setPassword(bcryptEncoder.encode(userDto.getPassword()));
-            userEntity.setEmail(userDto.getEmail());
-            userEntity.setGender(userDto.getGender());
-            userEntity.setAddress(userDto.getAddress());
-            userEntity.setPhonenumber(userDto.getPhonenumber());
-            Date dateBirthday = Date.valueOf(userDto.getBirthday());
-            userEntity.setBirthday(dateBirthday);
-            userEntity.setRole(userDto.getRole());
-            String avatarUrl = amazonClient.uploadFile(file);
-            userEntity.setAvartar(avatarUrl);
-            return userRepository.save(userEntity);
-        }
+        UserEntity userEntity = new UserEntity();
+        userEntity.setFullname(userDto.getFullname());
+        userEntity.setUsername(userDto.getUsername());
+        userEntity.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+        userEntity.setEmail(userDto.getEmail());
+        userEntity.setGender(userDto.getGender());
+        userEntity.setAddress(userDto.getAddress());
+        userEntity.setPhonenumber(userDto.getPhonenumber());
+        Date dateBirthday = Date.valueOf(userDto.getBirthday());
+        userEntity.setBirthday(dateBirthday);
+        userEntity.setRole(userDto.getRole());
+        String avatarUrl = amazonClient.uploadFile(file);
+        userEntity.setAvartar(avatarUrl);
+        return userRepository.save(userEntity);
     }
 
     /*Edit User*/
