@@ -9,6 +9,8 @@ import allActions from '../../actions';
 import validator from 'validator';
 import AdminAlertInfo from '../../components/AdminAlertInfo/AdminAlertInfo';
 import { Link } from 'react-router-dom';
+import { Modal, Button} from 'react-bootstrap';
+import FormSendMail from '../../components/FormSendMail/FormSendMail';
 
 class LoginPage extends Component {
 
@@ -18,9 +20,18 @@ class LoginPage extends Component {
         this.state = {
             username: '',
             psw: '',
-            validationMsg: {}
+            validationMsg: {},
+            showForm: false
         }
     }
+
+    handleShow = (event) => {
+        event.preventDefault();
+        this.setState({showForm: !this.state.showForm});
+    }
+
+    handleClose = () => this.setState({showForm: !this.state.showForm})
+    
     
     validateAll = () => {
         const msg = {}
@@ -92,7 +103,7 @@ class LoginPage extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-sm-6">
-                                    <Link className="link-login" to="/register">
+                                    <Link className="link-login" to="/register"  onClick={(event) => this.handleShow(event)}>
                                         <span className="reset-psw">Quên mật khẩu ?</span>
                                     </Link>
                                 </div>
@@ -112,6 +123,21 @@ class LoginPage extends Component {
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.showForm} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            Đặt lại mật khẩu của bạn
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <FormSendMail />
+                    </Modal.Body>
+                    <Modal.Footer>
+                            <Button variant="secondary" onClick={(event) => this.handleShow(event)}>
+                                Hủy
+                            </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }
