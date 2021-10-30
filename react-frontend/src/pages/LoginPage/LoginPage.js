@@ -25,12 +25,22 @@ class LoginPage extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.statusFormSendMail){
+            let {statusFormSendMail} = nextProps
+            this.setState({
+                showForm: statusFormSendMail.openFormSendMail
+            })
+        }
+    }
+    
+
     handleShow = (event) => {
         event.preventDefault();
-        this.setState({showForm: !this.state.showForm});
+        this.props.onFormSendMail();
     }
 
-    handleClose = () => this.setState({showForm: !this.state.showForm})
+    handleClose = () => this.props.offFormSendMail();
     
     
     validateAll = () => {
@@ -126,14 +136,14 @@ class LoginPage extends Component {
                 <Modal show={this.state.showForm} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            Đặt lại mật khẩu của bạn
+                            Lấy lại mật khẩu
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <FormSendMail />
                     </Modal.Body>
                     <Modal.Footer>
-                            <Button variant="secondary" onClick={(event) => this.handleShow(event)}>
+                            <Button variant="secondary" onClick={this.handleClose}>
                                 Hủy
                             </Button>
                     </Modal.Footer>
@@ -145,7 +155,8 @@ class LoginPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        itemUserLogin: state.itemUserLogin
+        itemUserLogin: state.itemUserLogin,
+        statusFormSendMail: state.statusFormSendMail
     }
 }
 
@@ -153,6 +164,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onLoginUser : (username, password) => {
             dispatch(allActions.userAction.actLoginUserRequest(username,password));
+        },
+        onFormSendMail : () => {
+            dispatch(allActions.openFormSendMail.changeFormSendMailOn())
+        },
+        offFormSendMail : () => {
+            dispatch(allActions.openFormSendMail.changeFormSendMailOff())
         }
     }
 }

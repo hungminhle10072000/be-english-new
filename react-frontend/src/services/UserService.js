@@ -3,6 +3,7 @@ import {authHeader} from './auth-header'
 
 const USER_API_END_POINT = "/api/users";
 const USER_API_LOGIN = "http://localhost:8080/authenticate";
+const USER_API_ForgetPassWord = 'http://localhost:8080/api/users/check-username-email';
 
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -76,7 +77,7 @@ class UserService {
             username: username,
             password: password
         }
-        return axios.post('http://localhost:8080/authenticate', jwtrequest);
+        return axios.post(USER_API_LOGIN, jwtrequest);
     }
 
     ///register
@@ -96,6 +97,14 @@ class UserService {
         })
     }
     
+    ///reset password
+    forgetPassWord(username, email){
+        let missPassWordDto = {
+            username: username,
+            email: email
+        }
+        return axios.post(USER_API_ForgetPassWord, missPassWordDto);
+    }
 }
 
 export default new UserService()

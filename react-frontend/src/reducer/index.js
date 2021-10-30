@@ -10,6 +10,9 @@ import courseEditReducer from '../reducer/courseReducer/courseEditReducer'
 import chapterReducer from '../reducer/chapterReducer/chapterReducer'
 import chapterEditReducer from "../reducer/chapterReducer/chapterEditReducer";
 import lessonReducer from "./lessonReducer/lessonReducer";
+
+import statusFormSendMail from "./statusFormSendMail"
+
 const appReducers = combineReducers({
     users,
     courseReducer,
@@ -20,6 +23,7 @@ const appReducers = combineReducers({
     courseEditReducer,
     chapterReducer,
     chapterEditReducer,
-    lessonReducer
+    lessonReducer,
+    statusFormSendMail
 });
 export default appReducers;

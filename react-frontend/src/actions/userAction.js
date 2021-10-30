@@ -1,6 +1,7 @@
 import * as Types from '../constants/ActionTypes'
 import UserService from '../services/UserService'
 import adminAlertInfoAction from './admin-alert-infoAction'
+import openFormSendMail from './openFormSendMail'
 
 // get all users
 const actFetchUsersRequest = () => {
@@ -164,6 +165,24 @@ const actLoginUser = (user) => {
     }
 }
 
+///forget password
+const actForgetPassWordRequest = (username, email) => {
+    return dispatch => {
+        return (
+            UserService.forgetPassWord(username, email)
+            .then(res => {
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Gửi password thành công ! Yêu cầu bạn kiểm tra email !!!","success"));
+                dispatch(openFormSendMail.changeFormSendMailOff())
+            }).catch(
+                error => {
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập hoặc email của bạn không chính xác !!!","danger"));
+                }
+            )
+            
+        )
+    }
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     actFetchUsersRequest,
@@ -172,5 +191,6 @@ export default {
     actUpdateUserRequest,
     actGetUserRequest, 
     actLoginUserRequest,
-    actRegisterRequest
+    actRegisterRequest,
+    actForgetPassWordRequest
 }

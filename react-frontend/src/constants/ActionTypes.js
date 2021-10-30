@@ -9,6 +9,11 @@ export const REGISTER_USER = 'REGISTER_USER';
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const REGISTER_USER_FAIL = 'REGISTER_USER_FAIL';
 
+// Reset Password
+export const ResetPassWord = 'ResetPassWord';
+export const FORM_SEND_MAIL_ON = 'FORM_SEND_MAIL_ON';
+export const FORM_SEND_MAIL_OFF = 'FORM_SEND_MAIL_OFF';
+
 // Alert
 export const ALERT_ADMIN_ON = 'ALERT_ADMIN_ON';
 export const ALERT_ADMIN_OFF = 'ALERT_ADMIN_OFF';
