@@ -267,7 +267,7 @@ class AdminAccountEdit extends Component {
                                     
                                     <label htmlFor="avatar"><b>Ảnh đại diện</b></label>
                                     <input className="input-field" type="file" placeholder="Ảnh đại diện" onChange={this.selectFile} accept="image/*" id="avatar" name="avatar"/>
-                                    {checkavartar && <img style={{width:150, height:150}} src={this.state.user.avartar} />}
+                                    {checkavartar && <img style={{width:150, height:150}} src={this.state.user.avartar} alt="Ảnh đại diện" />}
                                     {previewImage && (
                                         <div>
                                             <img className="preview" src={previewImage} alt="" style={{height: 150, width: 150}}/>

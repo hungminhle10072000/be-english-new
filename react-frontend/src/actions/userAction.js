@@ -46,12 +46,6 @@ const actRegisterRequest = (userDto, file) => {
      
 }
 
-const actRegisterFail = () => {
-    return {
-        type: Types.REGISTER_USER_FAIL
-    }
-}
-
 const actRegisterSuccess = () => {
     return {
         type: Types.REGISTER_USER_SUCCESS

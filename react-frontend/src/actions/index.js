@@ -4,6 +4,8 @@ import courseAction from "./courseAction";
 import chapterAction from "./chapterAction";
 import lessonAction from "./lessonAction";
 import openFormSendMail from "./openFormSendMail";
+import vocabularyTopicAction from "./vocabularyTopicAction";
+import openFormAddVocaTopic from "./openFormAddVocaTopic";
 
 const allActions = {
     userAction,
@@ -11,7 +13,9 @@ const allActions = {
     courseAction,
     chapterAction,
     lessonAction,
-    openFormSendMail
+    openFormSendMail,
+    vocabularyTopicAction,
+    openFormAddVocaTopic
 }
 
 export default allActions

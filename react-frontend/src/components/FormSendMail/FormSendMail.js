@@ -32,6 +32,7 @@ class FormSendMail extends Component {
             <Form onSubmit={(e) => this.handleSendMailPassWord(e,this.state.username, this.state.email)}>
                 <Form.Group>
                     <Form.Control
+                        className="form-send-mail"
                         type="text"
                         placeholder="Tên đăng nhập *"
                         name="username"
@@ -41,6 +42,7 @@ class FormSendMail extends Component {
                 </Form.Group>
                 <Form.Group>
                     <Form.Control
+                        className="form-send-mail"
                         type="email"
                         placeholder="Email *"
                         name="email"

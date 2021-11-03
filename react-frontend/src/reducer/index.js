@@ -4,6 +4,9 @@ import admin_alert_info from './admin_alert_info'
 import itemUserEdit from './itemUserEdit'
 import itemUserLogin from "./itemUserLogin"
 import statusRegister from "./statusRegister"
+import vocabularyTopics from './VocabularyTopicReducer/vocabularyTopics'
+import statusFormAddVocaTopic from "./VocabularyTopicReducer/statusFormAddVocaTopic"
+import itemVocaTopicEdit from './VocabularyTopicReducer/itemVocaTopicEdit'
 
 import  courseReducer  from '../reducer/courseReducer/courseReducer'
 import courseEditReducer from '../reducer/courseReducer/courseEditReducer'
@@ -24,6 +27,9 @@ const appReducers = combineReducers({
     chapterReducer,
     chapterEditReducer,
     lessonReducer,
-    statusFormSendMail
+    statusFormSendMail,
+    vocabularyTopics,
+    statusFormAddVocaTopic,
+    itemVocaTopicEdit
 });
 export default appReducers;

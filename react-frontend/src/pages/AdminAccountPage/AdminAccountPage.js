@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './AdminAccountPage.css'
 import { Link } from 'react-router-dom'
 import AdminItemAccount from '../../components/AdminItemAccount/AdminItemAccount'
-import AdminPagination from '../../components/AdminPagination/AdminPagination'
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { connect } from 'react-redux'
 import allActions from '../../actions'

@@ -8,4 +8,12 @@ module.exports = function (app) {
             changeOrigin: true
         })
     );
+
+    app.use("/api/topic-vocas",
+        createProxyMiddleware({
+            target: `${API_BASE}`,
+            changeOrigin: true
+        })
+    );
+
 };
