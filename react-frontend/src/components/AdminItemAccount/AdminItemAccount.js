@@ -46,7 +46,7 @@ class AdminItemAccount extends Component {
                     <td>{this.props.phonenumber}</td>
                     <td>{this.props.birthday}</td>
                     <td>{this.props.role}</td>
-                    <td><img style={{width:100, height:100}} src={this.props.avartar}/></td>
+                    <td><img style={{width:100, height:100}} src={this.props.avartar} alt="Ảnh đại diện"/></td>
                     <td>
                         <Link to={`/admin/account/edit/${this.props.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-account">Sửa</button>

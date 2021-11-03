@@ -1,6 +1,7 @@
 import * as Types from '../constants/ActionTypes'
 import UserService from '../services/UserService'
 import adminAlertInfoAction from './admin-alert-infoAction'
+import openFormSendMail from './openFormSendMail'
 
 // get all users
 const actFetchUsersRequest = () => {
@@ -30,18 +31,19 @@ const actRegisterRequest = (userDto, file) => {
                     console.log(res.status)
                     dispatch(actRegisterSuccess())
                 }
-            ).catch(
-                error => dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
+            ).catch(           
+                error => {
+                    if(error.response.status === 409){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
+                    }
+                    if(error.response.status === 400){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Email đã có tài khoản đăng ký ! Yêu cầu sử dụng email khác", "danger"))           
+                    }            
+                }        
             )
         )
     }
      
-}
-
-const actRegisterFail = () => {
-    return {
-        type: Types.REGISTER_USER_FAIL
-    }
 }
 
 const actRegisterSuccess = () => {
@@ -157,6 +159,24 @@ const actLoginUser = (user) => {
     }
 }
 
+///forget password
+const actForgetPassWordRequest = (username, email) => {
+    return dispatch => {
+        return (
+            UserService.forgetPassWord(username, email)
+            .then(res => {
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Gửi password thành công ! Yêu cầu bạn kiểm tra email !!!","success"));
+                dispatch(openFormSendMail.changeFormSendMailOff())
+            }).catch(
+                error => {
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập hoặc email của bạn không chính xác !!!","danger"));
+                }
+            )
+            
+        )
+    }
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     actFetchUsersRequest,
@@ -165,5 +185,6 @@ export default {
     actUpdateUserRequest,
     actGetUserRequest, 
     actLoginUserRequest,
-    actRegisterRequest
+    actRegisterRequest,
+    actForgetPassWordRequest
 }

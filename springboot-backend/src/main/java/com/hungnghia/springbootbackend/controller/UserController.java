@@ -1,11 +1,13 @@
 package com.hungnghia.springbootbackend.controller;
 
+import com.hungnghia.springbootbackend.dto.MailDto;
+import com.hungnghia.springbootbackend.dto.MissPassWordDto;
 import com.hungnghia.springbootbackend.dto.UserDto;
 import com.hungnghia.springbootbackend.entities.UserEntity;
+import com.hungnghia.springbootbackend.service.MailService;
 import com.hungnghia.springbootbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,10 +20,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final MailService mailService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService, MailService mailService){
         this.userService = userService;
+        this.mailService = mailService;
     }
 
     /*Get all user*/
@@ -61,6 +65,30 @@ public class UserController {
     public ResponseEntity<UserEntity> getUserById(@PathVariable Long id){
         UserEntity userEntity = userService.getUser(id);
         return ResponseEntity.ok(userEntity);
+    }
+
+    @PostMapping("/users/check-username-email")
+    public ResponseEntity<String> checkUsernameEmail (@RequestBody MissPassWordDto missPassWordDto){
+        if(userService.checkUsernameEmail(missPassWordDto.getUsername(), missPassWordDto.getEmail()) != null){
+
+            /*generatePassword*/
+            char[] pass = userService.generatePassword(6);
+            String newPass = new String(pass);
+
+            /*Update password*/
+            userService.updatePassWord(missPassWordDto.getUsername(), newPass);
+
+            /*Send mail password to user*/
+            MailDto mailDto = new MailDto();
+            mailDto.setMailFrom("websitehoctienganhtructuye@gmail.com");
+            mailDto.setMailTo("hungduong.mess32@gmail.com");
+            mailDto.setMailSubject("Mật khẩu mới !!!!");
+            mailDto.setMailContent("Đây là mật khẩu mới của bạn : " + newPass + " !!!! Hãy đăng nhập và đổi lại mật khẩu.");
+            mailService.sendEmail(mailDto);
+            return new ResponseEntity<>("Gửi email thành công !", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("Tên đăng nhập hoặc email không chính xác !!!",HttpStatus.BAD_REQUEST);
     }
 
 }

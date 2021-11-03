@@ -17,6 +17,7 @@ import AdminAddChapterPage from '../pages/AdminAddChapterPage/AdminAddChapterPag
 import AdminEditChapterPage from '../pages/AdminEditChapterPage/AdminEditChapterPage';
 import AdminLessonPage from '../pages/AdminLessonPage/AdminLessonPage';
 import AdminAddLessonPage from '../pages/AdminAddLessonPage/AdminAddLessonPage';
+import AdminTopicVocabulary from '../pages/AdminTopicVocabulary/AdminTopicVocabulary';
 
 class AdminRoutes extends Component {
     render() {
@@ -34,7 +35,8 @@ class AdminRoutes extends Component {
                     <Route exact path="/admin/chapter/:id" component={AdminChapterPage}/>     
                     <Route exact path="/admin/chapter/edit/:id" component={AdminEditChapterPage}/>    
                     <Route exact path="/admin/lesson/add" component={AdminAddLessonPage}/>         
-                    <Route exact path="/admin/lesson/:id" component={AdminLessonPage}/>   
+                    <Route exact path="/admin/lesson/:id" component={AdminLessonPage}/>
+                    <Route exact path = "/admin/topic-vocabulary" component={AdminTopicVocabulary}/>
                    
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>   

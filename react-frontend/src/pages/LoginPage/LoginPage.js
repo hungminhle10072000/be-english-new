@@ -9,6 +9,8 @@ import allActions from '../../actions';
 import validator from 'validator';
 import AdminAlertInfo from '../../components/AdminAlertInfo/AdminAlertInfo';
 import { Link } from 'react-router-dom';
+import { Modal, Button} from 'react-bootstrap';
+import FormSendMail from '../../components/FormSendMail/FormSendMail';
 
 class LoginPage extends Component {
 
@@ -18,9 +20,28 @@ class LoginPage extends Component {
         this.state = {
             username: '',
             psw: '',
-            validationMsg: {}
+            validationMsg: {},
+            showForm: false
         }
     }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.statusFormSendMail){
+            let {statusFormSendMail} = nextProps
+            this.setState({
+                showForm: statusFormSendMail.openFormSendMail
+            })
+        }
+    }
+    
+
+    handleShow = (event) => {
+        event.preventDefault();
+        this.props.onFormSendMail();
+    }
+
+    handleClose = () => this.props.offFormSendMail();
+    
     
     validateAll = () => {
         const msg = {}
@@ -92,7 +113,7 @@ class LoginPage extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-sm-6">
-                                    <Link className="link-login" to="/register">
+                                    <Link className="link-login" to="/register"  onClick={(event) => this.handleShow(event)}>
                                         <span className="reset-psw">Quên mật khẩu ?</span>
                                     </Link>
                                 </div>
@@ -112,6 +133,21 @@ class LoginPage extends Component {
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.showForm} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            Lấy lại mật khẩu
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <FormSendMail />
+                    </Modal.Body>
+                    <Modal.Footer>
+                            <Button variant="secondary" onClick={this.handleClose}>
+                                Hủy
+                            </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }
@@ -119,7 +155,8 @@ class LoginPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        itemUserLogin: state.itemUserLogin
+        itemUserLogin: state.itemUserLogin,
+        statusFormSendMail: state.statusFormSendMail
     }
 }
 
@@ -127,6 +164,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onLoginUser : (username, password) => {
             dispatch(allActions.userAction.actLoginUserRequest(username,password));
+        },
+        onFormSendMail : () => {
+            dispatch(allActions.openFormSendMail.changeFormSendMailOn())
+        },
+        offFormSendMail : () => {
+            dispatch(allActions.openFormSendMail.changeFormSendMailOff())
         }
     }
 }
