@@ -85,10 +85,10 @@ class AdminFormEditTopicVocabulary extends Component {
         return (
             <Form onSubmit={(e) => this.handleEditVocaTopic(e)}> 
                 <Form.Group>
+                    <Form.Label>Tên chủ đề *</Form.Label>
                     <Form.Control
                         className="form-add-topic-vocabulary"
                         type="text"
-                        placeholder="Tên chủ đề *"
                         name="name"
                         defaultValue={itemVocaTopic.name}
                         onChange={(event) => this.isChange(event)}
@@ -96,11 +96,11 @@ class AdminFormEditTopicVocabulary extends Component {
                     />
                 </Form.Group>
                 <Form.Group>
+                    <Form.Label>Hình ảnh chủ đề *</Form.Label>
                     <Form.Control
                         className="form-add-topic-vocabulary"
                         type="file"
                         accept="image/*"
-                        placeholder="Hình ảnh chủ đề *"
                         name="image"
                         onChange={this.selectFile}
                     />

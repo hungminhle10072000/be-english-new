@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import { Provider } from 'react-redux';
 import {
     Switch,
     Route,
@@ -18,6 +17,7 @@ import AdminEditChapterPage from '../pages/AdminEditChapterPage/AdminEditChapter
 import AdminLessonPage from '../pages/AdminLessonPage/AdminLessonPage';
 import AdminAddLessonPage from '../pages/AdminAddLessonPage/AdminAddLessonPage';
 import AdminTopicVocabulary from '../pages/AdminTopicVocabulary/AdminTopicVocabulary';
+import AdminDetailTopicVocabulary from '../pages/AdminDetailTopicVocabulary/AdminDetailTopicVocabulary';
 
 class AdminRoutes extends Component {
     render() {
@@ -37,6 +37,7 @@ class AdminRoutes extends Component {
                     <Route exact path="/admin/lesson/add" component={AdminAddLessonPage}/>         
                     <Route exact path="/admin/lesson/:id" component={AdminLessonPage}/>
                     <Route exact path = "/admin/topic-vocabulary" component={AdminTopicVocabulary}/>
+                    <Route exact path = "/admin/topic-vocabulary/:idTopic/:nameTopicVoca" component={AdminDetailTopicVocabulary} />
                    
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>   

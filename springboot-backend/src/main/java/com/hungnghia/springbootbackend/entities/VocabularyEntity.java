@@ -22,11 +22,14 @@ public class VocabularyEntity {
     @Column(name = "transcribe")
     private String transcribe;
 
-    @Column(name = "explain_vocabulary")
-    private String explain_vocabulary;
+    @Column(name = "mean_example_vocabulary")
+    private String mean_example_vocabulary;
 
     @Column(name = "mean")
     private String mean;
+
+    @Column(name = "explain_vocabulary")
+    private String explain_vocabulary;
 
     @Column(name = "example_vocabulary")
     private String example_vocabulary;

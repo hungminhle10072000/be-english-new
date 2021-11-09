@@ -51,9 +51,6 @@ public class VocabularyTopicController {
     /*Edit topic */
     @PutMapping("/topic-vocas/{id}")
     public ResponseEntity<VocabularyTopicEntity> updateVocaTopic(@PathVariable Long id, @RequestParam("name_topic") String name_topic, @RequestParam(name = "file", required = false) MultipartFile image){
-        System.out.println(id);
-        System.out.println(name_topic);
-        System.out.println(image);
         VocabularyTopicEntity vocabularyTopicEntity = vocabularyTopicService.updateVocaTopic(id, name_topic, image);
         return ResponseEntity.ok(vocabularyTopicEntity);
     }
