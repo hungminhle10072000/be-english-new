@@ -16,4 +16,18 @@ module.exports = function (app) {
         })
     );
 
+    app.use("/api/vocabulary",
+        createProxyMiddleware({
+            target: `${API_BASE}`,
+            changeOrigin: true
+        })
+    );
+
+    app.use("/api/vocabulary/getVocaByid",
+        createProxyMiddleware({
+            target: `${API_BASE}`,
+            changeOrigin: true
+        })
+    );
+
 };

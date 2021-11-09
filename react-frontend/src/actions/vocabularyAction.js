@@ -1,0 +1,96 @@
+import * as Types from '../constants/ActionTypes';
+import VocabularyService from '../services/VocabularyService';
+import adminAlertInfoAction from './admin-alert-infoAction';
+import openFormAddVoca from './openFormAddVoca';
+
+
+/// get all vocabulary with topicId
+const actFetchVocaWithTopicRequest = (nameTopic, topicId) => {
+    return(dispatch) => {
+        return (
+            VocabularyService.getAllVocabularyByTopicId(topicId).then(
+                (res) => {
+                    dispatch(actFetchVocaWithTopic(nameTopic, res.data))
+                }
+            )
+        )
+    }
+}
+
+const actFetchVocaWithTopic  = (nameTopic, vocasWithTopic) => {
+    return {
+        type: Types.FETCH_VOCABULARY_WITH_TOPIC,
+        payload: {
+            nameTopic: nameTopic,
+            vocasWithTopic: vocasWithTopic
+        }
+    }
+}
+
+// add vocabulary for topic
+const actAddVocaForTopicRequest = (vocaDto, file_audio, file_image) => {
+    return (dispatch) => {
+        return(
+            VocabularyService.createVoca(vocaDto, file_audio, file_image)
+            .then((res) => {
+                dispatch(actAddVocabulary(res.data))
+                dispatch(openFormAddVoca.changeFormAddVocaOff())
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm từ mới thành công !","success"))
+            })
+        )
+    }
+}
+
+const actAddVocabulary = (vocabulary) => {
+    return {
+        type: Types.ADD_VOCABULARY,
+        vocabulary
+    }
+}
+
+// delete vocabulary for topic
+const actDeleteVocaForTopicRequest = (id) => {
+    return (dispatch) => {
+        return (
+            VocabularyService.deleteVocabulary(id)
+            .then((res) => {
+                dispatch(actDeleteVocaForTopic(id))
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Xóa từ mới thành công !","danger"))
+            })
+        )
+    }
+}
+
+const actDeleteVocaForTopic = (id) => {
+    return {
+        type: Types.DELETE_VOCABULARY,
+        id
+    }
+}
+
+// get voca by id
+const actGetVocaByIdRequest = (id) => {
+    return (dispatch) => {
+        return (
+            VocabularyService.getVocabylary(id)
+            .then((res) => {
+                dispatch(actGetVocaById(res.data))
+            })
+        )
+    }
+}
+
+
+const actGetVocaById = (itemVocaEdit) => {
+    return {
+        type: Types.GET_VOCA_ID,
+        itemVocaEdit
+    }
+}
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+    actFetchVocaWithTopicRequest,
+    actAddVocaForTopicRequest,
+    actDeleteVocaForTopicRequest,
+    actGetVocaByIdRequest
+}

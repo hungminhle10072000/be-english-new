@@ -7,6 +7,7 @@ import {
 } from "react-router-dom"
 import { confirmAlert } from 'react-confirm-alert'
 import './AdminItemVocabularyTopic.css'
+import convertURL from '../../constants/convertUrl'
 
 class AdminItemVocabularyTopic extends Component {
 
@@ -49,7 +50,7 @@ class AdminItemVocabularyTopic extends Component {
                         </Link>
                         <button onClick={() => this.onDelete()}
                         type="button" className="btn btn-danger btn-delete-voca-topic">Xóa</button>
-                         <Link to="#" onClick={() => this.onEdit()}>
+                         <Link to={"/admin/topic-vocabulary/" + this.props.id + "/" + convertURL(this.props.name)}>
                             <button type="button" className="btn btn-info btn-detail-voca-topic">Chi tiết</button>
                         </Link>
                     </td>

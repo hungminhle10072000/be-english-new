@@ -1,5 +1,6 @@
 package com.hungnghia.springbootbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,5 +26,6 @@ public class VocabularyTopicEntity {
     private List<CommentEntity> commentEntityList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vocabularyTopicEntity", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(ignoreUnknown = true, value = {"vocabularyTopicEntity"})
     private List<VocabularyEntity> vocabularyEntityList;
 }

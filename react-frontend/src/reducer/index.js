@@ -7,6 +7,8 @@ import statusRegister from "./statusRegister"
 import vocabularyTopics from './VocabularyTopicReducer/vocabularyTopics'
 import statusFormAddVocaTopic from "./VocabularyTopicReducer/statusFormAddVocaTopic"
 import itemVocaTopicEdit from './VocabularyTopicReducer/itemVocaTopicEdit'
+import listVocabularyWithTopic from "./VocabularyReducer/listVocabularyWithTopic"
+import itemVocaEdit from "./VocabularyReducer/itemVocaEdit"
 
 import  courseReducer  from '../reducer/courseReducer/courseReducer'
 import courseEditReducer from '../reducer/courseReducer/courseEditReducer'
@@ -15,6 +17,7 @@ import chapterEditReducer from "../reducer/chapterReducer/chapterEditReducer";
 import lessonReducer from "./lessonReducer/lessonReducer";
 
 import statusFormSendMail from "./statusFormSendMail"
+import statusFormAddVoca from "./VocabularyReducer/statusFormAddVoca"
 
 const appReducers = combineReducers({
     users,
@@ -30,6 +33,9 @@ const appReducers = combineReducers({
     statusFormSendMail,
     vocabularyTopics,
     statusFormAddVocaTopic,
-    itemVocaTopicEdit
+    itemVocaTopicEdit,
+    listVocabularyWithTopic,
+    statusFormAddVoca,
+    itemVocaEdit
 });
 export default appReducers;
