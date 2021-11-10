@@ -1,6 +1,7 @@
 package com.hungnghia.springbootbackend.controller;
 
 import com.hungnghia.springbootbackend.dto.VocabularyDto;
+import com.hungnghia.springbootbackend.dto.VocabularyUpdateDto;
 import com.hungnghia.springbootbackend.entities.VocabularyEntity;
 import com.hungnghia.springbootbackend.service.VocabularyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,14 @@ public class VocabularyController {
     @GetMapping("/vocabulary/getVocaByid/{id}")
     public ResponseEntity<VocabularyEntity> getVocabularyWithId(@PathVariable("id") Long id){
         VocabularyEntity vocabularyEntity = vocabularyService.getVoca(id);
+        return ResponseEntity.ok(vocabularyEntity);
+    }
+
+    /*Update vocabulary*/
+    @PutMapping("/vocabulary/{id}")
+    public ResponseEntity<VocabularyEntity> updateVocabulary(@PathVariable("id") Long id, @RequestPart("vocabularyUpdateDto") VocabularyUpdateDto vocabularyUpdateDto,
+                                                             @RequestParam(name="file_audio", required = false) MultipartFile file_audio, @RequestParam(name="file_image", required = false) MultipartFile file_image){
+        VocabularyEntity vocabularyEntity = vocabularyService.updateVocabulary(id, vocabularyUpdateDto, file_audio, file_image);
         return ResponseEntity.ok(vocabularyEntity);
     }
 

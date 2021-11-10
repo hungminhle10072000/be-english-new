@@ -37,6 +37,7 @@ export const EDIT_VOCABULARY = 'EDIT_VOCABULARY';
 export const GET_VOCA_ID = 'GET_VOCA_ID';
 export const FORM_EDIT_VOCA_ON = 'FORM_EDIT_VOCA_ON';
 export const FORM_EDIT_VOCA_OFF = 'FORM_EDIT_VOCA_OFF';
+export const UPDATE_VOCABULARY = 'UPDATE_VOCABULARY';
 
 // Alert
 export const ALERT_ADMIN_ON = 'ALERT_ADMIN_ON';

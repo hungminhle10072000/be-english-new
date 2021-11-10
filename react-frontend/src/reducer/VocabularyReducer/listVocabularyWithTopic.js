@@ -18,7 +18,7 @@ const findIndex = (vocabularies, id) => {
 const listVocabularyWithTopic = (state = vocabularyWithTopicInit, action) => {
 
     let index = -1;
-    const {id} = action
+    const {id, vocabularyUpdate} = action
 
     switch(action.type) {
         case Types.FETCH_VOCABULARY_WITH_TOPIC:
@@ -29,6 +29,13 @@ const listVocabularyWithTopic = (state = vocabularyWithTopicInit, action) => {
         case Types.DELETE_VOCABULARY:
             index = findIndex(state.vocasWithTopic, id)
             state.vocasWithTopic.splice(index,1)
+            return {...state}
+        case Types.UPDATE_VOCABULARY:
+            state.vocasWithTopic.forEach((item, index) => {
+                if(item.id === vocabularyUpdate.id){
+                    state.vocasWithTopic[index] = vocabularyUpdate;
+                }
+            })
             return {...state}
         default:
             return state;
