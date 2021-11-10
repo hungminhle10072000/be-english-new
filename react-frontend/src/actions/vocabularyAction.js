@@ -87,10 +87,34 @@ const actGetVocaById = (itemVocaEdit) => {
         itemVocaEdit
     }
 }
+
+
+// update vocabulary
+const actUpdateVocabularyRequest = (id , vocabularyUpdateDto, file_audio, image) => {
+    return(dispatch) => {
+        return (
+            VocabularyService.updateVocabulary(id , vocabularyUpdateDto, file_audio, image)
+            .then((res) => {
+                dispatch(actUpdateVocabulary(res.data))
+                dispatch(openFormAddVoca.changeFormEditVocaOff())
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật từ mới thành công !","success"))
+            })
+        )
+    }
+}
+
+const actUpdateVocabulary = (vocabularyUpdate) => {
+    return {
+        type: Types.UPDATE_VOCABULARY,
+        vocabularyUpdate
+    }
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     actFetchVocaWithTopicRequest,
     actAddVocaForTopicRequest,
     actDeleteVocaForTopicRequest,
-    actGetVocaByIdRequest
+    actGetVocaByIdRequest,
+    actUpdateVocabularyRequest
 }

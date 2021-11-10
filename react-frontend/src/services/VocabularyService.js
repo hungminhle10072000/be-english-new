@@ -47,5 +47,25 @@ class VocabularyService {
             headers:{...headers, ...authHeader()}
         })
     }
+
+    // update vocabulary
+    updateVocabulary(id , vocabularyUpdateDto, file_audio, image) {
+
+        let formData = new FormData();
+        
+        const json = JSON.stringify(vocabularyUpdateDto);
+        const blob = new Blob([json], {
+            type: 'application/json'
+        });
+
+        formData.append("vocabularyUpdateDto",blob);
+        formData.append("file_audio",file_audio);
+        formData.append("file_image",image);
+        
+        return axios.put(VOCA_API_END_POINT + '/' + id, formData,{
+            headers: {...headers,...authHeader(),'Content-Type': 'multipart/form-data'}
+        })
+    }
+    
 }
 export default new VocabularyService()

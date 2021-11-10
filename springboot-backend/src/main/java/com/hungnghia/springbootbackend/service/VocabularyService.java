@@ -1,6 +1,7 @@
 package com.hungnghia.springbootbackend.service;
 
 import com.hungnghia.springbootbackend.dto.VocabularyDto;
+import com.hungnghia.springbootbackend.dto.VocabularyUpdateDto;
 import com.hungnghia.springbootbackend.entities.VocabularyEntity;
 import com.hungnghia.springbootbackend.entities.VocabularyTopicEntity;
 import com.hungnghia.springbootbackend.exception.ResourceNotFoundException;
@@ -59,5 +60,27 @@ public class VocabularyService {
 
     public VocabularyEntity getVoca(Long id){
         return vocabularyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tồn tại từ vựng với id : " + id));
+    }
+
+    /*Edit vocabulary*/
+    @Transactional
+    public VocabularyEntity updateVocabulary(Long id, VocabularyUpdateDto vocabularyUpdateDto, MultipartFile file_audio, MultipartFile file_image){
+        VocabularyEntity vocabularyEntity = getVoca(id);
+        vocabularyEntity.setContent(vocabularyUpdateDto.getContent());
+        vocabularyEntity.setTranscribe(vocabularyUpdateDto.getTranscribe());
+        vocabularyEntity.setMean_example_vocabulary(vocabularyUpdateDto.getMean_example_vocabulary());
+        vocabularyEntity.setMean(vocabularyUpdateDto.getMean());
+        vocabularyEntity.setExplain_vocabulary(vocabularyUpdateDto.getExplain_vocabulary());
+        vocabularyEntity.setExample_vocabulary(vocabularyUpdateDto.getExample_vocabulary());
+        if(!(file_audio == null)){
+            String fileAudioUrl = amazonClient.uploadFile(file_audio);
+            vocabularyEntity.setFile_audio(fileAudioUrl);
+        }
+        if(!(file_image == null)){
+            String fileImageUrl = amazonClient.uploadFile(file_image);
+            vocabularyEntity.setImage(fileImageUrl);
+        }
+        vocabularyRepository.save(vocabularyEntity);
+        return vocabularyEntity;
     }
 }

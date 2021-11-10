@@ -49,9 +49,6 @@ public class VocabularyTopicService {
     /*Edit voca topic*/
     @Transactional
     public VocabularyTopicEntity updateVocaTopic(Long id, String name_topic, MultipartFile image) {
-        System.out.println(id);
-        System.out.println(name_topic);
-        System.out.println(image);
         VocabularyTopicEntity vocabularyTopicEntity = vocabularyTopicRepository.getById(id);
         vocabularyTopicEntity.setName(name_topic);
         if(!(image == null)){

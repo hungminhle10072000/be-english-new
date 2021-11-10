@@ -53,11 +53,60 @@ class AdminFormEditVocabulary extends Component {
         if(nextProps && nextProps.itemVocaEdit){
             const {itemVocaEdit} = nextProps
             this.setState({
-                itemVoca: {...itemVocaEdit}
+                itemVoca : {
+                    id: itemVocaEdit.id,
+                    content: itemVocaEdit.content,
+                    transcribe: '',
+                    mean_example_vocabulary: itemVocaEdit.mean_example_vocabulary,
+                    mean: itemVocaEdit.mean,
+                    explain_vocabulary: itemVocaEdit.explain_vocabulary,
+                    example_vocabulary: itemVocaEdit.example_vocabulary,
+                    file_audio: itemVocaEdit.file_audio,
+                    image: itemVocaEdit.image
+                }
             })
         }
     }
+
+    isChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({
+            itemVoca: {
+                ...this.state.itemVoca,
+                [name]:value
+            }
+        });
+    }
+
+    handleReset = () => {
+        let {itemVocaEdit} = this.props;
+        this.setState({
+            itemVoca : {
+                id: itemVocaEdit.id,
+                content: itemVocaEdit.content,
+                transcribe: itemVocaEdit.transcribe,
+                mean_example_vocabulary: itemVocaEdit.mean_example_vocabulary,
+                mean: itemVocaEdit.mean,
+                explain_vocabulary: itemVocaEdit.explain_vocabulary,
+                example_vocabulary: itemVocaEdit.example_vocabulary,
+                file_audio: itemVocaEdit.file_audio,
+                image: itemVocaEdit.image
+            },
+            currentFile: undefined,
+            currentFileAudio: undefined,
+            previewImage: undefined,
+            previewAudio: undefined,
+            statusChossefileAudio: false,
+            statusChossefileImage: false
+        });
+    }
     
+    handleUpdateVoca = (e) => {
+        let {itemVoca,currentFileAudio,currentFile} = this.state
+        e.preventDefault();
+        this.props.onUpdateVocabulary(itemVoca.id, itemVoca, currentFileAudio, currentFile);
+    }
 
     render() {
         const {
@@ -68,11 +117,11 @@ class AdminFormEditVocabulary extends Component {
             statusChossefileAudio
         } = this.state;
 
-        const checkfileAudio = itemVoca.file_audio != '' && statusChossefileAudio === false
+        const checkfileAudio = itemVoca.file_audio !== '' && statusChossefileAudio === false
         const checkimage = itemVoca.image !== '' && statusChossefileImage === false
 
         return (
-            <Form onSubmit={(e) => this.handleAddVoca(e)}>
+            <Form onSubmit={(e) => this.handleUpdateVoca(e)}>
                 <Form.Group>
                     <Form.Label style={{fontWeight: 'bold'}}>Nội dung từ *</Form.Label>
                     <Form.Control
@@ -150,7 +199,6 @@ class AdminFormEditVocabulary extends Component {
                         placeholder="File nghe cửa từ *"
                         name="file_audio"
                         onChange={this.selectFileAudio}
-                        required
                     />
                     {checkfileAudio && <ReactAudioPlayer
                         src={itemVoca.file_audio}
@@ -172,17 +220,19 @@ class AdminFormEditVocabulary extends Component {
                         placeholder="Hình ảnh mô tả *"
                         name="file_image"
                         onChange={this.selectFile}
-                        required
                     />
-                    {checkimage && <img style={{width:150, height:150}} src={itemVoca.image} alt="Ảnh mô tả từ" />}
+                    {checkimage && <img style={{width:150, height:150,  marginBottom: 5}} src={itemVoca.image} alt="Ảnh mô tả từ" />}
                     {previewImage && (
                         <div>
-                            <img className="preview" src={previewImage} alt="Ảnh mô tả từ" style={{height: 150, width: 150}}/>
+                            <img className="preview" src={previewImage} alt="Ảnh mô tả từ" style={{height: 150, width: 150, marginBottom: 5}}/>
                         </div>
                     )}
                 </Form.Group>
-                <Button variant="success" type="submit" className="button-add-topic-vocabulary">
-                    Thêm
+                <Button variant="success" type="submit" className="button-edit-vocabulary">
+                    Cập nhật
+                </Button>
+                <Button style={{marginLeft: 5}} variant="warning" type="reset" className="button-reset-vocabulary" onClick={() => this.handleReset()}>
+                    Reset
                 </Button>
             </Form>
         )
@@ -195,5 +245,13 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        onUpdateVocabulary: (id , vocabularyUpdateDto, file_audio, image) => {
+            dispatch(allActions.vocabularyAction.actUpdateVocabularyRequest(id , vocabularyUpdateDto, file_audio, image))
+        }
+    }
+}
 
-export default connect(mapStateToProps, null) (AdminFormEditVocabulary)
+
+export default connect(mapStateToProps, mapDispatchToProps) (AdminFormEditVocabulary)
