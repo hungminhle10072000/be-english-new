@@ -31,4 +31,13 @@ public class LessonController {
     public List<LessonDto> getAll() {
         return lessonService.getAllLesson();
     }
+
+    @GetMapping("/getLessonByChapterId/{chapterId}")
+    public List<LessonDto> getLessonByChapterId(@PathVariable long chapterId) {
+        return lessonService.getLessonByChapterId(chapterId);
+    }
+    @GetMapping("/getLessonById/{id}")
+    public LessonDto getLessonById(@PathVariable long id) {
+        return lessonService.getLessonById(id);
+    }
 }

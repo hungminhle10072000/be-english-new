@@ -10,7 +10,12 @@ class LessonService {
         return axios.get(LESSON_API_BASE_URL+'/getLessonByCourseId/'+courseId)
     }
 
-    addLesson(lesson) {
+    getLessonByChapterId(chapterId) {
+        return axios.get(LESSON_API_BASE_URL+'/getLessonByChapterId/'+chapterId)
+    }
+
+
+    addLesson(lesson,video) {
         let formData = new FormData()
         const jsonLesson = JSON.stringify(lesson)
         const blob = new Blob([jsonLesson], {
@@ -18,6 +23,10 @@ class LessonService {
         });
         
         formData.append("lessonDto",blob)
+        formData.append("video",video)
+
+        console.log('Form Data: ',video)
+        
 
         return axios.post(LESSON_API_BASE_URL+'/add',formData,{
             headers: {
@@ -35,7 +44,6 @@ class LessonService {
     }
 
     updateLesson(lesson) {
-        console.log('Service: ',lesson)
         let formData = new FormData()
         const jsonLesson = JSON.stringify(lesson)
         const blob = new Blob([jsonLesson], {

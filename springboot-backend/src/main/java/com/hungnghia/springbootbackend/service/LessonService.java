@@ -59,4 +59,13 @@ public class LessonService {
         List<LessonEntity> lessonEntities = lessonRepository.findAll();
         return lessonConverter.toListDtos(lessonEntities);
     }
+    public List<LessonDto> getLessonByChapterId(long chapterId) {
+        List<LessonEntity> lessonEntities = lessonRepository.getLessonEntitiesByChapterEntity_Id(chapterId);
+        return lessonConverter.toListDtos(lessonEntities);
+    }
+
+    public LessonDto getLessonById(long id) {
+        LessonEntity lessonEntity = lessonRepository.getById(id);
+        return lessonConverter.toDto(lessonEntity);
+    }
 }

@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom'
 import allActions from '../../actions/index'
 import { confirmAlert } from 'react-confirm-alert';
 
+
 class AdminItemLesson extends Component {
     constructor(props) {
         super(props)
     }
+
+
 
     onDelete = () => {
        
@@ -38,7 +41,11 @@ class AdminItemLesson extends Component {
                     <td>{this.props.lesson.name}</td>
                     <td>{this.props.lesson.chapterName}</td>
                     <td>{this.props.lesson.courseName}</td>
-                    <td>video</td>
+                    <td>        
+                        <button style={{ height: "35px" }} onClick={()=>this.props.onOpenModal(this.props.linkVideo)}>
+                            Play Video{" "}</button>
+                           
+                    </td>
                     <td>
                         <Link to={`/admin/lesson/edit/${this.props.lesson.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-account">Sửa</button>

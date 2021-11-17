@@ -33,7 +33,8 @@ class AdminEditCoursePage extends React.Component {
         if(nextProps && nextProps.course){
             var {course} = nextProps;
             this.setState({
-                course: {...course}
+                course: {...course},
+                previewImage:course.image
             })
         }
     }
@@ -61,7 +62,7 @@ class AdminEditCoursePage extends React.Component {
             course: this.props.course,
             validationMsg: {},
             currentFile: undefined,
-            previewImage: 'https://bitly.com.vn/p8elul',
+            previewImage: this.state.course.image,
             confirmDialog: false,
         }) 
     }
@@ -87,9 +88,9 @@ class AdminEditCoursePage extends React.Component {
         if (validator.isEmpty(this.state.course.introduce)) {
             msg.introduce = "Yêu cầu nhập giới thiệu về khoá học !"
         }
-        if (!this.state.currentFile) {
-            msg.image = "Yêu cầu thêm ảnh của khoá học!"
-        }
+        // if (!this.state.currentFile) {
+        //     msg.image = "Yêu cầu thêm ảnh của khoá học!"
+        // }
         this.setState({
             validationMsg: msg
         })
@@ -150,12 +151,12 @@ class AdminEditCoursePage extends React.Component {
                     <div className="col-sm-6">
                         <h2>Sửa khoá học</h2>
                         <br></br>
-                        <lable htmlFor="name"><b>Tên khoá học:</b></lable>
+                        <label htmlFor="name"><b>Tên khoá học:</b></label>
                         <input onChange={(event) => this.isChange(event)} className="input-field" 
                           value={this.state.course.name}  type="text" placeholder="Tên khoá học" name="name" id="courseName" />
                         <p className="msg-error">{this.state.validationMsg.name}</p>
                         <br></br>
-                        <lable htmlFor="image"><b>Ảnh khoá học:</b></lable>
+                        <label htmlFor="image"><b>Ảnh khoá học:</b></label>
                         <input onChange={(event) => this.selectFile(event)} className="input-field" type="file"
                          placeholder="Ảnh khoá học" name="image" id="image" />
                         <p className="msg-error">{this.state.validationMsg.image}</p>
@@ -166,7 +167,7 @@ class AdminEditCoursePage extends React.Component {
                                     )}
 
                         <br></br>
-                        <lable htmlFor="introduce"><b>Giới thiệu:</b></lable>
+                        <label htmlFor="introduce"><b>Giới thiệu:</b></label>
                         <input onChange={(event) => this.isChange(event)} className="input-field" type="text"
                             value={this.state.course.introduce} placeholder="Giới thiệu về khoá học" name="introduce" id="introduce" />
                         <p className="msg-error">{this.state.validationMsg.introduce}</p>

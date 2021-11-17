@@ -4,27 +4,45 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 import AdminItemLesson from '../../components/AdminItemLesson/AdminItemLesson';
 import allActions from '../../actions';
 import {connect} from 'react-redux'
+import Player from "../../components/reactPlayer";
 
 class AdminLessonPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            id: this.props.match.params.id,
             term: '',
-            lessons:[]
+            lessons:[],
+            open: false,
+            linkVideo:''
         }
     }
+
+    onOpenModal = (video) => {
+        this.setState((prevState) => ({
+          open: !prevState.open,
+          linkVideo:video
+        }));
+        console.log(this.state.open)
+      };
+
 
     showItemsLesson(lessons) {
         console.log(lessons)
         var result = null;
         if (lessons!= undefined && lessons.length > 0) {
-            result = lessons.map((lesson,key) => <AdminItemLesson lesson={lesson} key={key}/>) 
+            result = lessons.map((lesson,key) => <AdminItemLesson lesson={lesson} key={key} onOpenModal={this.onOpenModal} linkVideo={lesson.video}/>) 
         }
         return result;
     }
 
     componentDidMount() {
-        this.props.getAllLessons();
+        if (this.state.id == -1) {
+            this.props.getAllLessons();
+        } else {
+            this.props.getLessonByChapterId(this.state.id);
+        }
+        
     }
 
     callback = (term) => {
@@ -46,6 +64,7 @@ class AdminLessonPage extends Component {
 
         return(
             <div className="container-fluid content-admin-acconut">
+                 <Player open={this.state.open} toggleModal={this.onOpenModal} linkVideo={this.state.linkVideo} />
                 <div className="row">
                     <div className="col-12">
                         <div style={{marginTop: 10}}>
@@ -53,7 +72,7 @@ class AdminLessonPage extends Component {
                                 <h2>Quản lí bài học</h2>  
                             </div>
                             
-                            <Link to="/admin/lesson/add" style={{textDecoration:"none"}}>
+                            <Link to={`/admin/lesson/add/${this.state.id}`} style={{textDecoration:"none"}}>
                                 <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
                             </Link>
                          
@@ -100,7 +119,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getAllLessons: () => {
             dispatch(allActions.lessonAction.actFetchLessonRequest())
-        } 
+        },
+        getLessonByChapterId: (chapterId) => {
+            dispatch(allActions.lessonAction.actGetLessonByChapterIdRequest(chapterId))
+        }
     }
 }
 

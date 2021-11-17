@@ -19,6 +19,7 @@ import lessonReducer from "./lessonReducer/lessonReducer";
 import statusFormSendMail from "./statusFormSendMail"
 import statusFormAddVoca from "./VocabularyReducer/statusFormAddVoca"
 
+import lessonEditReducer from "./lessonReducer/lessonEditReducer";
 const appReducers = combineReducers({
     users,
     courseReducer,
@@ -36,6 +37,7 @@ const appReducers = combineReducers({
     itemVocaTopicEdit,
     listVocabularyWithTopic,
     statusFormAddVoca,
-    itemVocaEdit
+    itemVocaEdit,
+    lessonEditReducer
 });
 export default appReducers;

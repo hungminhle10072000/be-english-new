@@ -44,6 +44,7 @@ const actGetCourseRequest = (id) => {
         return (
             CourseService.getCourseById(id).then((res) => {
                 dispatch(actGetCourse(res.data));
+                console.log("res:",res.data)
             })
         )
     }

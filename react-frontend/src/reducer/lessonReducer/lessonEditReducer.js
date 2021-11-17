@@ -1,17 +1,17 @@
-import { EDIT_CHAPTER} from '../../constants/ActionTypes'
+import { EDIT_LESSON} from '../../constants/ActionTypes'
 
-const chapter = {}
+const lesson = {}
 
-const chapterEditReducer = (state=chapter, action) => {
-    const {chapter} = action
-    console.log('ChapterEditReducer1: ',chapter)
+const lessonEditReducer = (state=lesson, action) => {
+    const {lesson} = action
+    console.log('LessonReducer: ',lesson)
     switch(action.type) {
-        case EDIT_CHAPTER:
-            console.log('ChapterEditReducer: ',chapter)
-            return chapter
+        case EDIT_LESSON:
+            console.log('LessonReducer: ',lesson)
+            return lesson
         default:
             return state
     }
 }
 
-export default chapterEditReducer;
+export default lessonEditReducer;

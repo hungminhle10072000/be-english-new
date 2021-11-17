@@ -1,6 +1,8 @@
 import { EDIT_COURSE} from '../../constants/ActionTypes'
 
-const course = {}
+const course = {
+    name:''
+}
 
 const courseEditReducer = (state=course, action) => {
     const {course} = action

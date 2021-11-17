@@ -30,4 +30,11 @@ module.exports = function (app) {
         })
     );
 
+    app.use("/api/course",
+        createProxyMiddleware({
+            target: `${API_BASE}`,
+            changeOrigin: true
+        })
+    );
+
 };
