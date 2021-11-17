@@ -2,6 +2,7 @@ package com.hungnghia.springbootbackend.controller;
 
 import com.hungnghia.springbootbackend.dto.CourseDto;
 import com.hungnghia.springbootbackend.entities.CourseEntity;
+import com.hungnghia.springbootbackend.service.AmazonClient;
 import com.hungnghia.springbootbackend.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +17,16 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+
     @PostMapping("/add")
     public CourseDto addCourse(@RequestPart("courseDto") CourseDto courseDto, @RequestPart("file") MultipartFile file) {
-        CourseDto course = courseService.addCourse(courseDto);
+        CourseDto course = courseService.addCourse(courseDto,file);
         return course;
     }
 
     @PutMapping("/update")
     public CourseDto updateCourse(@RequestPart("courseDto") CourseDto courseDto, @RequestPart("file") MultipartFile file) {
-        CourseDto course = courseService.updateCourse(courseDto);
+        CourseDto course = courseService.updateCourse(courseDto,file);
         return course;
     }
 

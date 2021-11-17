@@ -39,7 +39,7 @@ class AdminItemChapter extends Component {
                     <td>{this.props.chapter.number}</td>
                     <td>{this.props.chapter.courseName}</td>
                     <td>
-                        <Link to={`/admin/chapter/detail/${this.props.chapter.id}`}>
+                        <Link to={`/admin/lesson/${this.props.chapter.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-account">Chi tiết</button>
                         </Link>
                         <Link to={`/admin/chapter/edit/${this.props.chapter.id}`}>

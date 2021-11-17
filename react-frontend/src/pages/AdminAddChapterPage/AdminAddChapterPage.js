@@ -20,18 +20,32 @@ class AdminAddChapterPage extends React.Component {
             validationMsg: {},
             confirmDialog: false,
         }
-
+        
     }
+    componentDidUpdate(prevProps) {
+        if (prevProps.course.name == '' && this.props.course.name !='') {
+            this.setState({
+                chapter: {
+                    ...this.state.chapter,
+                    courseName: this.props.course.name
+                }
+            })
+        }
+    }
+
     componentDidMount() {
         this.props.onGetCourseById(this.state.chapter.courseId)
+    
         this.setState({
             chapter: {
                 ...this.state.chapter,
                 courseName: this.props.course.name
             }
         })
-        console.log('Component Did: ',this.props.course)
+
     }
+
+
 
     isChange = (event) => {
         const name = event.target.name;
@@ -98,6 +112,7 @@ class AdminAddChapterPage extends React.Component {
     }
 
     render() {
+        
         return (
             <div>
                 <h2>___________________________________________________________________________________________________________</h2>
@@ -128,13 +143,13 @@ class AdminAddChapterPage extends React.Component {
                     <div className="col-sm-6">
                         <h2>Thêm chương học</h2>
                         <br></br>
-                        <lable htmlFor="name"><b>Tên khoá học:</b></lable>
+                        <label htmlFor="name"><b>Tên khoá học:</b></label>
 
-                        <input  className="input-field" readOnly="true"
+                        <input  className="input-field" readOnly={true}
                           value={this.state.chapter.courseName}  type="text" placeholder="Tên khoá học" name="nameCourse" id="chapterName" />
 
 
-                        <lable htmlFor="name"><b>Tên chương:</b></lable>
+                        <label htmlFor="name"><b>Tên chương:</b></label>
                         <input onChange={(event) => this.isChange(event)} className="input-field" type="text"
                             value={this.state.chapter.name} placeholder="Nhập tên chương" name="name" id="name" />
                         <p className="msg-error">{this.state.validationMsg.name}</p>
@@ -169,6 +184,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         onGetCourseById: (courseId) => {
             dispatch(allActions.courseAction.actGetCourseRequest(courseId))
+            console.log("Dispath: ",allActions.courseAction.actGetCourseRequest(courseId))
         }
     }
 }

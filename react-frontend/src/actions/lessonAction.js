@@ -21,10 +21,10 @@ const actFetchLessons = (lessons) => {
 
 // add lesson
 
-const actAddLessonRequest = (lesson) => {
+const actAddLessonRequest = (lesson,video) => {
     return (dispatch) => {
         return(
-            LessonService.addLesson(lesson).then((res)=> {
+            LessonService.addLesson(lesson,video).then((res)=> {
                 dispatch(actAddLesson(res.data))
             })
         )
@@ -75,6 +75,26 @@ const actGetLessonByCourseId = (lessons) => {
         lessons
     }
 }
+
+// get by chapter id
+// get lesson by chapter id
+const actGetLessonByChapterIdRequest = (chapterId) => {
+    return dispatch => {
+        return (
+            LessonService.getLessonByChapterId(chapterId).then((res) => {
+                dispatch(actGetLessonByChapterIdId(res.data));
+            })
+        )
+    }
+}
+
+const actGetLessonByChapterIdId = (lessons) => {
+    return {
+        type:Types.FETCH_LESSONS,
+        lessons
+    }
+}
+
 //update lesson 
 const actUpdateLessonRequest = (lesson) => {
     return dispatch => {
@@ -116,5 +136,6 @@ export default {
     actGetLessonRequest,
     actDeleteLessonRequest,
     actUpdateLessonRequest,
-    actGetLessonByCourseIdRequest
+    actGetLessonByCourseIdRequest,
+    actGetLessonByChapterIdRequest
 }

@@ -29,7 +29,6 @@ class AdminChapterPage extends Component {
         } else {
             this.props.getAllChapters();
         }
-        
     }
 
     callback = (term) => {

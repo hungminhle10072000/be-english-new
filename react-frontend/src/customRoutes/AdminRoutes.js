@@ -17,6 +17,7 @@ import AdminAddChapterPage from '../pages/AdminAddChapterPage/AdminAddChapterPag
 import AdminEditChapterPage from '../pages/AdminEditChapterPage/AdminEditChapterPage';
 import AdminLessonPage from '../pages/AdminLessonPage/AdminLessonPage';
 import AdminAddLessonPage from '../pages/AdminAddLessonPage/AdminAddLessonPage';
+import AdminEditLessonPage from '../pages/AdminEditLessonPage/AdminEditLessonPage';
 
 export default class AdminRoutes extends Component {
     render() {
@@ -32,10 +33,11 @@ export default class AdminRoutes extends Component {
                     <Route exact path="/admin/course/edit/:id" component={AdminEditCoursePage}/>
                     <Route exact path="/admin/chapter/add/:courseId" component={AdminAddChapterPage}/>   
                     <Route exact path="/admin/chapter/:id" component={AdminChapterPage}/>     
-                    <Route exact path="/admin/chapter/edit/:id" component={AdminEditChapterPage}/>    
-                    <Route exact path="/admin/lesson/add" component={AdminAddLessonPage}/>         
-                    <Route exact path="/admin/lesson/:id" component={AdminLessonPage}/>   
-                   
+                    <Route exact path="/admin/chapter/edit/:id" component={AdminEditChapterPage}/>  
+                    <Route exact path="/admin/lesson/add/:chapterId" component={AdminAddLessonPage}/>     
+                    <Route exact path="/admin/lesson/edit/:id" component={AdminEditLessonPage}/>    
+                    <Route exact path="/admin/lesson/:id" component={AdminLessonPage}/>
+   
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>   
             </Fragment>

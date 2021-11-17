@@ -1,6 +1,6 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './AdminAddLessonPage.css'
+import './AdminEditLessonPage.css'
 import { Link } from 'react-router-dom'
 import { BiSave, BiReset } from "react-icons/bi";
 import { connect } from 'react-redux';
@@ -8,16 +8,20 @@ import validator from 'validator';
 import allActions from '../../actions';
 import Dropzone from '../../components/DropZone'
 
-class AdminAddLessonPage extends React.Component {
+class AdminEditLessonPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {  
             lesson: {
-                chapterId:this.props.match.params.chapterId,
+                id:this.props.match.params.id,
+                chapterId:-1,
                 name: '',
+                video:'',
+                number:0,
                 chapterName:'',
                 courseName:''
             },
+            videoFile:undefined,
             validationMsg: {},
             confirmDialog: false,
         }
@@ -29,31 +33,32 @@ class AdminAddLessonPage extends React.Component {
             this.setState({
                 lesson: {
                     ...this.state.lesson,
-                    chapterName: this.props.chapter.name,
-                    courseName: this.props.chapter.courseName
+                    name:this.props.lesson.name,
+                    video:this.props.lesson.video,
+                    number:this.props.number,
+                    chapterName: this.props.lesson.chapterName,
+                    courseName: this.props.lesson.courseName
                 }
             })
         }
     }
     componentDidMount() {
-        this.props.onGetChapterById(this.state.lesson.chapterId)
+        this.props.onGetLessonById(this.state.lesson.id)
         this.setState({
             lesson: {
                 ...this.state.lesson,
-                chapterName: this.props.chapter.name,
-                courseName: this.props.chapter.courseName
+                name:this.props.lesson.name,
+                video:this.props.lesson.video,
+                number:this.props.number,
+                chapterName: this.props.lesson.chapterName,
+                courseName: this.props.lesson.courseName
             }
         })
     }
 
     isChangedVideo= (event) => {
-        // const value = event.target.files[0];
-        // console.log('Value: ',value)
         this.setState({
-            lesson: {     
-                ...this.state.lesson,
-                video: event.target.files[0]
-            }
+            videoFile:this.state.videoFile
         })
     }
 
@@ -73,25 +78,34 @@ class AdminAddLessonPage extends React.Component {
         this.setState({
             lesson: {
                 ...this.state.lesson,
-                name: ''
+                name:this.props.lesson.name,
+                video:this.props.lesson.video,
+                number:this.props.number,
+                chapterName: this.props.lesson.chapterName,
+                courseName: this.props.lesson.courseName
             },
+            videoFile:undefined,
             validationMsg: {},
             confirmDialog: false,
         }) 
     }
-    addLesson = (event) => {
+    updateLesson = (event) => {
         event.preventDefault();
         var lessonDto = {}
-        lessonDto.chapterId = this.state.lesson.chapterId;
-        lessonDto.name = this.state.lesson.name;
+        lessonDto.name=this.state.lesson.name;
+        lessonDto.chapterName=this.state.lesson.chapterName;
+        lessonDto.courseName=this.state.lesson.courseName;
+        lessonDto.number=this.state.lesson.number;
+        lessonDto.video=this.state.lesson.video;
+        
         window.history.back();
-        this.props.onAddLesson(lessonDto,this.state.lesson.video)
+        this.props.onEditLesson(lessonDto,this.state.videoFile)
     }
     validateAll = () => {
         const msg = {}
 
         if (validator.isEmpty(this.state.lesson.name.trim())) {
-            msg.name = "Yêu cầu nhập tên chương !"
+            msg.name = "Yêu cầu nhập tên bài học !"
         }
         this.setState({
             validationMsg: msg
@@ -139,7 +153,7 @@ class AdminAddLessonPage extends React.Component {
                             </button>
                             <button
                                 className="confirmation-button btn-confirm"
-                                onClick={(event) => this.addLesson(event)} >
+                                onClick={(event) => this.updateLesson(event)} >
                                 Xác nhận
                             </button>
                         </div>
@@ -150,22 +164,21 @@ class AdminAddLessonPage extends React.Component {
                     </div>
                     <div className="col-sm-3"></div>
                     <div className="col-sm-6">
-                        <h2>Thêm chương học</h2>
+                        <h2>Chỉnh sửa bài học</h2>
                         <br></br>
                         <label htmlFor="name"><b>Tên khoá học:</b></label>
 
                         <input  className="input-field" readOnly={true}
-                          value={this.state.lesson.courseName}  type="text" placeholder="Tên khoá học" name="nameCourse" id="lessonName" />
+                          value={this.state.lesson.courseName}  type="text" placeholder="Tên khoá học" name="nameCourse" id="nameCourse" />
 
-
-                        <label htmlFor="name"><b>Tên chương:</b></label>
-                        <input onChange={(event) => this.isChange(event)} className="input-field" type="text"
-                            value={this.state.lesson.chapterName} placeholder="Nhập tên chương" name="name" id="name" />
+                        <label htmlFor="chapterName"><b>Tên chương:</b></label>
+                        <input onChange={(event) => this.isChange(event)} className="input-field" type="text" readOnly={true}
+                            value={this.state.lesson.chapterName} placeholder="Nhập tên chương" name="chapterName" id="chapterName" />
                         <p className="msg-error">{this.state.validationMsg.chapterName}</p>
               
                         <label htmlFor="name"><b>Tên bài học:</b></label>
-                        <input onChange={(event) => this.isChange(event)} className="input-field" type="text"
-                            value={this.state.lesson.name} placeholder="Nhập tên chương" name="name" id="name" />
+                        <input onChange={(event) => this.isChange(event)} className="input-field" type="text" 
+                            value={this.state.lesson.name} placeholder="Nhập tên bài học" name="name" id="name" />
                         <p className="msg-error">{this.state.validationMsg.name}</p>
                         <br></br>
                         <label htmlFor="name"><b>Bài giảng:</b></label>
@@ -192,22 +205,25 @@ class AdminAddLessonPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         chapter: state.chapterEditReducer,
-        lesson: state.lessonReducer
+        lesson: state.lessonEditReducer
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAddLesson: (lessonDto, file) => {
-            dispatch(allActions.lessonAction.actAddLessonRequest(lessonDto,file))
+        onEditLesson: (lessonDto, file) => {
+            dispatch(allActions.lessonAction.actEditLessonRequest(lessonDto,file))
         },
         onGetCourseById: (chapterId) => {
             dispatch(allActions.chapterAction.actGetCourseRequest(chapterId))
         },
         onGetChapterById: (chapterId) => {
             dispatch(allActions.chapterAction.actGetChapterRequest(chapterId))
+        },
+        onGetLessonById: (id) => {
+            dispatch(allActions.lessonAction.actGetLessonRequest(id))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminAddLessonPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminEditLessonPage);

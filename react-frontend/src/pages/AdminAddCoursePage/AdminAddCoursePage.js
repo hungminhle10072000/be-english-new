@@ -141,12 +141,12 @@ class AdminAddCoursePage extends React.Component {
                     <div className="col-sm-6">
                         <h2>Thêm khoá học</h2>
                         <br></br>
-                        <lable htmlFor="name"><b>Tên khoá học:</b></lable>
+                        <label htmlFor="name"><b>Tên khoá học:</b></label>
                         <input onChange={(event) => this.isChange(event)} className="input-field" 
                           value={this.state.course.name}  type="text" placeholder="Tên khoá học" name="name" id="courseName" />
                         <p className="msg-error">{this.state.validationMsg.name}</p>
                         <br></br>
-                        <lable htmlFor="image"><b>Ảnh khoá học:</b></lable>
+                        <label htmlFor="image"><b>Ảnh khoá học:</b></label>
                         <input onChange={(event) => this.selectFile(event)} className="input-field" type="file"
                         value={this.state.course.image} placeholder="Ảnh khoá học" name="image" id="iamge" />
                         <p className="msg-error">{this.state.validationMsg.image}</p>
@@ -157,7 +157,7 @@ class AdminAddCoursePage extends React.Component {
                                     )}
 
                         <br></br>
-                        <lable htmlFor="introduce"><b>Giới thiệu:</b></lable>
+                        <label htmlFor="introduce"><b>Giới thiệu:</b></label>
                         <input onChange={(event) => this.isChange(event)} className="input-field" type="text"
                             value={this.state.course.introduce} placeholder="Giới thiệu về khoá học" name="introduce" id="introduce" />
                         <p className="msg-error">{this.state.validationMsg.introduce}</p>

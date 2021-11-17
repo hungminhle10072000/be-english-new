@@ -37,6 +37,8 @@ class CourseService {
         const blob = new Blob([jsonCourse], {
             type: 'application/json'
         });
+
+        console.log('File Imaage',image)
         
         formData.append("courseDto",blob)
         formData.append("file",image)
