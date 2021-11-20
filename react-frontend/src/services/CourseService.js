@@ -12,9 +12,6 @@ const COURSE_API_BASE_URL = '/api/course'
 
 class CourseService {
 
-
- 
-
     //Get all course
     getCourses() {
         return axios.get(COURSE_API_BASE_URL+'/getAll',{
