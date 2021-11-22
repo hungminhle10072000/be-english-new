@@ -19,7 +19,7 @@ class AdminEditCoursePage extends React.Component {
                 introduce: ''
             },
             validationMsg: {},
-            currentFile: undefined,
+            currentFile: '',
             previewImage: 'https://bitly.com.vn/p8elul',
             confirmDialog: false,
         }

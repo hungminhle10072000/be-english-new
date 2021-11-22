@@ -21,39 +21,24 @@ class AdminEditLessonPage extends React.Component {
                 chapterName:'',
                 courseName:''
             },
-            videoFile:undefined,
-            validationMsg: {},
+            videoFile:'',
+            validationMsg: '',
             confirmDialog: false,
         }
 
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.chapter.name == '' && this.props.chapter.name !='') {
-            this.setState({
-                lesson: {
-                    ...this.state.lesson,
-                    name:this.props.lesson.name,
-                    video:this.props.lesson.video,
-                    number:this.props.number,
-                    chapterName: this.props.lesson.chapterName,
-                    courseName: this.props.lesson.courseName
-                }
-            })
-        }
-    }
     componentDidMount() {
         this.props.onGetLessonById(this.state.lesson.id)
-        this.setState({
-            lesson: {
-                ...this.state.lesson,
-                name:this.props.lesson.name,
-                video:this.props.lesson.video,
-                number:this.props.number,
-                chapterName: this.props.lesson.chapterName,
-                courseName: this.props.lesson.courseName
-            }
-        })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.lesson){
+            var {lesson} = nextProps;
+            this.setState({
+                lesson: {...lesson}
+            })
+        }
     }
 
     isChangedVideo= (event) => {
@@ -81,6 +66,7 @@ class AdminEditLessonPage extends React.Component {
                 name:this.props.lesson.name,
                 video:this.props.lesson.video,
                 number:this.props.number,
+                chapterId: this.props.lesson.chapterId,
                 chapterName: this.props.lesson.chapterName,
                 courseName: this.props.lesson.courseName
             },
@@ -92,7 +78,9 @@ class AdminEditLessonPage extends React.Component {
     updateLesson = (event) => {
         event.preventDefault();
         var lessonDto = {}
+        lessonDto.id = this.state.lesson.id;
         lessonDto.name=this.state.lesson.name;
+        lessonDto.chapterId=this.state.lesson.chapterId;
         lessonDto.chapterName=this.state.lesson.chapterName;
         lessonDto.courseName=this.state.lesson.courseName;
         lessonDto.number=this.state.lesson.number;
@@ -212,7 +200,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onEditLesson: (lessonDto, file) => {
-            dispatch(allActions.lessonAction.actEditLessonRequest(lessonDto,file))
+            dispatch(allActions.lessonAction.actUpdateLessonRequest(lessonDto,file))
         },
         onGetCourseById: (chapterId) => {
             dispatch(allActions.chapterAction.actGetCourseRequest(chapterId))

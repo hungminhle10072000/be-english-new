@@ -27,6 +27,12 @@ public class LessonController {
         return lesson;
     }
 
+    @PutMapping("/update2")
+    public LessonDto updateLesson(@RequestPart("lessonDto") LessonDto lessonDto) {
+        LessonDto lesson = lessonService.updateLesson(lessonDto,null);
+        return lesson;
+    }
+
     @GetMapping("/getAll")
     public List<LessonDto> getAll() {
         return lessonService.getAllLesson();
@@ -39,5 +45,10 @@ public class LessonController {
     @GetMapping("/getLessonById/{id}")
     public LessonDto getLessonById(@PathVariable long id) {
         return lessonService.getLessonById(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public LessonDto deleteLesson(@PathVariable long id) {
+        return lessonService.deleteLesson(id);
     }
 }

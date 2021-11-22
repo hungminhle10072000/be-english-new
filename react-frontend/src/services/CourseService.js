@@ -12,9 +12,6 @@ const COURSE_API_BASE_URL = '/api/course'
 
 class CourseService {
 
-
- 
-
     //Get all course
     getCourses() {
         return axios.get(COURSE_API_BASE_URL+'/getAll',{
@@ -34,17 +31,23 @@ class CourseService {
 
         return axios.post(COURSE_API_BASE_URL+'/add',formData,{
             headers: {
-                'Content-Type': 'multipart/form-data'
+                ...headers,
+                'Content-Type': 'multipart/form-data',
+                ...authHeader()
             }
         })
     }
 
     getCourseById(id) {
-        return axios.get(COURSE_API_BASE_URL + '/edit/' + id);
+        return axios.get(COURSE_API_BASE_URL + '/edit/' + id,{
+            headers: {...headers, ...authHeader()},
+        });
     }
 
     deleteCourse(id) {
-        return axios.delete(COURSE_API_BASE_URL+'/delete/'+id);
+        return axios.delete(COURSE_API_BASE_URL+'/delete/'+id,{
+            headers: {...headers, ...authHeader()},
+        });
     }
 
     updateCourse(course,image) {
@@ -53,17 +56,27 @@ class CourseService {
         const blob = new Blob([jsonCourse], {
             type: 'application/json'
         });
-
-        console.log('File Imaage',image)
-        
         formData.append("courseDto",blob)
-        formData.append("file",image)
-        return axios.put(COURSE_API_BASE_URL+'/update',formData,{
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-    }
+        if (image==='') {     
+            return axios.put(COURSE_API_BASE_URL+'/update2',formData,{
+                headers: {
+                    ...headers,
+                    'Content-Type': 'multipart/form-data',
+                    ...authHeader()
+                }
+            })
+        } else {
+            formData.append("file",image)
+            return axios.put(COURSE_API_BASE_URL+'/update',formData,{
+                headers: {
+                    ...headers,
+                    'Content-Type': 'multipart/form-data',
+                    ...authHeader()
+                }
+            })
+        }
+        
+    }   
 
 }
 

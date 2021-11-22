@@ -1,7 +1,9 @@
 package com.hungnghia.springbootbackend.service;
 
 import com.hungnghia.springbootbackend.converter.LessonConverter;
+import com.hungnghia.springbootbackend.dto.ChapterDto;
 import com.hungnghia.springbootbackend.dto.LessonDto;
+import com.hungnghia.springbootbackend.entities.ChapterEntity;
 import com.hungnghia.springbootbackend.entities.LessonEntity;
 import com.hungnghia.springbootbackend.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +47,7 @@ public class LessonService {
         if (newLessonEntity.getQuestionEntityList() == null) {
             newLessonEntity.setQuestionEntityList(oldLessonEntity.getQuestionEntityList());
         }
-        if (video.isEmpty()) {
-            newLessonEntity.setVideo(oldLessonEntity.getVideo());
-        } else {
+        if (video!=null&&!video.isEmpty()) {
             String videoUrl = amazonClient.uploadFile(video); //
             newLessonEntity.setVideo(videoUrl);
         }
@@ -67,5 +67,15 @@ public class LessonService {
     public LessonDto getLessonById(long id) {
         LessonEntity lessonEntity = lessonRepository.getById(id);
         return lessonConverter.toDto(lessonEntity);
+    }
+
+    public LessonDto deleteLesson(long id) {
+        try {
+            LessonEntity lesson = lessonRepository.getById(id);
+            lessonRepository.deleteById(id);
+            return lessonConverter.toDto(lesson);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

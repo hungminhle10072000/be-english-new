@@ -45,7 +45,7 @@ public class CourseService  {
         if (newCourseEntity.getUser_course_entityList() ==null) {
             newCourseEntity.setUser_course_entityList(oldCourseEntity.getUser_course_entityList());
         }
-        if (!file.isEmpty()) {
+        if (file !=null && !file.isEmpty()) {
             String imageUrl = amazonClient.uploadFile(file);
             newCourseEntity.setImage(imageUrl);
         }
