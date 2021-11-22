@@ -42,7 +42,6 @@ class AdminAddChapterPage extends React.Component {
                 courseName: this.props.course.name
             }
         })
-
     }
 
 

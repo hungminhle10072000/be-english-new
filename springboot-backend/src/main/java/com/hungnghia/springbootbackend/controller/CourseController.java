@@ -4,6 +4,7 @@ import com.hungnghia.springbootbackend.dto.CourseDto;
 import com.hungnghia.springbootbackend.entities.CourseEntity;
 import com.hungnghia.springbootbackend.service.AmazonClient;
 import com.hungnghia.springbootbackend.service.CourseService;
+import com.sun.istack.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,8 +26,14 @@ public class CourseController {
     }
 
     @PutMapping("/update")
-    public CourseDto updateCourse(@RequestPart("courseDto") CourseDto courseDto, @RequestPart("file") MultipartFile file) {
+    public CourseDto updateCourse(@RequestPart("courseDto") CourseDto courseDto, @RequestPart("file") @Nullable MultipartFile file) {
         CourseDto course = courseService.updateCourse(courseDto,file);
+        return course;
+    }
+    @PutMapping("/update2")
+    public CourseDto updateCourse(@RequestPart("courseDto") CourseDto courseDto) {
+
+        CourseDto course = courseService.updateCourse(courseDto,null);
         return course;
     }
 
