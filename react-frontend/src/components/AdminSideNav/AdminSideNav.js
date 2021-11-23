@@ -15,6 +15,12 @@ export const AdminSideNav = [
     cName: 'nav-text'
   },
   {
+    title: 'Quản lí ngữ pháp',
+    path: '/admin/grammar',
+    icon: <FaIcons.FaUserFriends />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Quản lí khoá học',
     path: '/admin/course',
     icon: <FaIcons.FaUserFriends />,

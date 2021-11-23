@@ -8,6 +8,8 @@ import vocabularyTopicAction from "./vocabularyTopicAction";
 import openFormAddVocaTopic from "./openFormAddVocaTopic";
 import vocabularyAction from "./vocabularyAction";
 import openFormAddVoca from "./openFormAddVoca";
+import grammarAction from "./grammarAction";
+import openFormGrammar from './openFormAddGrammar'
 
 const allActions = {
     userAction,
@@ -19,7 +21,9 @@ const allActions = {
     vocabularyTopicAction,
     openFormAddVocaTopic,
     vocabularyAction,
-    openFormAddVoca
+    openFormAddVoca,
+    grammarAction,
+    openFormGrammar
 }
 
 export default allActions

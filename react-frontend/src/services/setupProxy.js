@@ -37,4 +37,11 @@ module.exports = function (app) {
         })
     );
 
+    app.use("/api/grammars",
+        createProxyMiddleware({
+            target: `${API_BASE}`,
+            changeOrigin: true
+        })
+    );
+
 };
