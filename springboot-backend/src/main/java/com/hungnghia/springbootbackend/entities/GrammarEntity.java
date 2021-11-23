@@ -1,5 +1,7 @@
 package com.hungnghia.springbootbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,5 +27,6 @@ public class GrammarEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "grammarEntity", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<CommentEntity> commentEntityList;
 }
