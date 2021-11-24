@@ -34,7 +34,12 @@ const grammarsReducer = (state = grammarsInitialState, action) => {
                     state[index] = action.grammar
                 }
             });
-            return [...state]
+        case Types.UPDATE_CONTENT_GRAMMAR:
+            state.forEach((item, index) => {
+                if(item.id === action.grammar.id){
+                    state[index] = action.grammar
+                }
+            });
         default:
             return state
     }

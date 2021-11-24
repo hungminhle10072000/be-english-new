@@ -17,7 +17,7 @@ export default class AdminHomePage extends Component {
                     <AdminNavBar />
                     <AdminAlertInfo />
                     <AdminRoutes />        
-                </div>    
+                </div>         
             </Router>
         )
     }

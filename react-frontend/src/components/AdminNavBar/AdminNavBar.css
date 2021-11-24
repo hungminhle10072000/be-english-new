@@ -41,6 +41,11 @@
     left: 0;
     transition: 350ms;
   }
+
+  /* Tránh bị nội dung ghi đè */
+  nav.nav-menu { 
+    z-index: 100; 
+  }
   
   .nav-text {
     display: flex;

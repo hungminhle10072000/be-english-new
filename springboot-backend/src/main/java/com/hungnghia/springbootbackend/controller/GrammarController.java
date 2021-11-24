@@ -49,4 +49,10 @@ public class GrammarController {
     public ResponseEntity<GrammarEntity> updateNameGramamr(@PathVariable Long id, @RequestParam("name_grammar") String name_grammar){
         return ResponseEntity.ok(grammarService.updateGrammarName(id,name_grammar));
     }
+
+    /*update content grammar*/
+    @PutMapping("grammars/content/{id}")
+    public ResponseEntity<GrammarEntity> updateContentGrammar(@PathVariable Long id, @RequestParam("content_grammar") String content_grammar){
+        return ResponseEntity.ok(grammarService.updateGrammarContent(id, content_grammar));
+    }
 }
