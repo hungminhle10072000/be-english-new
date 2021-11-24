@@ -34,6 +34,7 @@ public class GrammarService {
     public GrammarEntity addGrammarName(String name){
         GrammarEntity grammarEntity = new GrammarEntity();
         grammarEntity.setName(name);
+        grammarEntity.setContent("");
         return grammarRepository.save(grammarEntity);
     }
 
@@ -45,6 +46,13 @@ public class GrammarService {
     public GrammarEntity updateGrammarName(Long id, String name){
         GrammarEntity grammarEntity = getGrammarWithId(id);
         grammarEntity.setName(name);
+        return grammarRepository.save(grammarEntity);
+    }
+
+    /*update content grammar*/
+    public GrammarEntity updateGrammarContent(Long id, String content){
+        GrammarEntity grammarEntity = getGrammarWithId(id);
+        grammarEntity.setContent(content);
         return grammarRepository.save(grammarEntity);
     }
 

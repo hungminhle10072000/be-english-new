@@ -44,7 +44,16 @@ class GrammarService {
         return axios.put(GRAMMAR_API_END_POINT + '/' + id, formData,{
             headers:{...headers,...authHeader()}
         })
-    } 
+    }
+    
+    // update content grammar
+    updateContentGrammar(id, content_grammar){
+        let formData = new FormData();
+        formData.append("content_grammar",content_grammar);
+        return axios.put(GRAMMAR_API_END_POINT + '/content/' + id, formData,{
+            headers:{...headers,...authHeader()}
+        })
+    }
 
 }
 

@@ -48,7 +48,7 @@ class AdminItemGrammar extends Component {
                         </Link>
                         <button onClick={() => this.onDelete()}
                         type="button" className="btn btn-danger btn-delete-grammar">Xóa</button>
-                        <Link to={""}>
+                        <Link to={"/admin/grammar/" + this.props.id}>
                             <button type="button" className="btn btn-info btn-detail-grammar">Chi tiết</button>
                         </Link>
                     </td>

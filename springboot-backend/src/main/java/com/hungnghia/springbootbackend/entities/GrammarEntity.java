@@ -20,7 +20,7 @@ public class GrammarEntity {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "content")
+    @Column(name = "content", length = 65535, columnDefinition="Text")
     private String content;
 
     @Column(name = "name")

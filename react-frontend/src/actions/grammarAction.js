@@ -92,11 +92,29 @@ const actUpdateNameGrammar = (grammar) => {
     }
 }
 
+// update content grammar
+const actUpdateContentGrammarRequest = (id, content_grammar) => {
+    return(dispatch) => {
+        GrammarService.updateContentGrammar(id,content_grammar).then((res) => {
+            dispatch(actUpdateConentGrammar(res.data))
+            dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công !","success"))
+        })
+    }
+}
+
+const actUpdateConentGrammar = (grammar) => {
+    return {
+        type: Types.UPDATE_CONTENT_GRAMMAR,
+        grammar
+    }
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     actFetchGrammarRequest,
     actDeleteGrammarRequest,
     actAddGrammarNameRequest,
     actGetGrammarEditRequest,
-    actUpdateNameGrammarRequest
+    actUpdateNameGrammarRequest,
+    actUpdateContentGrammarRequest
 }

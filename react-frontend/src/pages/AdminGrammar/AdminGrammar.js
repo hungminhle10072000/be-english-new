@@ -1,8 +1,4 @@
 import React, { Component } from 'react'
-import Classiceditor from '@ckeditor/ckeditor5-build-classic';
-import ckeditor, { CKEditor } from '@ckeditor/ckeditor5-react'
-import GrammarService from '../../services/GrammarService'
-import { BsFillPersonPlusFill } from "react-icons/bs";
 import { Link } from 'react-router-dom'
 import './AdminGrammar.css'
 import { AiOutlineFileAdd } from "react-icons/ai"
@@ -48,6 +44,7 @@ class AdminGrammar extends Component {
                         key={key}
                         id={grammar.id}
                         name={grammar.name}
+                        content={grammar.content}
                     />
                 )
             })
@@ -159,24 +156,6 @@ class AdminGrammar extends Component {
         )
     }
 
-    // handleCkeditorState = (event, editor) => {
-    //     const data = editor.getData();
-    //     console.log(data);
-    // }
-    // render() {
-    //     return (
-    //         <div>
-    //             <CKEditor 
-    //                 editor={Classiceditor}
-    //                 onReady={ editor => {
-    //                     console.log( 'Editor1 is ready to use!', editor );
-    //                 }}
-
-    //                 onChange={this.handleCkeditorState}
-    //             />
-    //         </div>
-    //     )
-    // } 
 }
 
 const mapStateToProps = (state, ownProps) => {
