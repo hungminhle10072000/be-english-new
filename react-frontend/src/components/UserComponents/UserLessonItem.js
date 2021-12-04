@@ -19,7 +19,7 @@ class UserLessonItem extends Component {
 
     render() {
         return(
-            <div style={{padding:'0px'}} onClick={()=>this.props.changedVideo(this.state.lesson.video)}>
+            <div style={{padding:'0px'}} onClick={()=>this.props.changedVideo(this.state.lesson.video,this.state.lesson.id)}>
                 <span style={{fontWeight:400,paddingRight:'5px'}}>{this.state.lesson.number}.</span>
                 <img src="/svg/schedule_black_24dp.svg" alt="" height="15" style={{marginRight:'5px'}}/>
                     {/* <a href="#" title={this.state.lesson.name}><strong>{this.state.lesson.name}</strong></a> */}

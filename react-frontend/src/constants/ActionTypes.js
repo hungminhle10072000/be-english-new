@@ -60,3 +60,10 @@ export const ADD_LESSON = 'ADD_LESSON';
 export const EDIT_LESSON = 'EDIT_LESSON';
 export const DELETE_LESSON = 'DELETE_LESSON';
 export const UPDATE_LESSON = 'UPDATE_LESSON';
+
+//Comment
+export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const UPDATE_COMMENT = 'UPDATE_COMMENT';

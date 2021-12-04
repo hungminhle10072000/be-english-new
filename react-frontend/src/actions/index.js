@@ -8,6 +8,7 @@ import vocabularyTopicAction from "./vocabularyTopicAction";
 import openFormAddVocaTopic from "./openFormAddVocaTopic";
 import vocabularyAction from "./vocabularyAction";
 import openFormAddVoca from "./openFormAddVoca";
+import commentAction from "./commentAction";
 
 const allActions = {
     userAction,
@@ -19,7 +20,8 @@ const allActions = {
     vocabularyTopicAction,
     openFormAddVocaTopic,
     vocabularyAction,
-    openFormAddVoca
+    openFormAddVoca,
+    commentAction
 }
 
 export default allActions

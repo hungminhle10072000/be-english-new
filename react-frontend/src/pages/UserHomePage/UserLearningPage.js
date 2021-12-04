@@ -8,6 +8,7 @@ class UserLearningPage extends Component {
         super(props);
 
         this.state = {
+            learningLessonId:7,
             showResults:true,
             linkVideo:'https://web-english.s3.ap-southeast-1.amazonaws.com/1637087592056-trumua.mp4',
             course:{
@@ -101,10 +102,20 @@ class UserLearningPage extends Component {
             }
         }
     }
-
+    componentDidUpdate(prevProps) {
+        if (prevProps.comments.length ===0 && this.props.comments.length !==0) {
+            this.props.onGetCommentByLessonId(this.state.learningLessonId)
+            console.log("Comments: ", this.props.comments)
+            this.setState({
+                comments: this.props.comments
+            })
+        }
+    }
     componentDidMount() {
         console.log("ID: ",this.state.course.id)
         this.props.onEditCourse(this.state.course.id);
+        this.props.onGetCommentByLessonId(this.state.learningLessonId)
+        console.log("Comments: ", this.props.comments)
     }
     componentWillReceiveProps(nextProps) {
         if(nextProps && nextProps.course){
@@ -115,8 +126,10 @@ class UserLearningPage extends Component {
         }
     }
 
-    changedVideo = (url) => {
-        this.setState({linkVideo:url})
+    changedVideo = (url,lessonId) => {
+        this.setState({linkVideo:url,
+            learningLessonId:lessonId
+        })
     }
     showChapterItem = () => {
         return this.state.course.chapters.map((chapter)=><UserChapterItem key={chapter.id} chapter={chapter} changedVideo={this.changedVideo}></UserChapterItem>)
@@ -133,7 +146,8 @@ class UserLearningPage extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        course: state.courseEditReducer
+        course: state.courseEditReducer,
+        comments: state.commentReducer
     }
 }
 
@@ -145,6 +159,9 @@ const mapDispatchToProps = (dispatch) => {
 
         onUpdateCourse: (courseDto, file) => {
             dispatch(allActions.courseAction.actUpdateCourseRequest(courseDto, file))
+        },
+        onGetCommentByLessonId: (lessonId) => {
+            dispatch(allActions.commentAction.actGetCommentByLessonIdRequest(lessonId))
         }
     }
 }

@@ -5,6 +5,8 @@ import com.hungnghia.springbootbackend.service.ChapterService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @Data
 public class LessonDto {
     private long id;
@@ -14,5 +16,5 @@ public class LessonDto {
     private int chapterId;
     private String chapterName;
     private String courseName;
-
+    private List<CommentDto> commentDtos;
 }
