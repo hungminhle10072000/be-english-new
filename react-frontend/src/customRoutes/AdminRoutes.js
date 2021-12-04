@@ -19,9 +19,13 @@ import AdminAddLessonPage from '../pages/AdminAddLessonPage/AdminAddLessonPage';
 import AdminTopicVocabulary from '../pages/AdminTopicVocabulary/AdminTopicVocabulary';
 import AdminDetailTopicVocabulary from '../pages/AdminDetailTopicVocabulary/AdminDetailTopicVocabulary';
 import AdminEditLessonPage from '../pages/AdminEditLessonPage/AdminEditLessonPage';
+<<<<<<< HEAD
 import AdminGrammar from '../pages/AdminGrammar/AdminGrammar';
 import AdminItemContentGrammar from '../components/AdminItemContentGrammar/AdminItemContentGrammar';
 
+=======
+import UserCoursePage from '../pages/UserHomePage/UserCoursePage'
+>>>>>>> feature/20211120_UseJWT
 class AdminRoutes extends Component {
     render() {
         return (
@@ -42,9 +46,14 @@ class AdminRoutes extends Component {
                     <Route exact path = "/admin/topic-vocabulary" component={AdminTopicVocabulary}/>
                     <Route exact path = "/admin/topic-vocabulary/:idTopic/:nameTopicVoca" component={AdminDetailTopicVocabulary} />  
                     <Route exact path="/admin/lesson/add/:chapterId" component={AdminAddLessonPage}/>     
+<<<<<<< HEAD
                     <Route exact path="/admin/lesson/edit/:id" component={AdminEditLessonPage}/>
                     <Route exact path="/admin/grammar" component={AdminGrammar}/>
                     <Route exact path="/admin/grammar/:id" component={AdminItemContentGrammar}/>      
+=======
+                    <Route exact path="/admin/lesson/edit/:id" component={AdminEditLessonPage}/>    
+                    {/* <Route exact path="/user/course" component={UserCoursePage}/>    */}
+>>>>>>> feature/20211120_UseJWT
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>   
             </Fragment>

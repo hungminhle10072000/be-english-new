@@ -10,6 +10,7 @@ import UserHomePage from './pages/UserHomePage/UserHomePage'
 import LoginPage from './pages/LoginPage/LoginPage';
 import AdminHomePage from './pages/AdminHomePage/AdminHomePage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
+import UserCoursePage from  './pages/UserHomePage/UserCoursePage'
 
 
 class App extends Component {
@@ -41,8 +42,9 @@ class App extends Component {
             <Route exact path="/" component={UserHomePage} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/register" component={RegisterPage} />
+           
             <Route render={
-              () => ((localStorage.getItem('token') && checkRoleAdmin) ? <AdminHomePage /> : <Redirect to={{pathname: '/login'}}/>)
+              () => ((localStorage.getItem('token') && checkRoleAdmin) ? <UserHomePage /> : <Redirect to={{pathname: '/login'}}/>)
             } />
             <Route path= "*" component={UserHomePage} />
         </Switch>

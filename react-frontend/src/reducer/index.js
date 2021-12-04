@@ -20,11 +20,15 @@ import statusFormSendMail from "./statusFormSendMail"
 import statusFormAddVoca from "./VocabularyReducer/statusFormAddVoca"
 
 import lessonEditReducer from "./lessonReducer/lessonEditReducer";
+<<<<<<< HEAD
 
 import grammarsReducer from "./GrammarReducer/grammarsReducer"
 import statusFormAddGrammar from './GrammarReducer/statusFormAddGrammar'
 import itemGrammarEdit from './GrammarReducer/itemGrammarEdit'
 
+=======
+import commentReducer from "./commentReducer/commentReducer"
+>>>>>>> feature/20211120_UseJWT
 const appReducers = combineReducers({
     users,
     courseReducer,
@@ -44,8 +48,12 @@ const appReducers = combineReducers({
     statusFormAddVoca,
     itemVocaEdit,
     lessonEditReducer,
+<<<<<<< HEAD
     grammarsReducer,
     statusFormAddGrammar,
     itemGrammarEdit
+=======
+    commentReducer
+>>>>>>> feature/20211120_UseJWT
 });
 export default appReducers;
