@@ -1,6 +1,6 @@
 import {FETCH_COMMENTS, ADD_COMMENT, EDIT_COMMENT, DELETE_COMMENT, UPDATE_COMMENT} from '../../constants/ActionTypes'
 
-const initialState = []
+const initialState = [{id:0}]
 
 const commentReducer = (state=initialState, action) => {
     const {comments} = action

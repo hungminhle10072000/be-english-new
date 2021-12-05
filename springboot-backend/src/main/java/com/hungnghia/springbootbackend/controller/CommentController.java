@@ -7,6 +7,7 @@ import com.hungnghia.springbootbackend.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.stream.events.Comment;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,5 +24,10 @@ public class CommentController {
         List<CommentEntity> commentEntities = commentService.getCommentByLessonId(lessonId);
         List<CommentDto> commentDtos = commentConverter.toListDto(commentEntities);
         return commentDtos;
+    }
+    @PostMapping("/add")
+    public  CommentDto addComment(@RequestBody CommentDto comment) {
+        CommentDto commentDto = commentService.addComment(comment);
+        return commentDto;
     }
 }
