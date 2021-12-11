@@ -8,6 +8,7 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const REGISTER_USER = 'REGISTER_USER';
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const REGISTER_USER_FAIL = 'REGISTER_USER_FAIL';
+export const REMEMBER_USER_LOGIN = 'REMEMBER_USER_LOGIN';
 
 // Reset Password
 export const ResetPassWord = 'ResetPassWord';
