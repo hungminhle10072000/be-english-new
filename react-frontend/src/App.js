@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import AdminHomePage from './pages/AdminHomePage/AdminHomePage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import UserCoursePage from  './pages/UserHomePage/UserCoursePage'
+import { connect } from 'react-redux';
 
 
 class App extends Component {
@@ -18,19 +19,19 @@ class App extends Component {
   // eslint-disable-next-line no-useless-constructor
   constructor(props){
     super(props);
-    this.state = {
-      role: ''
-    }
+    // this.state = {
+    //   role: ''
+    // }
   }
 
-  componentWillReceiveProps(nextProps) {
-      if(nextProps && nextProps.itemUserLogin){
-          let {itemUserLogin} = nextProps
-          this.setState({
-            role: itemUserLogin.role
-          })
-      }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //     if(nextProps && nextProps.itemUserLogin){
+  //         let {itemUserLogin} = nextProps
+  //         this.setState({
+  //           role: itemUserLogin.role
+  //         })
+  //     }
+  // }
   
   
 

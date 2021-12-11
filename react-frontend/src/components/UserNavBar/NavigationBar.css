@@ -1,0 +1,40 @@
+/* Bố cục header */
+nav.navBar-user-home.navbar.navbar-expand-lg.navbar-light {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between !important;
+    padding-right: 4%;
+}
+
+/*Brand header*/
+a.navBrand-user-home.navbar-brand {
+    font-size: 1.4em;
+    color: #9FFFCB;
+}
+
+a.navBrand-user-home.navbar-brand:hover {
+    color: white;
+}
+
+span.text-brand {
+    font-size: 1.2rem;
+    margin-left: 16px;
+    font-weight: bold;
+    color: #333
+}
+
+.div-brand-user {
+    display: flex;
+    align-items: center;
+}
+
+/* button user login */
+.button-user-login {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff !important;
+    background-color: #f05123;
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}

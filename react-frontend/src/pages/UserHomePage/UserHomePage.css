@@ -1,11 +1,27 @@
-.navtranghome {
-    height: 80px;
-    background-color: yellow !important;
-    margin-bottom: 20px;
+/* chia nội dung trang home user */
+.main-user-home {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.foottranghome {
-    height: 80px;
-    background-color: red;
-    margin-top: 20px;
+/* end chia nội dung trang home user  */
+
+/* chia phần cho content và sideBar */
+.main-sidebar-user {
+    display: flex !important;
+    flex-direction: row;
 }
+/* end  chia phần cho content và sideBar  */
+
+/* sideBar user */
+.sideBar-user {
+    position: fixed;
+    height: 100%;
+    z-index: 1;
+    overflow-x: hidden;  
+}
+
+/* end sideBar user */

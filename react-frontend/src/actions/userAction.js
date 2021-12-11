@@ -88,6 +88,24 @@ const actDeleteUser = (id) => {
     }
 }
 
+// remember account after login
+const actRememberUserLoginRequest = (id) => {
+    return dispatch => {
+        return (
+            UserService.getUserById(id).then((res) => {
+                dispatch(actRememberUser(res.data));
+            })
+        )
+    }
+}
+
+const actRememberUser = (user) => {
+    return {
+        type: Types.REMEMBER_USER_LOGIN,
+        user
+    }
+}
+
 // get user by id
 const actGetUserRequest = (id) => {
     return dispatch => {
@@ -186,5 +204,6 @@ export default {
     actGetUserRequest, 
     actLoginUserRequest,
     actRegisterRequest,
-    actForgetPassWordRequest
+    actForgetPassWordRequest,
+    actRememberUserLoginRequest
 }
