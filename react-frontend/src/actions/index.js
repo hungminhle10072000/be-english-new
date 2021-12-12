@@ -11,6 +11,7 @@ import openFormAddVoca from "./openFormAddVoca";
 import grammarAction from "./grammarAction";
 import openFormGrammar from './openFormAddGrammar'
 import commentAction from "./commentAction";
+import userVocabularyTopicAction from "./userVocabularyTopicAction";
 
 const allActions = {
     userAction,
@@ -25,7 +26,8 @@ const allActions = {
     openFormAddVoca,
     grammarAction,
     openFormGrammar,
-    commentAction
+    commentAction,
+    userVocabularyTopicAction
 }
 
 export default allActions

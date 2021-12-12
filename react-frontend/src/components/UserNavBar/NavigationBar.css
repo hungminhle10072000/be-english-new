@@ -38,3 +38,57 @@ span.text-brand {
     cursor: pointer;
     border-radius: 4px;
 }
+
+/* setting user login */
+.icon-user-login {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.setting-user {
+   position: absolute;
+   background-color: #d5d4c7;
+   width: 200px;
+   top: 50%;
+   right: 0%;
+   z-index: 10000;
+   border-radius: 10px;
+   margin-right: 38px;
+   margin-top: 30px;
+   color: black;
+   display: none;
+   transition: all 0.2s ease,
+   padding 0.8s linear;
+}
+
+.setting-user:before {
+	content: "";
+    position: absolute;
+    top: 50%;
+    margin-top: -110px;
+    left: 150px;
+    border: solid 15px transparent;
+    border-bottom-color: #d5d4c7;
+    z-index: 1;
+}
+
+.div-setting-user:hover .setting-user {
+	display: flex;
+ 	align-content: center;
+ 	flex-direction: column;
+ 	justify-content: center;
+ 	align-items: center;
+ 	padding-bottom: 1rem;
+}
+
+.setting-user-item {
+	display: flex;
+	width: 100%;
+	align-content: flex-start;
+	align-items: center;
+	justify-content: center;	
+	cursor: pointer;
+	margin-top: 1rem;
+	transition-duration: 0.4s;
+	padding: 5px;	
+} 

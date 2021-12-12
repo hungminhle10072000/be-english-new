@@ -5,6 +5,10 @@ import { withRouter} from 'react-router-dom';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import allActions from '../../actions/index';
+import {BiUserCircle} from 'react-icons/bi'
+import {HiOutlineLogout} from 'react-icons/hi'
+import {FaUserEdit} from 'react-icons/fa'
+import {MdOndemandVideo} from 'react-icons/md'
 
 class NavigationBar extends Component {
 
@@ -23,6 +27,14 @@ class NavigationBar extends Component {
         if(this.state.idUserLogin !== null){
             this.props.onGetUserLogin(this.state.idUserLogin)
         }
+    }
+    
+    logout = (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        localStorage.removeItem("w2rt3");
+        localStorage.removeItem("idUser");
+        window.location.pathname = "/"
     }
     
     render() {
@@ -52,16 +64,26 @@ class NavigationBar extends Component {
                
                 <div>
                     <Navbar.Collapse id="basic-navbar-nav">
-                        {checkUserLogin ? <div></div> :
+                        {checkUserLogin ?   
+                        <Nav className="ml-auto" className="div-setting-user">
+                            <Nav.Item><BiUserCircle color='black' className='icon-user-login'/></Nav.Item> 
+                            <div className="setting-user">
+                                <div className="setting-user-item setting-edit-info">
+                                    <FaUserEdit/> <span>Thay đổi thông tin</span>
+                                </div>
+                                <div className="setting-user-item">
+                                    <MdOndemandVideo/> <span>Khóa học của tôi</span>
+                                </div>
+                                <div className="setting-user-item setting-logout" onClick={e => this.logout(e)}> 
+                                    <HiOutlineLogout/> <span>Đăng xuất</span>
+                                </div>
+                            </div>
+                        </Nav> :
                         <Nav className="ml-auto">
                             <Nav.Item><Nav.Link href="/login" className="button-user-login">Đăng nhập</Nav.Link></Nav.Item> 
                         </Nav>}
-                        {/* <Nav className="ml-auto">
-                            <Nav.Item><Nav.Link href="/login" className="button-user-login">Đăng nhập</Nav.Link></Nav.Item> 
-                        </Nav> */}
                     </Navbar.Collapse>
                 </div>
-
             </Navbar>
         )
     }

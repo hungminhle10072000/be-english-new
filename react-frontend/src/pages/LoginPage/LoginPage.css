@@ -12,13 +12,15 @@
     background-color: white;
 }
 
-.login-form h1 {
+.login-form img {
     font-size: 36px;
     text-align: center;
     color: #45aba6;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     font-weight: normal;
     text-transform: uppercase;
+    margin-left: 40%;
+    cursor: pointer;
 }
 
 .login-form .social-icon {
