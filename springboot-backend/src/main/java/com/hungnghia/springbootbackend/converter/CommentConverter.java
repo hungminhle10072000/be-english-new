@@ -51,7 +51,7 @@ public class CommentConverter {
         }
 
         if (commentDto.getLessonId() != null) {
-            LessonEntity lessonEntity = lessonRepository.getById(commentDto.getId());
+            LessonEntity lessonEntity = lessonRepository.getById(commentDto.getLessonId());
             commentEntity.setLessonEntity(lessonEntity);
         }
 

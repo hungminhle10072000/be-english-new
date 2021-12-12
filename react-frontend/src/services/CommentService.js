@@ -22,6 +22,16 @@ class CommentService {
         })
     }
 
+    addComment(comment) {
+        console.log("AddCommentService",comment)
+        return axios.post(COMMENT_API_BASE_URL+'/add',comment,{
+            headers: {
+                ...headers,
+                ...authHeader()
+            }
+        })
+    }
+
 }
 
 export default new CommentService()

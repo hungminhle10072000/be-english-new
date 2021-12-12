@@ -16,8 +16,9 @@ import java.util.List;
 public class ChapterDto {
     private long id;
     private String name;
-    private int number; // Number of lesson
+    private int number; // priority
     private int courseId;
     private String courseName;
     private List<LessonDto> lessons;
+    private int numOfLesson;
 }

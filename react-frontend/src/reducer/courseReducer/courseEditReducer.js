@@ -1,7 +1,10 @@
 import { EDIT_COURSE} from '../../constants/ActionTypes'
 
 const course = {
-    name:''
+    id: -1,
+    name:'',
+    introduce:'',
+    chapters: []
 }
 
 const courseEditReducer = (state=course, action) => {

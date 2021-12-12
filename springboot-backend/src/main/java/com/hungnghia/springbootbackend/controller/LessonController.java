@@ -18,6 +18,7 @@ public class LessonController {
 
     @PostMapping("/add")
     public LessonDto addLesson(@RequestPart("lessonDto") LessonDto lessonDto,@RequestPart("video") MultipartFile video) {
+        lessonService.updateNumOfPriority(lessonDto);
         LessonDto lesson = lessonService.addLesson(lessonDto,video);
         return lesson;
     }

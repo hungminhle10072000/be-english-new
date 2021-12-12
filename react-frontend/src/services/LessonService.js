@@ -29,6 +29,7 @@ class LessonService {
 
 
     addLesson(lesson,video) {
+        console.log("ADDLESSON: ",lesson)
         let formData = new FormData()
         const jsonLesson = JSON.stringify(lesson)
         const blob = new Blob([jsonLesson], {
@@ -68,7 +69,10 @@ class LessonService {
             type: 'application/json'
         });
 
+        console.log("Video: ", video)
+
         if (video ==='') {
+            console.log("Video 1: ",video)
             formData.append("lessonDto",blob)
             formData.append("video",video)
     
@@ -81,6 +85,7 @@ class LessonService {
                 }
             })
         } else {
+            console.log("Video 2: ",video)
             formData.append("lessonDto",blob)
             formData.append("video",video)
     

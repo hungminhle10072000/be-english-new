@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import validator from 'validator';
 import allActions from '../../actions';
 import Dropzone from '../../components/DropZone'
+import LessonService from '../../services/LessonService';
 
 class AdminAddLessonPage extends React.Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class AdminAddLessonPage extends React.Component {
                 chapterId:this.props.match.params.chapterId,
                 name: '',
                 chapterName:'',
+                numPriority : -1,
                 courseName:''
             },
             validationMsg: {},
@@ -24,31 +26,28 @@ class AdminAddLessonPage extends React.Component {
 
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.chapter.name == '' && this.props.chapter.name !='') {
+
+
+    
+    componentDidMount() {
+        this.props.onGetChapterById(this.state.lesson.chapterId)
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.chapter) {
+            const {chapter} = nextProps
             this.setState({
-                lesson: {
+                    lesson: {
                     ...this.state.lesson,
-                    chapterName: this.props.chapter.name,
-                    courseName: this.props.chapter.courseName
+                    chapterName: chapter.name,
+                    courseName: chapter.courseName,
+                    numPriority:chapter.numOfLesson
                 }
             })
         }
     }
-    componentDidMount() {
-        this.props.onGetChapterById(this.state.lesson.chapterId)
-        this.setState({
-            lesson: {
-                ...this.state.lesson,
-                chapterName: this.props.chapter.name,
-                courseName: this.props.chapter.courseName
-            }
-        })
-    }
 
     isChangedVideo= (event) => {
-        // const value = event.target.files[0];
-        // console.log('Value: ',value)
         this.setState({
             lesson: {     
                 ...this.state.lesson,
@@ -60,6 +59,10 @@ class AdminAddLessonPage extends React.Component {
     isChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
+
+        if (name === 'numPriority' && value < 0 || name === 'numPriority' && value > this.props.chapter.numOfLesson ) {
+            return;
+        }
 
         this.setState({
             lesson: {     
@@ -73,6 +76,7 @@ class AdminAddLessonPage extends React.Component {
         this.setState({
             lesson: {
                 ...this.state.lesson,
+    
                 name: ''
             },
             validationMsg: {},
@@ -84,6 +88,7 @@ class AdminAddLessonPage extends React.Component {
         var lessonDto = {}
         lessonDto.chapterId = this.state.lesson.chapterId;
         lessonDto.name = this.state.lesson.name;
+        lessonDto.numPriority = this.state.lesson.numPriority;
         window.history.back();
         this.props.onAddLesson(lessonDto,this.state.lesson.video)
     }
@@ -102,7 +107,7 @@ class AdminAddLessonPage extends React.Component {
     handleConfirmationBox = (event) => {
         event.preventDefault();
         const isValid = this.validateAll()
-        console.log("is Valid: ", isValid)
+        // console.log("is Valid: ", isValid)
         if (!isValid) return
         else {
             if (!this.state.confirmDialog) {
@@ -122,6 +127,7 @@ class AdminAddLessonPage extends React.Component {
     }
 
     render() {
+        console.log("Gia tri so bai0 " , this.state.lesson.numOfLesson)
         return (
             <div>
                 <h2>___________________________________________________________________________________________________________</h2>
@@ -162,6 +168,11 @@ class AdminAddLessonPage extends React.Component {
                         <input onChange={(event) => this.isChange(event)} className="input-field" type="text"
                             value={this.state.lesson.chapterName} placeholder="Nhập tên chương" name="name" id="name" />
                         <p className="msg-error">{this.state.validationMsg.chapterName}</p>
+
+                        <label htmlFor="name"><b>Số thứ tự:</b></label>
+                        <input onChange={(event) => this.isChange(event)} className="input-field" type="number"
+                            value={this.state.lesson.numPriority} placeholder="Nhập tên chương" name="numPriority" id="numPriority" />
+                        <p className="msg-error">{this.state.validationMsg.number}</p>
               
                         <label htmlFor="name"><b>Tên bài học:</b></label>
                         <input onChange={(event) => this.isChange(event)} className="input-field" type="text"

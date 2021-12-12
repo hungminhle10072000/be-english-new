@@ -8,9 +8,9 @@ const lessonReducer = (state=initialState, action) => {
     switch(action.type) {
         case FETCH_LESSONS:
             console.log('Lessons: ',lessons)
-            return [...lessons]
+            return [...lessons].sort((a,b) => a.numPriority - b.numPriority)
         case ADD_LESSON:
-            return [...state,action.lesson]
+            return [...state,action.lesson].sort((a,b) => a.numPriority - b.numPriority)
         case DELETE_LESSON:
             for (var i = state.length - 1; i >= 0; i--) {
                 if (state[i].id === action.lesson.id) {

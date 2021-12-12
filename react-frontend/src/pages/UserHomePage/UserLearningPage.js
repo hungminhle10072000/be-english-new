@@ -3,12 +3,14 @@ import UserChapterItem from '../../components/UserComponents/UserChapterItem'
 import VideoContainer from '../../components/UserComponents/VideoContainer';
 import allActions from '../../actions';
 import { connect } from 'react-redux';
+import Comments from '../../components/Comment/Comments'
 class UserLearningPage extends Component {
     constructor(props){
         super(props);
 
         this.state = {
             learningLessonId:7,
+            comments:[],
             showResults:true,
             linkVideo:'https://web-english.s3.ap-southeast-1.amazonaws.com/1637087592056-trumua.mp4',
             course:{
@@ -105,7 +107,18 @@ class UserLearningPage extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.comments.length ===0 && this.props.comments.length !==0) {
             this.props.onGetCommentByLessonId(this.state.learningLessonId)
-            console.log("Comments: ", this.props.comments)
+            this.setState({
+                comments: this.props.comments
+            })
+        }
+        if ( prevProps.comments[0] && this.props.comments[0] && prevProps.comments[0].id !== this.props.comments[0].id) {
+            this.props.onGetCommentByLessonId(this.state.learningLessonId)
+            this.setState({
+                comments: this.props.comments
+            })
+        }
+        if (prevProps.comments.length !== this.props.comments.length) {
+            this.props.onGetCommentByLessonId(this.state.learningLessonId)
             this.setState({
                 comments: this.props.comments
             })
@@ -115,21 +128,32 @@ class UserLearningPage extends Component {
         console.log("ID: ",this.state.course.id)
         this.props.onEditCourse(this.state.course.id);
         this.props.onGetCommentByLessonId(this.state.learningLessonId)
-        console.log("Comments: ", this.props.comments)
+        console.log("CommentscomponentDidMount: ", this.props.comments)
+        this.setState({
+            comments: this.props.comments
+        })
     }
     componentWillReceiveProps(nextProps) {
+        
         if(nextProps && nextProps.course){
+           
             var {course} = nextProps;
             this.setState({
-                course: {...course}
+                course: {...course},
+                comments: this.props.comments
             })
+            console.log("CommentscomponentWillReceiveProps: ", this.props.comments)
         }
     }
 
     changedVideo = (url,lessonId) => {
+        this.props.onGetCommentByLessonId(lessonId)
+        console.log("ChangeVideo:", this.props.comments)
         this.setState({linkVideo:url,
-            learningLessonId:lessonId
+            learningLessonId:lessonId,
+            comments: this.props.comments
         })
+        
     }
     showChapterItem = () => {
         return this.state.course.chapters.map((chapter)=><UserChapterItem key={chapter.id} chapter={chapter} changedVideo={this.changedVideo}></UserChapterItem>)
@@ -140,6 +164,7 @@ class UserLearningPage extends Component {
                <VideoContainer video={this.state.linkVideo}></VideoContainer>
                {/* <UserChapterItem chapter={this.state.chapter} changedVideo={this.changedVideo}></UserChapterItem> */}
                {this.state.showResults ? this.showChapterItem() : null}
+               <Comments currentUserId={6} comments={this.state.comments} learningLessonId={this.state.learningLessonId}/>
             </div>
         )
     }

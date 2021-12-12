@@ -17,7 +17,7 @@ class AdminEditLessonPage extends React.Component {
                 chapterId:-1,
                 name: '',
                 video:'',
-                number:0,
+                numPriority : -1,
                 chapterName:'',
                 courseName:''
             },
@@ -42,14 +42,22 @@ class AdminEditLessonPage extends React.Component {
     }
 
     isChangedVideo= (event) => {
+        const value = event.target.files[0]
         this.setState({
-            videoFile:this.state.videoFile
+            videoFile:value
         })
     }
+
 
     isChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
+
+        
+        if (name === 'numPriority' && value < 0 || name === 'numPriority' && value > this.props.chapter.numOfLesson ) {
+            return;
+        }
+
 
         this.setState({
             lesson: {     
@@ -83,7 +91,7 @@ class AdminEditLessonPage extends React.Component {
         lessonDto.chapterId=this.state.lesson.chapterId;
         lessonDto.chapterName=this.state.lesson.chapterName;
         lessonDto.courseName=this.state.lesson.courseName;
-        lessonDto.number=this.state.lesson.number;
+        lessonDto.numPriority=this.state.lesson.numPriority;
         lessonDto.video=this.state.lesson.video;
         
         window.history.back();
@@ -163,6 +171,12 @@ class AdminEditLessonPage extends React.Component {
                         <input onChange={(event) => this.isChange(event)} className="input-field" type="text" readOnly={true}
                             value={this.state.lesson.chapterName} placeholder="Nhập tên chương" name="chapterName" id="chapterName" />
                         <p className="msg-error">{this.state.validationMsg.chapterName}</p>
+
+                        <label htmlFor="name"><b>Số thứ tự:</b></label>
+                        <input onChange={(event) => this.isChange(event)} className="input-field" type="number"
+                            value={this.state.lesson.numPriority} placeholder="Nhập tên chương" name="numPriority" id="numPriority" />
+                        <p className="msg-error">{this.state.validationMsg.number}</p>
+              
               
                         <label htmlFor="name"><b>Tên bài học:</b></label>
                         <input onChange={(event) => this.isChange(event)} className="input-field" type="text" 

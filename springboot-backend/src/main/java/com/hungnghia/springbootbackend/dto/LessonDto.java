@@ -11,10 +11,11 @@ import java.util.List;
 public class LessonDto {
     private long id;
     private String name;
-    private int number;
+    private int numPriority;
     private String video;
-    private int chapterId;
+    private Long chapterId;
     private String chapterName;
+    private int numLessonOfChapter;
     private String courseName;
     private List<CommentDto> commentDtos;
 }
