@@ -2,6 +2,7 @@ import axios from "axios";
 import {authHeader} from './auth-header';
 
 const TOPIC_VOCA_API_END_POINT = "/api/topic-vocas";
+const USER_TOPIC_VOCA_API_END_POINT = '/api/user-topic-vocas';
 
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -51,6 +52,12 @@ class VocabularyTopicService {
             headers:{...headers,...authHeader(),'Content-Type': 'multipart/form-data'}
         })
     }
+
+    // user get all voca topic
+    userGetAllVocaTopic = () => {
+        return axios.get(USER_TOPIC_VOCA_API_END_POINT);
+    }
+
 }
 
 export default new VocabularyTopicService()

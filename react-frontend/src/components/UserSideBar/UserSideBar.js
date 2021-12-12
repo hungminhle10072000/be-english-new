@@ -7,7 +7,7 @@ import {FaAdversal} from 'react-icons/fa'
 export const UserSideBar = [
   {
     title: 'Từ vựng',
-    path: '/admin/account',
+    path: '/user/topic-vocabulary',
     icon: <FaAdversal color='black'/>,
     cName: 'nav-user-text'
   },

@@ -72,6 +72,10 @@ class LoginPage extends Component {
         else this.props.onLoginUser(username, psw);         
     }
 
+    handleRedirectHome = () => {
+        this.props.history.push('/');
+    }
+
     isChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -92,9 +96,16 @@ class LoginPage extends Component {
             <div className="container-fluid container-login">
                 <AdminAlertInfo />
                 <div className="login-form">
-                    <div>
-                        
-                        <h1>Đăng nhập</h1>
+                    <div>  
+                        {/* <h1>Đăng nhập</h1> */}
+                        <img
+                            src="/logo.jpg"
+                            width="80"
+                            height="80"
+                            className="d-inline-block align-top"
+                            alt="Logo website"
+                            onClick={() => this.handleRedirectHome()}
+                        />
                         <p className="msg-error">{validationMsg.username}</p>
                         <div className="form-group-login">
                             <input type="text" name="username" onChange={(event) => this.isChange(event)} placeholder="Tên đăng nhập" />

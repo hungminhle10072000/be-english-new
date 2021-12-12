@@ -34,6 +34,11 @@ public class VocabularyTopicController {
         return vocabularyTopicService.getVocabularyTopics();
     }
 
+    @GetMapping("/user-topic-vocas")
+    public List<VocabularyTopicEntity> userGetAllVocabularyTopics(){
+        return vocabularyTopicService.getVocabularyTopics();
+    }
+
     /*Delete vocabulary topic*/
     @DeleteMapping("/topic-vocas/{id}")
     public ResponseEntity<VocabularyTopicEntity> deleteVocaTopic(@PathVariable Long id){
