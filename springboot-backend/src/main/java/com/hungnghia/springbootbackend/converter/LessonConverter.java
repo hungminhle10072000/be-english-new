@@ -18,7 +18,7 @@ public class LessonConverter {
         LessonEntity lessonEntity = new LessonEntity();
         lessonEntity.setId(lessonDto.getId());
         lessonEntity.setName(lessonDto.getName());
-        lessonEntity.setNumber(lessonDto.getNumber());
+        lessonEntity.setNumPriority(lessonDto.getNumPriority());
         lessonEntity.setVideo(lessonDto.getVideo());
         ChapterEntity chapterEntity = chapterRepository.getById((long)lessonDto.getChapterId());
         lessonEntity.setChapterEntity(chapterEntity);
@@ -29,11 +29,18 @@ public class LessonConverter {
         LessonDto lessonDto = new LessonDto();
         lessonDto.setId(lessonEntity.getId());
         lessonDto.setName(lessonEntity.getName());
-        lessonDto.setNumber(lessonEntity.getNumber());
+        lessonDto.setNumPriority(lessonEntity.getNumPriority());
         lessonDto.setVideo(lessonEntity.getVideo());
-        lessonDto.setChapterId((int)lessonEntity.getChapterEntity().getId());
+        lessonDto.setChapterId(lessonEntity.getChapterEntity().getId());
         lessonDto.setChapterName(lessonEntity.getChapterEntity().getName());
         lessonDto.setCourseName(lessonEntity.getChapterEntity().getCourseEntity().getName());
+        List<LessonEntity> lessonEntities = lessonEntity.getChapterEntity().getLessonEntityList();
+        if (lessonEntities != null) {
+            lessonDto.setNumLessonOfChapter(lessonEntities.size());
+        } else {
+            lessonDto.setNumLessonOfChapter(0);
+        }
+
         return lessonDto;
     }
 

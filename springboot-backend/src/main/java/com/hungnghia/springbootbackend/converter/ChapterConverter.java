@@ -43,6 +43,12 @@ public class ChapterConverter {
         List<LessonEntity> lstLessonEntity = chapterEntity.getLessonEntityList();
         List<LessonDto> lessons = lessonConverter.toListDtos(lstLessonEntity);
         chapterDto.setLessons(lessons);
+
+        if (lstLessonEntity !=null) {
+            chapterDto.setNumOfLesson(lstLessonEntity.size());
+        } else {
+            chapterDto.setNumOfLesson(0);
+        }
         /*if (lstLesson != null) {
             List<LessonDto> lessons = new ArrayList<>();
             for (LessonEntity t:lstLesson) {

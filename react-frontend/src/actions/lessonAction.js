@@ -97,6 +97,7 @@ const actGetLessonByChapterIdId = (lessons) => {
 
 //update lesson 
 const actUpdateLessonRequest = (lesson,video) => {
+
     return dispatch => {
         LessonService.updateLesson(lesson,video).then((res) => {
             dispatch(actUpdateLesson(res.data))

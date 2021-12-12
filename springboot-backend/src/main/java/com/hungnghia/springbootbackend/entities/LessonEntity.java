@@ -21,8 +21,8 @@ public class LessonEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "number")
-    private int number;
+    @Column(name = "numPriority")
+    private int numPriority;
 
     @Column(name = "video")
     private String video;

@@ -21,6 +21,30 @@ public class LessonService {
     @Autowired
     private AmazonClient amazonClient;
 
+    public void updateNumOfPriority(LessonDto lessonCurrent) {
+        List<LessonEntity> lessonEntities = lessonRepository.getLessonEntitiesByNumPriorityGreaterThanEqualAndChapterEntity_Id(lessonCurrent.getNumPriority(),lessonCurrent.getChapterId());
+        for (LessonEntity item : lessonEntities) {
+            item.setNumPriority(item.getNumPriority()+1);
+            lessonRepository.save(item);
+        }
+    }
+    public void updateNumOfPriority(int indexX, int indexY, Long chapterId) {
+        if (indexX - indexY < 0) {
+            // Update Down
+            List<LessonEntity> lessonEntities = lessonRepository.getLessonEntitiesByNumPriorityBetweenAndChapterEntity_Id(indexX,indexY-1,chapterId);
+            for (LessonEntity item : lessonEntities) {
+                item.setNumPriority(item.getNumPriority()+1);
+                lessonRepository.save(item);
+            }
+        } else {
+            List<LessonEntity> lessonEntities = lessonRepository.getLessonEntitiesByNumPriorityBetweenAndChapterEntity_Id(indexY+1,indexX,chapterId);
+            for (LessonEntity item : lessonEntities) {
+                item.setNumPriority(item.getNumPriority() - 1);
+                lessonRepository.save(item);
+            }
+        }
+    }
+
     public LessonDto addLesson(LessonDto lessonDto, MultipartFile video) {
         LessonEntity lessonEntity = lessonConverter.toEntity(lessonDto);
         String videoUrl = amazonClient.uploadFile(video); //
@@ -35,8 +59,9 @@ public class LessonService {
         if (newLessonEntity.getName() == null) {
             newLessonEntity.setName(oldLessonEntity.getName());
         }
-        if (newLessonEntity.getNumber() == 0) {
-            newLessonEntity.setNumber(oldLessonEntity.getNumber());
+
+        if (newLessonEntity.getNumPriority() != oldLessonEntity.getNumPriority()) {
+            updateNumOfPriority(newLessonEntity.getNumPriority(), oldLessonEntity.getNumPriority(), lessonDto.getChapterId());
         }
         if (newLessonEntity.getChapterEntity()==null) {
             newLessonEntity.setChapterEntity(oldLessonEntity.getChapterEntity());

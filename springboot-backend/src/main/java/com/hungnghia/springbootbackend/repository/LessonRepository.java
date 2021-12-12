@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface LessonRepository extends JpaRepository<LessonEntity,Long> {
     List<LessonEntity> getLessonEntitiesByChapterEntity_Id(long chapterId);
+    List<LessonEntity> getLessonEntitiesByNumPriorityGreaterThanEqualAndChapterEntity_Id(int numPriorityCurrent, Long chapterId);
+    List<LessonEntity> getLessonEntitiesByNumPriorityBetweenAndChapterEntity_Id(int a,int b, Long chapterId);
 }

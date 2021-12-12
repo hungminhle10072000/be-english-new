@@ -36,6 +36,20 @@ class AdminLessonPage extends Component {
         return result;
     }
 
+    componentDidUpdate() {
+        this.setState({
+            lesson: this.props.lessonReducer.sort((a,b) => a.numPriority - b.numPriority)
+        })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.lessonReducer != this.props.lessonReducer) {
+            this.setState({
+                lesson: this.props.lessonReducer.sort((a,b) => a.numPriority - b.numPriority)
+            })
+        }
+    }
+
     componentDidMount() {
         if (this.state.id == -1) {
             this.props.getAllLessons();
@@ -43,6 +57,15 @@ class AdminLessonPage extends Component {
             this.props.getLessonByChapterId(this.state.id);
         }
         
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.lessons) {
+            const lessons = nextProps.lessonReducer;
+            this.setState({
+                    lesson: lessons.sort((a,b) => a.numPriority - b.numPriority)
+            })
+        }
     }
 
     callback = (term) => {
@@ -53,7 +76,7 @@ class AdminLessonPage extends Component {
 
     render() {
         var keyword = this.state.term;
-        var lessons = this.props.lessonReducer;
+        var lessons = this.props.lessonReducer.sort((a,b) => a.numPriority - b.numPriority);
         var resultSearch = []
         lessons.forEach(x => {
             if (x.id.toString().indexOf(keyword)!=-1 || x.name.indexOf(keyword)!=-1 ||
@@ -111,7 +134,7 @@ class AdminLessonPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        lessonReducer:state.lessonReducer
+        lessonReducer:state.lessonReducer.sort((a,b) => a.numPriority - b.numPriority)
     }
 }
 
