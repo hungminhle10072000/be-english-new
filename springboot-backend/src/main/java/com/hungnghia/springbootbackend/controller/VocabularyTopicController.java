@@ -34,6 +34,7 @@ public class VocabularyTopicController {
         return vocabularyTopicService.getVocabularyTopics();
     }
 
+    /*user get all topic*/
     @GetMapping("/user-topic-vocas")
     public List<VocabularyTopicEntity> userGetAllVocabularyTopics(){
         return vocabularyTopicService.getVocabularyTopics();

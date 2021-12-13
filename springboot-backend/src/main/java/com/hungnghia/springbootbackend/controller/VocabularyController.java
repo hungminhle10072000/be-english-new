@@ -29,6 +29,12 @@ public class VocabularyController {
         return vocabularyService.findVocabularyByTopic(idTopic);
     }
 
+    /*user getl all vocabulary with id topic*/
+    @GetMapping(value = "/user-vocabulary/{idTopic}")
+    public List<VocabularyEntity> userGetAllVocabularyWithTopic(@PathVariable Long idTopic){
+        return vocabularyService.findVocabularyByTopic(idTopic);
+    }
+
     /*add vocabulary for topicId*/
     @PostMapping("/vocabulary")
     public VocabularyEntity addVocabulary(@RequestPart("vocabularyDto") VocabularyDto vocabularyDto, @RequestPart("file_audio")MultipartFile file_audio, @RequestPart("file_image") MultipartFile file_image){

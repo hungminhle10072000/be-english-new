@@ -16,6 +16,20 @@ module.exports = function (app) {
         })
     );
 
+    app.use("/api/user-topic-vocas",
+        createProxyMiddleware({
+            target: `${API_BASE}`,
+            changeOrigin: true
+        })
+    );
+
+    app.use("/api/user-vocabulary",
+        createProxyMiddleware({
+            target: `${API_BASE}`,
+            changeOrigin: true
+        })
+    );
+
     app.use("/api/vocabulary",
         createProxyMiddleware({
             target: `${API_BASE}`,

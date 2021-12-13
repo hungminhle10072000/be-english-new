@@ -2,6 +2,7 @@ import axios from "axios";
 import {authHeader} from './auth-header';
 
 const VOCA_API_END_POINT = "/api/vocabulary";
+const USER_VOCA_API_END_POINT = "/api/user-vocabulary";
 
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -15,6 +16,11 @@ class VocabularyService {
     // get all vocabulary by topic id
     getAllVocabularyByTopicId(idTopic){
         return axios.get(VOCA_API_END_POINT + '/' + idTopic, {headers: {...headers, ...authHeader()}});
+    }
+
+    // user get all vocabulary by topic id
+    userGetAllVocabularyByTopicId(idTopic) {
+        return axios.get(USER_VOCA_API_END_POINT + '/' + idTopic);
     }
 
     // add vocabulary for topic
