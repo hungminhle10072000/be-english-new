@@ -10,7 +10,7 @@ import UserHomePage from './pages/UserHomePage/UserHomePage'
 import LoginPage from './pages/LoginPage/LoginPage';
 import AdminHomePage from './pages/AdminHomePage/AdminHomePage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
-import UserCoursePage from  './pages/UserHomePage/UserCoursePage'
+import UserCoursePage from  './pages/UserHomePage/UserCoursePage';
 import { connect } from 'react-redux';
 
 

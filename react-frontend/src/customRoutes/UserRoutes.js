@@ -16,6 +16,7 @@ export default class UserRoutes extends Component {
         return (
             <Fragment>
                 <Switch>
+                    <Route exact path="/" component={UserTopicVocabulary}/> 
                     <Route exact path="/user/topic-vocabulary" component={UserTopicVocabulary}/> 
                     <Route exact path="/user/course" component={UserCoursePage}/>   
                     <Route exact path="/user/learning/:id" component={UserLearningPage}/>   
