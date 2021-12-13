@@ -1,14 +1,21 @@
 .nav-menu-user {
     background-color: #fff;
-    /* width: 280px; */
     height: 100%;
     display: flex;
     justify-content: center;
+
+    /* Thêm để tạo fix header và sidebar */
+    width: 114px;
+
   }
   
   /* Tránh bị nội dung ghi đè */
   nav.nav-menu-user { 
-    z-index: 100; 
+    z-index: 100;
+    
+    /* Thêm để tạo fix header và sidebar */
+    position: fixed;
+    top: 6rem;
   }
   
   .nav-user-text {
@@ -30,7 +37,8 @@
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 16px;
+    padding-left: 10px;
+    /* padding: 0 16px; */
     border-radius: 4px;
   }
   

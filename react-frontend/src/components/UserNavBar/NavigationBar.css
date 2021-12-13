@@ -1,5 +1,10 @@
 /* Bố cục header */
 nav.navBar-user-home.navbar.navbar-expand-lg.navbar-light {
+
+    /* Thêm để tạo fix header và sidebar */
+    position: fixed;
+    z-index: 100;
+
     background-color: #d1c57b;
     display: flex;
     justify-content: space-between !important;
