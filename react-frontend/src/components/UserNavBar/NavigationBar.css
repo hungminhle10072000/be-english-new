@@ -1,9 +1,10 @@
 /* Bố cục header */
 nav.navBar-user-home.navbar.navbar-expand-lg.navbar-light {
-    background-color: #ffffff;
+    background-color: #d1c57b;
     display: flex;
     justify-content: space-between !important;
     padding-right: 4%;
+    height: 6rem;
 }
 
 /*Brand header*/
