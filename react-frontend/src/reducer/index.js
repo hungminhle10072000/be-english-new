@@ -28,6 +28,8 @@ import itemGrammarEdit from './GrammarReducer/itemGrammarEdit'
 import commentReducer from "./commentReducer/commentReducer"
 
 import userVocabularyTopicReducer from "./UserVocabularyTopicReducer/userVocabularyTopicReducer"
+import userVocabularyWithTopic from './VocabularyReducer/userListVocabularyWithTopic'
+
 const appReducers = combineReducers({
     users,
     courseReducer,
@@ -51,6 +53,7 @@ const appReducers = combineReducers({
     statusFormAddGrammar,
     itemGrammarEdit,
     commentReducer,
-    userVocabularyTopicReducer
+    userVocabularyTopicReducer,
+    userVocabularyWithTopic
 });
 export default appReducers;

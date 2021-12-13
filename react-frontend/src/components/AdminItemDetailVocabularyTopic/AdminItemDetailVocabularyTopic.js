@@ -55,26 +55,26 @@ class AdminItemDetailVocabularyTopic extends Component {
                                 {/* <img className="img-fluid img-description-content" src={this.props.image} alt="Ảnh mô tả"/> */}
                             </div>
                             <div className="col-sm-6 col-md-8">
-                            <div className="container-fluid">
-                                <div className="row">
-                                    <div className="col-sm-12 admin-content-vocabulary">
-                                            <div style={{color: 'blue', fontSize: 16, fontWeight: 500}}><span>{this.props.content}</span></div>
-                                            <div><span>Giải thích : </span>{this.props.explain_vocabulary}</div>
-                                            <div><span>Từ loại : </span>{this.props.mean}</div>
-                                            <div><span>Ví dụ : </span>{this.props.example_vocabulary}</div>
-                                            <div><span>{this.props.mean_example_vocabulary}</span></div>
-                                    </div> 
-                                </div>
-                                <div className="row admin-audio-vocabulary">
-                                        <ReactAudioPlayer
-                                            src={this.props.file_audio}
-                                            controls
-                                        />
-                                        {/* <audio controls>
-                                            <source src={this.props.file_audio} type="audio/mp3" />
-                                        </audio> */}
+                                <div className="container-fluid">
+                                    <div className="row">
+                                        <div className="col-sm-12 admin-content-vocabulary">
+                                                <div style={{color: 'blue', fontSize: 16, fontWeight: 500}}><span>{this.props.content}</span></div>
+                                                <div><span>Giải thích : </span>{this.props.explain_vocabulary}</div>
+                                                <div><span>Từ loại : </span>{this.props.mean}</div>
+                                                <div><span>Ví dụ : </span>{this.props.example_vocabulary}</div>
+                                                <div><span>{this.props.mean_example_vocabulary}</span></div>
+                                        </div> 
                                     </div>
-                            </div>
+                                    <div className="row admin-audio-vocabulary">
+                                            <ReactAudioPlayer
+                                                src={this.props.file_audio}
+                                                controls
+                                            />
+                                            {/* <audio controls>
+                                                <source src={this.props.file_audio} type="audio/mp3" />
+                                            </audio> */}
+                                        </div>
+                                </div>
                             </div>
                         </div>
                     </td>

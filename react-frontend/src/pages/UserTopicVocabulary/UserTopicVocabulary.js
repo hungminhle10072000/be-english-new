@@ -32,7 +32,6 @@ class UserTopicVocabulary extends Component {
     }
 
     render() {
-        console.log(this.props.userVocabularyTopicReducer)
         return (
             <div className='container-fluid main-content-user-topic'>
                 <div className='row'>

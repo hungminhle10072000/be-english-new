@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import './userItemTopicVocabulary.css'
+import convertURL from '../../constants/convertUrl'
+import {
+    Link
+} from "react-router-dom"
 
 class userItemTopicVocabulary extends Component {
     render() {
@@ -9,7 +13,9 @@ class userItemTopicVocabulary extends Component {
                     <img className="card-img-top img-user-topic" src={this.props.image} alt="Ảnh mô tả chủ đề topic"/>
                     <div className="card-body">
                         <h6 className="card-title">{this.props.name}</h6>
-                        <a href="#" className="btn btn-primary">Chi tiết</a>
+                        <Link className='btn btn-primary' to={"/user/topic-vocabulary/" + this.props.id + "/" + convertURL(this.props.name)}>
+                            Chi tiết
+                        </Link>               
                     </div>
                 </div>
             </div>
