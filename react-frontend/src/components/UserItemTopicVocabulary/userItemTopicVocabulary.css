@@ -1,0 +1,9 @@
+.card-topic {
+    color: #000;
+}
+
+img.card-img-top.img-user-topic {
+    height: 8rem !important;
+    width: 100% !important;
+    object-fit: fill;
+}

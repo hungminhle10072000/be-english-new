@@ -6,7 +6,6 @@
     display: flex;
     flex-direction: column;
 }
-
 /* end chia nội dung trang home user  */
 
 /* chia phần cho content và sideBar */
@@ -18,10 +17,9 @@
 
 /* sideBar user */
 .sideBar-user {
-    position: fixed;
-    height: 100%;
+    position: absolute;
+    /* height: 100%; */
     z-index: 1;
     overflow-x: hidden;  
 }
-
 /* end sideBar user */

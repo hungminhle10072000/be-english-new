@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import allActions from '../../actions';
+import './UserTopicVocabulary.css';
+import UserItemTopicVocabulary from '../../components/UserItemTopicVocabulary/userItemTopicVocabulary';
 
 class UserTopicVocabulary extends Component {
 
@@ -12,11 +14,31 @@ class UserTopicVocabulary extends Component {
         this.props.onUserGetAllTopicVocas()
     }
 
+    showItemTopicVoca (topics) {
+        var result = null;
+        if(topics.length > 0 ){
+            result = topics.map((topic, key) => {
+                return (
+                    <UserItemTopicVocabulary 
+                        key={key}
+                        id={topic.id}
+                        name={topic.name}
+                        image={topic.image}
+                    />
+                )
+            })
+        }
+        return result;
+    }
+
     render() {
+        console.log(this.props.userVocabularyTopicReducer)
         return (
-            <React.Fragment>
-                Đây là trang user topic
-            </React.Fragment>
+            <div className='container-fluid main-content-user-topic'>
+                <div className='row'>
+                    {this.showItemTopicVoca(this.props.userVocabularyTopicReducer)}
+                </div>
+            </div>
         )
     }
 }
