@@ -40,14 +40,13 @@ class App extends Component {
     return(
       <Router>
         <Switch>
-            <Route exact path="/" component={UserHomePage} />
-            <Route exact path="/login" component={LoginPage} />
-            <Route exact path="/register" component={RegisterPage} />
-           
-            <Route render={
+            <Route path="/" component={UserHomePage} exact/>
+            <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
+            <Route path='/admin' render={
               () => ((localStorage.getItem('token') && checkRoleAdmin) ? <AdminHomePage /> : <Redirect to={{pathname: '/login'}}/>)
             } />
-            <Route path= "*" component={UserHomePage} />
+            <Route path= "*" component={UserHomePage} />               
         </Switch>
       </Router>
     )
