@@ -11,7 +11,7 @@
 /* chia phần cho content và sideBar */
 .main-sidebar-user {
     display: flex !important;
-    flex-direction: row; 
+    flex-direction: row;
 }
 
 .main-sidebar-user.row {
@@ -25,10 +25,15 @@
     position: absolute;
     /* height: 100%; */
     z-index: 1;
-    overflow-x: hidden;  
+    overflow-x: hidden;
 }
 
 nav.nav-menu-user {
     background-color: #eeeeee;
 }
 /* end sideBar user */
+
+/* Thêm để tạo fix header và sidebar */
+.main-sidebar-user.row {
+    margin-top: 6rem;
+}

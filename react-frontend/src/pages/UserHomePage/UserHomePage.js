@@ -22,10 +22,10 @@ class UserHomePage extends Component {
                         <NavigationBar/>
                         <div className='container-fluid'>
                             <div className="main-sidebar-user row">
-                                <div className="sideBar-user col-md-2" style={{paddingRight: 0, paddingLeft: 0}}>
+                                <div className="sideBar-user col-md-1" style={{paddingRight: 0, paddingLeft: 0}}>
                                     <Sidebar />
                                 </div>
-                                <div className="col-md-10 offset-md-2 content-user">
+                                <div className="col-md-11 offset-md-1 content-user">
                                     <UserRoutes />
                                 </div>
                             </div>
