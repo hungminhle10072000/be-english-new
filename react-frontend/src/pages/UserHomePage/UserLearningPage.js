@@ -9,12 +9,17 @@ class UserLearningPage extends Component {
         super(props);
 
         this.state = {
+            isChapter:true,
+            isComment:false,
+            userCurrent: {
+                id: -1
+            },
             learningLessonId:7,
             comments:[],
-            showResults:true,
+            isLogin:true,
             linkVideo:'https://web-english.s3.ap-southeast-1.amazonaws.com/1637087592056-trumua.mp4',
             course:{
-                id:2,
+                id:this.props.match.params.id,
                 name:'Khoa Hoc 1',
                 image: 'linkImage',
                 introduce: 'introduce',
@@ -105,22 +110,29 @@ class UserLearningPage extends Component {
         }
     }
     componentDidUpdate(prevProps) {
+        var course = this.props.course;
         if (prevProps.comments.length ===0 && this.props.comments.length !==0) {
             this.props.onGetCommentByLessonId(this.state.learningLessonId)
             this.setState({
-                comments: this.props.comments
+                course: course,
+                comments: this.props.comments,
+                userCurrent: this.props.userCurrent
             })
         }
         if ( prevProps.comments[0] && this.props.comments[0] && prevProps.comments[0].id !== this.props.comments[0].id) {
             this.props.onGetCommentByLessonId(this.state.learningLessonId)
             this.setState({
-                comments: this.props.comments
+                course: course,
+                comments: this.props.comments,
+                userCurrent: this.props.userCurrent
             })
         }
         if (prevProps.comments.length !== this.props.comments.length) {
             this.props.onGetCommentByLessonId(this.state.learningLessonId)
             this.setState({
-                comments: this.props.comments
+                course: course,
+                comments: this.props.comments,
+                userCurrent: this.props.userCurrent
             })
         }
     }
@@ -128,9 +140,11 @@ class UserLearningPage extends Component {
         console.log("ID: ",this.state.course.id)
         this.props.onEditCourse(this.state.course.id);
         this.props.onGetCommentByLessonId(this.state.learningLessonId)
-        console.log("CommentscomponentDidMount: ", this.props.comments)
+        var course = this.props.course;
         this.setState({
-            comments: this.props.comments
+            course: course,
+            comments: this.props.comments,
+            userCurrent: this.props.userCurrent
         })
     }
     componentWillReceiveProps(nextProps) {
@@ -139,10 +153,11 @@ class UserLearningPage extends Component {
            
             var {course} = nextProps;
             this.setState({
-                course: {...course},
-                comments: this.props.comments
+                course: course,
+                comments: this.props.comments,
+                userCurrent: nextProps.userCurrent
             })
-            console.log("CommentscomponentWillReceiveProps: ", this.props.comments)
+            console.log("CommentscomponentWillReceiveProps: ", this.props.course)
         }
     }
 
@@ -155,6 +170,14 @@ class UserLearningPage extends Component {
         })
         
     }
+    changedIsChapter =()  => {
+        this.setState({isChapter: true,
+        isComment: false})
+    }
+    changedIsComment =()  => {
+        this.setState({isChapter: false,
+        isComment: true})
+    }
     showChapterItem = () => {
         return this.state.course.chapters.map((chapter)=><UserChapterItem key={chapter.id} chapter={chapter} changedVideo={this.changedVideo}></UserChapterItem>)
     }
@@ -162,9 +185,21 @@ class UserLearningPage extends Component {
         return(
             <div>
                <VideoContainer video={this.state.linkVideo}></VideoContainer>
+               <h3>{this.state.course.name}</h3>
+               <div className='row'>
+                   <div className='col-2'>
+                        <button onClick={() => this.changedIsChapter()} >Tổng quan</button>
+                        <button onClick={() => this.changedIsComment()}>Bình luận</button>
+                   </div>
+                 
+               </div>
+               <br/>
                {/* <UserChapterItem chapter={this.state.chapter} changedVideo={this.changedVideo}></UserChapterItem> */}
-               {this.state.showResults ? this.showChapterItem() : null}
-               <Comments currentUserId={6} comments={this.state.comments} learningLessonId={this.state.learningLessonId}/>
+               {/* {this.state.isLogin ? this.showChapterItem() : null} */}
+               {this.state.isChapter&&this.showChapterItem()}
+               {this.state.isComment && (<Comments currentUserId={this.state.userCurrent.id} comments={this.state.comments} learningLessonId={this.state.learningLessonId}/>)} 
+                <br/>
+                <br/>
             </div>
         )
     }
@@ -172,7 +207,8 @@ class UserLearningPage extends Component {
 const mapStateToProps = (state) => {
     return {
         course: state.courseEditReducer,
-        comments: state.commentReducer
+        comments: state.commentReducer,
+        userCurrent: state.itemUserLogin
     }
 }
 
