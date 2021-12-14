@@ -13,7 +13,7 @@ export const UserSideBar = [
   },
   {
     title: 'Ngữ pháp',
-    path: '/admin/topic-vocabulary',
+    path: '/user/grammar',
     icon: <GoBook color='black'/>,
     cName: 'nav-user-text'
   },

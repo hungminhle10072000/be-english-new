@@ -30,6 +30,9 @@ import commentReducer from "./commentReducer/commentReducer"
 import userVocabularyTopicReducer from "./UserVocabularyTopicReducer/userVocabularyTopicReducer"
 import userVocabularyWithTopic from './VocabularyReducer/userListVocabularyWithTopic'
 
+import UserItemLearnGrammar from './UserItemLearnGrammar/UserItemLearnGrammar'
+import userListGrammar from './UserGrammarReducer/userListGrammar'
+
 const appReducers = combineReducers({
     users,
     courseReducer,
@@ -54,6 +57,8 @@ const appReducers = combineReducers({
     itemGrammarEdit,
     commentReducer,
     userVocabularyTopicReducer,
-    userVocabularyWithTopic
+    userVocabularyWithTopic,
+    UserItemLearnGrammar,
+    userListGrammar
 });
 export default appReducers;

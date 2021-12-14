@@ -26,6 +26,19 @@ public class GrammarController {
         return grammarService.getAllGrammar();
     }
 
+    /*user get all grammar*/
+    @GetMapping("user-grammars")
+    public List<GrammarEntity> userGetAllGrammar(){
+        return grammarService.getAllGrammar();
+    }
+
+    /*user get grammar learn*/
+    @GetMapping("user-grammars/{id}")
+    public GrammarEntity userGetGrammarWithId(@PathVariable Long id){
+        return grammarService.getGrammarWithId(id);
+    }
+
+
     /*delete grammar with id*/
     @DeleteMapping("grammars/{id}")
     public GrammarEntity deleteGramamWithId(@PathVariable Long id){
