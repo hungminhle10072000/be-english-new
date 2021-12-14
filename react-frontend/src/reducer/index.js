@@ -32,6 +32,7 @@ import userVocabularyWithTopic from './VocabularyReducer/userListVocabularyWithT
 
 import UserItemLearnGrammar from './UserItemLearnGrammar/UserItemLearnGrammar'
 import userListGrammar from './UserGrammarReducer/userListGrammar'
+import userValueSelectGrammar from './UserGrammarReducer/userValueSelectGrammar'
 
 const appReducers = combineReducers({
     users,
@@ -59,6 +60,7 @@ const appReducers = combineReducers({
     userVocabularyTopicReducer,
     userVocabularyWithTopic,
     UserItemLearnGrammar,
-    userListGrammar
+    userListGrammar,
+    userValueSelectGrammar
 });
 export default appReducers;

@@ -12,6 +12,7 @@ class UserTopicVocabulary extends Component {
 
     componentDidMount() {
         this.props.onUserGetAllTopicVocas()
+        this.props.onUserGetAllGrammar()
     }
 
     showItemTopicVoca (topics) {
@@ -52,6 +53,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onUserGetAllTopicVocas: () => {
             dispatch(allActions.userVocabularyTopicAction.actUserFetchVocaTopicsRequest())
+        },
+        onUserGetAllGrammar: () => {
+            dispatch(allActions.userGrammarAction.actUserFetchAllGrammarRequest())
         }
     }
 }
