@@ -1,6 +1,7 @@
 package com.hungnghia.springbootbackend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
@@ -28,9 +29,11 @@ public class CourseEntity {
     private String introduce;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "courseEntity")
+    @JsonIgnore
     private List<User_Course_Entity> user_course_entityList;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "courseEntity")
+    @JsonIgnore
     private List<ChapterEntity> chapterEntityList;
 
 }

@@ -1,5 +1,6 @@
 package com.hungnghia.springbootbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -51,5 +52,6 @@ public class QuestionEntity {
     private ExerciseEntity exerciseEntity;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "questionEntity")
+    @JsonIgnore
     private List<ResultDetailEntity> resultDetailEntityList;
 }

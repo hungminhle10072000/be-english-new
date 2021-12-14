@@ -19,7 +19,7 @@ export const UserSideBar = [
   },
   {
     title: 'Khóa học',
-    path: '/admin/grammar',
+    path: '/user/courses',
     icon: <MdOndemandVideo color='black'/>,
     cName: 'nav-user-text'
   }

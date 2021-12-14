@@ -4,9 +4,11 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.sql.Date;
 
 @Data
 public class UserDto {
+    private Long id;
     private String fullname;
     private String username;
     private String password;
