@@ -2,8 +2,11 @@ package com.hungnghia.springbootbackend.converter;
 
 import com.hungnghia.springbootbackend.dto.ChapterDto;
 import com.hungnghia.springbootbackend.dto.CourseDto;
+import com.hungnghia.springbootbackend.dto.UserDto;
 import com.hungnghia.springbootbackend.entities.ChapterEntity;
 import com.hungnghia.springbootbackend.entities.CourseEntity;
+import com.hungnghia.springbootbackend.entities.UserEntity;
+import com.hungnghia.springbootbackend.entities.User_Course_Entity;
 import com.hungnghia.springbootbackend.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,10 @@ public class CourseConverter {
 
     @Autowired
     private ChapterConverter chapterConverter;
+    @Autowired
+    private UserConverter userConverter;
+
+
 
     public CourseEntity toEntity(CourseDto courseDto) {
         CourseEntity courseEntity = new CourseEntity();
@@ -34,6 +41,9 @@ public class CourseConverter {
             }
             courseEntity.setChapterEntityList(lstChapterEntity);
         }
+
+//        List<UserDto> lstUserDto = courseDto.getUsers();
+       // Add list user
 
         return courseEntity;
     }
@@ -56,6 +66,15 @@ public class CourseConverter {
             }
             courseDto.setChapters(lstChapterDto);
         }*/
+
+        // User Subscribe Course
+        List<UserDto> lstUser = new ArrayList<>();
+        if (courseEntity.getUser_course_entityList() != null) {
+            for (User_Course_Entity item : courseEntity.getUser_course_entityList()) {
+                lstUser.add(userConverter.toDto(item.getUserEntity()));
+            }
+        }
+        courseDto.setUsers(lstUser);
         return courseDto;
     }
 

@@ -6,6 +6,7 @@ const actFetchCourseRequest = () => {
     return (dispatch) => {
         return (
             CourseService.getCourses().then((res) => {
+                console.log("CourseAction",res.data)
                 dispatch(actFetchCourses(res.data))
             })
         )

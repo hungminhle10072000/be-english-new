@@ -22,7 +22,7 @@ export default class UserRoutes extends Component {
                     <Route exact path="/user/topic-vocabulary" component={UserTopicVocabulary}/>
                     <Route exact path="/user/topic-vocabulary/:idTopic/:nameTopicVoca" component={UserDetailTopicVocabulary}/>
                     <Route exact path="/user/grammar" component={UserGrammar}/>    
-                    <Route exact path="/user/course" component={UserCoursePage}/>   
+                    <Route exact path="/user/courses" component={UserCoursePage}/>   
                     <Route exact path="/user/learning/:id" component={UserLearningPage}/>   
                     {/* <Route exact path="/" component={ContentPage} />
                     <Route path="*" component={NotFoundPage} /> */}

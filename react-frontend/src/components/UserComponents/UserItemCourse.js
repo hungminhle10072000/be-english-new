@@ -1,12 +1,15 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import '../css/UserCSS.css'
+import { Card, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 class UserItemCourse extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
             course: {
+                id: this.props.course.id,
                 name: this.props.course.name,
                 image: this.props.course.image,
                 introduce: this.props.course.introduce
@@ -15,19 +18,23 @@ class UserItemCourse extends Component {
     }
 
     render() {
-        return(
-            <section class="index-module_col__2EQm9 index-module_c-12__u7UXF index-module_m-4__30Uoi index-module_l-3__MjWvb">
-                    <div class="CourseItem_wrapper__1XHIu CoursesList_courseItem__3L89p">
-                        <a href="/learning/javascript-co-ban">
-                            <div class="CourseItem_thumb__2ezb2" title="JavaScript Cơ Bản"
-                                style={{backgroundImage:`url(https://cdn.fullstack.edu.vn/f8-learning/courses/1.png)`}} >
-                            </div>
-                        </a>
-                    </div>
-                    <h3 class="CourseItem_title__1vsib">
-                        <a href="/learning/javascript-co-ban">{this.state.course.name}</a>
-                    </h3>
-            </section>
+        return (
+            <div className='col-4'>
+                 <Link to={`/user/learning/${this.props.course.id}`} style={{ textDecoration: 'none' }}>
+                    <Card >
+                        <Card.Img style={{ height: '16rem' }} variant="top" src={this.state.course.image} />
+                        <Card.Body>
+                            <Card.Title >{this.state.course.name}</Card.Title>
+                            <Card.Text>
+                                Some quick example text to build on the card title and make up the bulk of
+                                the card's content.
+                            </Card.Text>
+                            {/* <Button variant="primary">Go somewhere</Button> */}
+                        </Card.Body>
+                    </Card>
+                 </Link>
+            </div>
+
         )
     }
 }

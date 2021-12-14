@@ -1,6 +1,8 @@
 import * as Types from '../constants/ActionTypes'
 
-const itemUserLoginState = {}
+const itemUserLoginState = {
+    id: -1
+}
 
 const itemUserLogin = (state = itemUserLoginState, action) => {
     switch (action.type) {
