@@ -2,6 +2,7 @@ import axios from "axios";
 import {authHeader} from './auth-header';
 
 const GRAMMAR_API_END_POINT = "/api/grammars";
+const USER_GRAMMAR_API_END_POINT = "/api/user-grammars";
 
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -16,6 +17,16 @@ class GrammarService {
         return axios.get(GRAMMAR_API_END_POINT, {
             headers: {...headers,...authHeader()},
         })
+    }
+
+    ///user get all grammar
+    userGetAllGrammar() {
+        return axios.get(USER_GRAMMAR_API_END_POINT)
+    }
+
+    // user get grammar learning
+    userGetGrammarLearn(grammarId){
+        return axios.get(USER_GRAMMAR_API_END_POINT + '/' + grammarId)
     }
 
     // delete grammar with id
