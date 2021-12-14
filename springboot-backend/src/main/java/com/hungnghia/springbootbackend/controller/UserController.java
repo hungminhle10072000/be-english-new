@@ -50,14 +50,30 @@ public class UserController {
     /*Edit User*/
     @PutMapping("/users/{id}")
     public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestPart("userDto") UserDto userDto, @RequestPart("file") MultipartFile file){
-        UserEntity updateUser = userService.updateUser(id, userDto, file);
-        return ResponseEntity.ok(updateUser);
+        if(userService.checkExistUpdateUserName(userDto.getUsername(), userDto.getId())){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        else if(userService.checkExistUpdateEmail(userDto.getEmail(),userDto.getId())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        else {
+            UserEntity updateUser = userService.updateUser(id, userDto, file);
+            return ResponseEntity.ok(updateUser);
+        }
     }
 
     @PutMapping("/users/edit2/{id}")
     public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
-        UserEntity updateUser = userService.updateUser(id, userDto, null);
-        return ResponseEntity.ok(updateUser);
+        if(userService.checkExistUpdateUserName(userDto.getUsername(), userDto.getId())){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        else if(userService.checkExistUpdateEmail(userDto.getEmail(),userDto.getId())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        else {
+            UserEntity updateUser = userService.updateUser(id, userDto, null);
+            return ResponseEntity.ok(updateUser);
+        }
     }
 
     /*Get User with id*/

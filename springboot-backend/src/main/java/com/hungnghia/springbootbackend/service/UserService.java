@@ -41,6 +41,22 @@ public class UserService {
         return userRepository.findByEmail(email) != null;
     }
 
+    public boolean checkExistUpdateUserName(String username, Long id){
+        UserEntity userEntity = userRepository.findByUsername(username);
+        if(userEntity != null && userEntity.getId() != id){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkExistUpdateEmail(String email, Long id){
+        UserEntity userEntity = userRepository.findByEmail(email);
+        if(userEntity != null && userEntity.getId() != id){
+            return true;
+        }
+        return false;
+    }
+
     public UserEntity addUser(UserDto userDto, MultipartFile file){
         UserEntity userEntity = new UserEntity();
         userEntity.setFullname(userDto.getFullname());

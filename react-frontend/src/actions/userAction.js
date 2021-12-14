@@ -129,9 +129,27 @@ const actGetUser = (user) => {
 const actUpdateUserRequest = (userDto, file, checkFile) => {
     return dispatch => {
         return (
-            UserService.updateUser(userDto, userDto.id, file, checkFile).then( res => {
-                dispatch(actUpdateUser(res.data));
-            })
+            // UserService.updateUser(userDto, userDto.id, file, checkFile).then( res => {
+            //     dispatch(actUpdateUser(res.data));
+            // })
+            UserService.updateUser(userDto, userDto.id, file, checkFile).then(
+                (res) => 
+                {
+                    // console.log(res.status)
+                    dispatch(actUpdateUser(res.data));
+                    dispatch(actGetUserRequest(res.data.id))
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công","success")) 
+                }
+            ).catch(           
+                error => {
+                    if(error.response.status === 409){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
+                    }
+                    if(error.response.status === 400){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Email đã có tài khoản đăng ký ! Yêu cầu sử dụng email khác", "danger"))           
+                    }            
+                }        
+            )
         )
     }
 }
