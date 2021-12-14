@@ -7,6 +7,10 @@ const actUserFetchAllGrammarRequest = () => {
         return (
             GrammarService.userGetAllGrammar().then((res) => {
                 dispatch(actUserFetchAllGrammar(res.data))
+                dispatch(actUserCreateValueSelectGrammar(res.data))
+                if(res.data.length > 0){
+                    dispatch(actUserGetLearnGrammarRequest(res.data[0].id))
+                }
             })
         )
     }
@@ -37,8 +41,16 @@ const actUserGetLearnGrammar = (itemGrammarLearn) => {
     }
 }
 
+const actUserCreateValueSelectGrammar = (listValueKeySelect) => {
+    return {
+        type: Types.USER_CREATE_VALUE_SELECT_GRAMMAR,
+        listValueKeySelect
+    }
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     actUserFetchAllGrammarRequest,
-    actUserGetLearnGrammarRequest
+    actUserGetLearnGrammarRequest,
+    actUserCreateValueSelectGrammar
 }

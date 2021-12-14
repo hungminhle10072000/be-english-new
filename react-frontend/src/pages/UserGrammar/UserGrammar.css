@@ -5,3 +5,10 @@
 .div-content-user-learn-grammar {
     background-color: white;
 }
+
+.title-user-learn-grammar {
+    font-size: 1.7em;
+    color: #b10021;
+    font-weight: 600;
+    margin-left: 25%;
+}
