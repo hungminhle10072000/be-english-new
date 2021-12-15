@@ -9,7 +9,8 @@ import {
     Route
   } from "react-router-dom";
 import NavigationBar from '../../components/UserNavBar/NavigationBar'
-import Sidebar from '../../components/UserSideBar/Sidebar';
+import Sidebar from '../../components/UserSideBar/Sidebar'
+import AdminAlertInfo from '../../components/AdminAlertInfo/AdminAlertInfo'
 
 class UserHomePage extends Component {
     kiemtra = () => {
@@ -19,6 +20,7 @@ class UserHomePage extends Component {
         return (
             <div className="main-user-home">
                 <Router>
+                        <AdminAlertInfo />
                         <NavigationBar/>
                         <div className='container-fluid'>
                             <div className="main-sidebar-user row">

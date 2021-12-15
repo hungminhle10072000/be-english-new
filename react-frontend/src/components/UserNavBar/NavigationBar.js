@@ -36,6 +36,10 @@ class NavigationBar extends Component {
         localStorage.removeItem("idUser");
         window.location.pathname = "/"
     }
+
+    handleRedirectInfo = () => {
+        this.props.history.push('/user/account/edit/' + this.props.itemUserLogin.id)
+    }
     
     render() {
         const checkUserLogin = this.state.idUserLogin !== null;
@@ -57,7 +61,7 @@ class NavigationBar extends Component {
                 </div>
 
                 <div>
-                    <Form className="form-center-navbar">
+                    <Form className="form-center-navbar" style={{display: 'none'}}>
                         <FormControl type="text" placeholder="Tìm kiếm khóa học" style={{width: 400}}/>
                     </Form>
                 </div>
@@ -68,7 +72,7 @@ class NavigationBar extends Component {
                         <Nav className="ml-auto" className="div-setting-user">
                             <Nav.Item><BiUserCircle color='black' className='icon-user-login'/></Nav.Item> 
                             <div className="setting-user">
-                                <div className="setting-user-item setting-edit-info">
+                                <div className="setting-user-item setting-edit-info" onClick={() => this.handleRedirectInfo()}>
                                     <FaUserEdit/> <span>Thay đổi thông tin</span>
                                 </div>
                                 <div className="setting-user-item">

@@ -19,10 +19,10 @@ class UserItemCourse extends Component {
 
     render() {
         return (
-            <div className='col-4'>
+            <div className='col-3 mb-2'>
                  <Link to={`/user/learning/${this.props.course.id}`} style={{ textDecoration: 'none' }}>
-                    <Card >
-                        <Card.Img style={{ height: '16rem' }} variant="top" src={this.state.course.image} />
+                    <Card style={{borderRadius: '2rem'}}>
+                        <Card.Img style={{ height: '10rem' }} variant="top" src={this.state.course.image} />
                         <Card.Body>
                             <Card.Title >{this.state.course.name}</Card.Title>
                             <Card.Text>
