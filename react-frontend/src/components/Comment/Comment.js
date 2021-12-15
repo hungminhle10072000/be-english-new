@@ -13,7 +13,7 @@ const Comment = ({ comment,replies,currentUserId,replyingComment, setReplyingCom
             <div className="comment-right-part">
                 <div className="comment-content">
                     <div className="comment-author"></div>
-                    <div>{comment.time}</div>
+                    <div>{comment.userDto.fullname} {comment.time}</div>
 
                 </div>
                 <div className="comment-text">{comment.content}</div>
