@@ -23,7 +23,7 @@ class UserChapterItem extends Component {
     }
 
     showLessonItem = () => {
-        return this.state.chapter.lessons.map((lesson)=><UserLessonItem key={lesson.id} lesson={lesson} changedVideo={this.props.changedVideo}></UserLessonItem>)
+        return this.state.chapter.lessons.map((lesson)=><UserLessonItem key={lesson.id} lesson={lesson} changedVideo={this.props.changedVideo} isSub={this.props.isSub}></UserLessonItem>)
     }
     render() {
         
