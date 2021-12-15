@@ -5,14 +5,22 @@ import * as AiIcons from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { IconContext } from 'react-icons';
 import { AdminSideNav } from '../AdminSideNav/AdminSideNav';
+import { connect } from 'react-redux';
+import allActions from '../../actions/index';
 
-
-export default class AdminNavBar extends Component {
+class AdminNavBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sidebar: false
+            sidebar: false,
+            idUserLogin: localStorage.getItem('idUser')
         };
+    }
+
+    componentDidMount() {
+        if(this.state.idUserLogin !== null){
+            this.props.onGetUserLogin(this.state.idUserLogin)
+        }
     }
 
     logout = (e) => {
@@ -74,3 +82,19 @@ export default class AdminNavBar extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        itemUserLogin: state.itemUserLogin
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        onGetUserLogin: (id) => {
+            dispatch(allActions.userAction.actRememberUserLoginRequest(id))
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps) ((AdminNavBar))

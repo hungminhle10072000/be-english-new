@@ -1,5 +1,9 @@
-import React from 'react';
-import * as FaIcons from 'react-icons/fa';
+import React from 'react'
+import * as FaIcons from 'react-icons/fa'
+import {MdOndemandVideo} from 'react-icons/md'
+import {GoBook} from 'react-icons/go'
+import {FaAdversal} from 'react-icons/fa'
+import {FaUserEdit} from 'react-icons/fa'
 
 export const AdminSideNav = [
   {
@@ -11,37 +15,43 @@ export const AdminSideNav = [
   {
     title: 'Quản lí từ vựng',
     path: '/admin/topic-vocabulary',
-    icon: <FaIcons.FaUserFriends />,
+    icon: <FaAdversal/>,
     cName: 'nav-text'
   },
   {
     title: 'Quản lí ngữ pháp',
     path: '/admin/grammar',
-    icon: <FaIcons.FaUserFriends />,
+    icon: <GoBook />,
     cName: 'nav-text'
   },
   {
     title: 'Quản lí khoá học',
     path: '/admin/course',
-    icon: <FaIcons.FaUserFriends />,
+    icon: <MdOndemandVideo/>,
     cName: 'nav-text'
   },
   {
     title: 'Quản lí chương học',
     path: `/admin/chapter/${-1}`,
-    icon: <FaIcons.FaUserFriends />,
+    icon: <MdOndemandVideo/>,
     cName: 'nav-text'
   },
   {
     title: 'Quản lí bài học',
     path: `/admin/lesson/${-1}`,
-    icon: <FaIcons.FaUserFriends />,
+    icon: <MdOndemandVideo/>,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Thay đổi thông tin',
+    path: '/admin/edit/info',
+    icon: <FaUserEdit />,
     cName: 'nav-text'
   },
   {
     title: 'Đăng xuất',
     path: '/',
-    icon: <FaIcons.FaSignOutAlt />,
+    icon: <FaIcons.FaSignOutAlt/>,
     cName: 'nav-text'
   }
 ];

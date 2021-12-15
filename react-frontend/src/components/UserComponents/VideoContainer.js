@@ -23,9 +23,12 @@ class VideoContainer extends Component {
     };
     render() {
         return (
-            <div height='70%'>
-                <ReactPlayer  width='70%'
-                 height='600px' controls url={this.props.video}/>
+            // <div height='70%'>
+            //     <ReactPlayer  width='70%'
+            //      height='600px' controls url={this.props.video}/>
+            // </div>
+            <div className='div-display-video col-md-12'>
+                <ReactPlayer height='500px' width='70%' controls url={this.props.video}/>
             </div>
         )
     }

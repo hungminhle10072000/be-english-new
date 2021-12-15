@@ -5,6 +5,7 @@ import allActions from '../../actions';
 import { connect } from 'react-redux';
 import Comments from '../../components/Comment/Comments'
 import { Link } from 'react-router-dom'
+import './UserLearningPage.css'
 class UserLearningPage extends Component {
     constructor(props){
         super(props);
@@ -113,27 +114,24 @@ class UserLearningPage extends Component {
             }
         }
         return(
-            <div>
-               <VideoContainer video={this.state.linkVideo}></VideoContainer>
+            <div className='container-fluid mt-1'>
+                <div className='row mb-3'>
+                    <VideoContainer video={this.state.linkVideo}></VideoContainer>
+                </div>
                <h3>{this.state.course.name}</h3>
                <br/>
                {
                    isSub && (this.state.userCurrent.id === -1)&&(
                     <div>
                         <h2>Miễn phí</h2>
-               
-                            <button onClick={()=>window.location.pathname = ('/login')}>Đăng ký học</button>
-                     
-                        <br/>
-                        <br/>
+                        <button className='btn mb-3' style={{backgroundColor: '#f05123', color: 'white'}} onClick={()=>window.location.pathname = ('/login')}>Đăng ký học</button>
                     </div>
                    )
                }
-               
                <div className='row'>
-                   <div className='col-2'>
-                        <button onClick={() => this.changedIsChapter()} >Tổng quan</button>
-                        <button onClick={() => this.changedIsComment()}>Bình luận</button>
+                   <div className='col-3 col-btn-learn'>
+                        <button className='btn btn-success' onClick={() => this.changedIsChapter()} >Tổng quan</button>
+                        <button style={{marginLeft: '2%'}} className='btn btn-warning' onClick={() => this.changedIsComment()}>Bình luận</button>
                    </div>
                </div>
                <br/>

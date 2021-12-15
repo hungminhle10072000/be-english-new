@@ -2,12 +2,17 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import allActions from '../../actions';
 import './UserTopicVocabulary.css';
+import {Form, FormControl} from 'react-bootstrap';
 import UserItemTopicVocabulary from '../../components/UserItemTopicVocabulary/userItemTopicVocabulary';
 
 class UserTopicVocabulary extends Component {
 
     constructor(props){
         super(props);
+
+        this.state = {
+            term: ''
+        }
     }
 
     componentDidMount() {
@@ -32,11 +37,37 @@ class UserTopicVocabulary extends Component {
         return result;
     }
 
+    callback = (term) => {
+        this.setState({
+            term: term
+        })
+    }
+
     render() {
+        const dataSearch = this.state.term;
+        const dataTable = this.props.userVocabularyTopicReducer;
+        const resultSearch = []
+        if(dataTable.length > 0){
+            dataTable.forEach((item) => {
+                if(item.name.indexOf(dataSearch) !== -1){
+                    resultSearch.push(item);
+                }
+            })
+        }
         return (
             <div className='container-fluid main-content-user-topic'>
+                <div className='row justify-content-center div-search-topic'>
+                    <div className='col-md-12'>
+                        <h6 className='text-title-topic'>Mời bạn chọn chủ đề cần học nhé!</h6>
+                        <Form>
+                            <FormControl 
+                            onChange={(event) => this.callback(event.target.value)} name="searchTopic"
+                            type="text" placeholder="Tìm kiếm ..." className='userSearchTopic'/>
+                        </Form>
+                    </div>
+                </div>
                 <div className='row'>
-                    {this.showItemTopicVoca(this.props.userVocabularyTopicReducer)}
+                    {this.showItemTopicVoca(resultSearch)}           
                 </div>
             </div>
         )

@@ -26,6 +26,9 @@ public class QuestionEntity {
     private String option_2;
 
     @Column(name = "option_3")
+    private String option_3;
+
+    @Column(name = "option_4")
     private String option_4;
 
     @Column(name = "content_question")

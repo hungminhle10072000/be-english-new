@@ -1,0 +1,12 @@
+.col-btn-learn {
+    display: flex;
+    flex-direction: row;
+}
+
+.header-chapter {
+    cursor: pointer;
+}
+
+.title-lesson-name {
+    cursor: pointer;
+}

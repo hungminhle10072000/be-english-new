@@ -29,7 +29,7 @@ class UserChapterItem extends Component {
         
         return(
             <div>
-                <div className="card-header" style={{padding:'8px',paddingLeft:'15px'}} onClick={this.onClick}>
+                <div className="card-header header-chapter" style={{padding:'8px',paddingLeft:'15px'}} onClick={this.onClick}>
                     <strong style={{fontSize:'14px',color:'#1786be',textTransform:'uppercase'}}>{this.state.chapter.name}</strong>  
                     <span className="badge rounded-pill bg-danger" style={{float:'right'}}>{this.state.chapter.number}'</span>
                 </div>

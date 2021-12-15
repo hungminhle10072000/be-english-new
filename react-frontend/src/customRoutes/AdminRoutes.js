@@ -21,6 +21,7 @@ import AdminDetailTopicVocabulary from '../pages/AdminDetailTopicVocabulary/Admi
 import AdminEditLessonPage from '../pages/AdminEditLessonPage/AdminEditLessonPage';
 import AdminGrammar from '../pages/AdminGrammar/AdminGrammar';
 import AdminItemContentGrammar from '../components/AdminItemContentGrammar/AdminItemContentGrammar';
+import AdminEditInfo from '../pages/AdminEditInfo/AdminEditInfo';
 
 import UserCoursePage from '../pages/UserHomePage/UserCoursePage'
 class AdminRoutes extends Component {
@@ -31,6 +32,7 @@ class AdminRoutes extends Component {
                     <Route exact path="/admin" render={() => <Redirect to="/admin/account" />} />
                     <Route exact path="/admin/account" component={AdminAccountPage}/>
                     <Route exact path="/admin/account/add" component={AdminAddAccountPage}/>
+                    <Route exact path="/admin/edit/info" component={AdminEditInfo}/>
                     <Route exact path="/admin/account/edit/:id" component={AdminAccountEdit}/>
                     <Route exact path="/admin/course" component={AdminCoursePage}/> 
                     <Route exact path="/admin/course/add" component={AdminAddCoursePage}/>

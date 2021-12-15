@@ -29,7 +29,6 @@ class LessonService {
 
 
     addLesson(lesson,video) {
-        console.log("ADDLESSON: ",lesson)
         let formData = new FormData()
         const jsonLesson = JSON.stringify(lesson)
         const blob = new Blob([jsonLesson], {
@@ -85,11 +84,9 @@ class LessonService {
                 }
             })
         } else {
-            console.log("Video 2: ",video)
             formData.append("lessonDto",blob)
             formData.append("video",video)
     
-            console.log('Form Data: ',video)
             return axios.put(LESSON_API_BASE_URL+'/update',formData,{
                 headers: {
                     ...headers,
