@@ -78,9 +78,10 @@ class AdminAccountEdit extends Component {
 
     updateUser = (event) => {
         event.preventDefault();
+        this.handleConfirmationBox();
         this.props.onUpdateUser(this.state.user, this.state.currentFile, this.state.statuschossefile);
-        this.props.history.goBack();
-        this.props.changeAdminAlertOn("Cập nhật thành công","success");
+        // this.props.history.goBack();
+        // this.props.changeAdminAlertOn("Cập nhật thành công","success");
     }
 
     handleConfirmationBox = (event) => {
@@ -177,7 +178,7 @@ class AdminAccountEdit extends Component {
                         </button>
                         <button 
                             className="confirmation-button btn-confirm"
-                            onClick={(event) => this.updateUser(event)} >
+                            onClick={(event) => this.updateUser(event)}>
                             Xác nhận
                         </button>
                     </div>
