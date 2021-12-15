@@ -21,6 +21,10 @@ const Comments = ({currentUserId,comments,learningLessonId}) => {
       );
 
     const addComment = (body,parentId) => {
+        if (currentUserId === -1) {
+            alert('Vui lòng đăng nhập để bình luận!')
+            return;
+        }
         var comment = {
             content: body,
             parentId: parentId,
@@ -29,14 +33,17 @@ const Comments = ({currentUserId,comments,learningLessonId}) => {
             type: "1"
         }
         CommentService.addComment(comment).then(
+           
             (comm) => {
                 setBackendComments([comm.data,...backendComments]);
+               
         })
         setReplyingComment(null)
     }
-
+    console.log("ListComment:",backendComments )
 
     return (
+        
         <div className="comments">
             <h3 className="comments-title">Comments</h3>
             <CommentForm handleSubmit={addComment}/>

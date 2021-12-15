@@ -27,6 +27,8 @@ public class CommentConverter {
     private CommentRepository commentRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserConverter userConverter;
 
     public CommentEntity toEntity(CommentDto commentDto) {
         CommentEntity commentEntity = new CommentEntity();
@@ -83,6 +85,11 @@ public class CommentConverter {
         }
         if (commentEntity.getVocabularyTopicEntity() != null) {
             commentDto.setVocabularyTopicId(commentEntity.getVocabularyTopicEntity().getId());
+        }
+
+        UserEntity user = commentEntity.getUserEntity();
+        if (user != null) {
+            commentDto.setUserDto(userConverter.toDto(user));
         }
 
         return commentDto;
