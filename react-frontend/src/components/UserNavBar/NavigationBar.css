@@ -54,8 +54,8 @@ span.text-brand {
 .setting-user {
    position: absolute;
    background-color: #d5d4c7;
-   width: 200px;
-   top: 50%;
+   width: 260px;
+   top: 60%;
    right: 0%;
    z-index: 10000;
    border-radius: 10px;
@@ -67,12 +67,27 @@ span.text-brand {
    padding 0.8s linear;
 }
 
+.display-info-login {
+    margin-top: 1%;
+    display: flex;
+	align-content: flex-start;
+	align-items: center;
+	justify-content: center;	
+	cursor: pointer;
+	margin-top: 1rem;
+	transition-duration: 0.4s;
+}
+
+.display-info-login img {
+    border-radius: 50%;
+}
+
 .setting-user:before {
 	content: "";
     position: absolute;
     top: 50%;
-    margin-top: -110px;
-    left: 150px;
+    margin-top: -155px;
+    left: 203px;
     border: solid 15px transparent;
     border-bottom-color: #d5d4c7;
     z-index: 1;

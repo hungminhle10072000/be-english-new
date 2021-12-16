@@ -70,8 +70,15 @@ class NavigationBar extends Component {
                     <Navbar.Collapse id="basic-navbar-nav">
                         {checkUserLogin ?   
                         <Nav className="ml-auto" className="div-setting-user">
-                            <Nav.Item><BiUserCircle color='black' className='icon-user-login'/></Nav.Item> 
+                            <Nav.Item>
+                                <img style={{borderRadius: '50%'}} className='icon-user-login' src={this.props.itemUserLogin.avartar} width='50px' height='50px'/>
+                                {/* <BiUserCircle color='black' className='icon-user-login'/> */}
+                            </Nav.Item> 
                             <div className="setting-user">
+                                <div className='display-info-login'>
+                                    <img src={this.props.itemUserLogin.avartar} width='70px' height='70px'/>
+                                    <span style={{fontWeight: 600, color: 'black', fontSize: '1rem'}}>{this.props.itemUserLogin.fullname}</span>
+                                </div>
                                 <div className="setting-user-item setting-edit-info" onClick={() => this.handleRedirectInfo()}>
                                     <FaUserEdit/> <span>Thay đổi thông tin</span>
                                 </div>
