@@ -25,6 +25,7 @@ public class UserConverter {
         userEntity.setPassword(userDto.getPhonenumber());
         userEntity.setBirthday(Date.valueOf(userDto.getBirthday()));
         userEntity.setRole(userEntity.getRole());
+        userEntity.setUsername(userDto.getUsername());
 
         // List User Course
 
@@ -48,6 +49,7 @@ public class UserConverter {
         userDto.setPassword(userEntity.getPhonenumber());
 //        userDto.setBirthday( userEntity.getBirthday());
         userDto.setRole(userEntity.getRole());
+        userDto.setUsername(userEntity.getUsername());
         return userDto;
     }
 

@@ -12,7 +12,8 @@ class UserChapterItem extends Component {
                 number: this.props.chapter.number,
                 courseId: this.props.chapter.courseId,
                 courseName: this.props.chapter.courseName,
-                lessons: this.props.chapter.lessons
+                lessons: this.props.chapter.lessons,
+                numOfLesson: this.props.chapter.numOfLesson
             },
             showResults: false
         }
@@ -31,7 +32,7 @@ class UserChapterItem extends Component {
             <div>
                 <div className="card-header header-chapter" style={{padding:'8px',paddingLeft:'15px'}} onClick={this.onClick}>
                     <strong style={{fontSize:'14px',color:'#1786be',textTransform:'uppercase'}}>{this.state.chapter.name}</strong>  
-                    <span className="badge rounded-pill bg-danger" style={{float:'right'}}>{this.state.chapter.number}'</span>
+                    <span className="badge rounded-pill bg-danger" style={{float:'right'}}>{this.state.chapter.numOfLesson}'</span>
                 </div>
                 {this.state.showResults ? this.showLessonItem() : null}
             </div>

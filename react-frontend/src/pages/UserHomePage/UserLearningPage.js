@@ -103,6 +103,19 @@ class UserLearningPage extends Component {
         return this.state.course.chapters.map((chapter)=><UserChapterItem key={chapter.id} chapter={chapter} changedVideo={this.changedVideo} isSub = {isSub}></UserChapterItem>)
     }
 
+    subscribeCourse = () => {
+        let usercourse = {
+            user: {
+                id: this.state.userCurrent.id
+            },
+            course: {
+                id: this.state.course.id
+            }
+        }
+        this.props.onAddUserCourse(usercourse)
+        window.location.pathname = ('/user/learning/'+this.state.course.id)
+    }
+
 
     render() {
         var isSub = true;
@@ -121,10 +134,11 @@ class UserLearningPage extends Component {
                <h3>{this.state.course.name}</h3>
                <br/>
                {
-                   isSub && (this.state.userCurrent.id === -1)&&(
+                   (isSub || (this.state.userCurrent.id === -1))&&(
                     <div>
                         <h2>Miễn phí</h2>
-                        <button className='btn mb-3' style={{backgroundColor: '#f05123', color: 'white'}} onClick={()=>window.location.pathname = ('/login')}>Đăng ký học</button>
+                        <button className='btn mb-3' style={{backgroundColor: '#f05123', color: 'white'}} 
+                        onClick={((this.state.userCurrent.id === -1) && (()=>window.location.pathname = ('/login'))) || (()=>this.subscribeCourse())}>Đăng ký học</button>
                     </div>
                    )
                }
@@ -162,6 +176,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onGetCommentByLessonId: (lessonId) => {
             dispatch(allActions.commentAction.actGetCommentByLessonIdRequest(lessonId))
+        },
+        onAddUserCourse:(usercourse) => {
+            dispatch(allActions.userCourseAction.actAddUserCourseRequest(usercourse))
         }
     }
 }

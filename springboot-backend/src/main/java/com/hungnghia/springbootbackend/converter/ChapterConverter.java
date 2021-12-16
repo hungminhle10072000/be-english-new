@@ -41,9 +41,11 @@ public class ChapterConverter {
         chapterDto.setCourseId((int)chapterEntity.getCourseEntity().getId());
         chapterDto.setCourseName(chapterEntity.getCourseEntity().getName());
         List<LessonEntity> lstLessonEntity = chapterEntity.getLessonEntityList();
-        List<LessonDto> lessons = lessonConverter.toListDtos(lstLessonEntity);
-        chapterDto.setLessons(lessons);
-
+        if (lstLessonEntity != null) {
+            List<LessonDto> lessons = lessonConverter.toListDtos(lstLessonEntity);
+            chapterDto.setLessons(lessons);
+            chapterDto.setNumOfLesson(lstLessonEntity.size());
+        }
         if (lstLessonEntity !=null) {
             chapterDto.setNumOfLesson(lstLessonEntity.size());
         } else {
