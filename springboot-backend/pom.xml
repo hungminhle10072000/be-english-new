@@ -89,6 +89,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>springboot-backend</finalName>
     </build>
 
 </project>
