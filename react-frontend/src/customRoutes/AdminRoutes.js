@@ -22,7 +22,7 @@ import AdminEditLessonPage from '../pages/AdminEditLessonPage/AdminEditLessonPag
 import AdminGrammar from '../pages/AdminGrammar/AdminGrammar';
 import AdminItemContentGrammar from '../components/AdminItemContentGrammar/AdminItemContentGrammar';
 import AdminEditInfo from '../pages/AdminEditInfo/AdminEditInfo';
-import AdminCommentPage from '../pages/AdminCoursePage/AdminCommentPage';
+import AdminCommentPage from '../pages/AdminCommentPage/AdminCommentPage';
 
 import UserCoursePage from '../pages/UserHomePage/UserCoursePage'
 class AdminRoutes extends Component {

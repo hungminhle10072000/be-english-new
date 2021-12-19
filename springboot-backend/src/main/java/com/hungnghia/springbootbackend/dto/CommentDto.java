@@ -20,4 +20,3 @@ public class CommentDto {
     private VocabularyDto vocabularyDto;
     private LessonDto lessonDto;
 }
- 
