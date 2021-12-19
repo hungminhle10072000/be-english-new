@@ -17,6 +17,7 @@ public class CommentService {
     private CommentRepository commentRepository;
     @Autowired
     private CommentConverter commentConverter;
+
     public List<CommentEntity> getCommentByLessonId(Long lessonId) {
         List<CommentEntity> lessonEntities = commentRepository.findCommentEntitiesByLessonEntity_Id(lessonId);
         return lessonEntities;
@@ -27,5 +28,10 @@ public class CommentService {
         commentEntity.setTime(new Date());
         CommentEntity result = commentRepository.save(commentEntity);
         return commentConverter.toDto(result);
+    }
+    public List<CommentDto> getAllComment() {
+        List<CommentEntity> commentEntities = commentRepository.findAll();
+        List<CommentDto> commentDtos = commentConverter.toListDto(commentEntities);
+        return commentDtos;
     }
 }

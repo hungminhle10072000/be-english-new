@@ -49,6 +49,12 @@ export const AdminSideNav = [
     cName: 'nav-text'
   },
   {
+    title: 'Quản lí bình luận',
+    path: '/admin/comments',
+    icon: <FaUserEdit />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Đăng xuất',
     path: '/',
     icon: <FaIcons.FaSignOutAlt/>,

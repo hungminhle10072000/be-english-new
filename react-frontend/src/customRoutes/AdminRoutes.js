@@ -22,6 +22,7 @@ import AdminEditLessonPage from '../pages/AdminEditLessonPage/AdminEditLessonPag
 import AdminGrammar from '../pages/AdminGrammar/AdminGrammar';
 import AdminItemContentGrammar from '../components/AdminItemContentGrammar/AdminItemContentGrammar';
 import AdminEditInfo from '../pages/AdminEditInfo/AdminEditInfo';
+import AdminCommentPage from '../pages/AdminCoursePage/AdminCommentPage';
 
 import UserCoursePage from '../pages/UserHomePage/UserCoursePage'
 class AdminRoutes extends Component {
@@ -49,6 +50,8 @@ class AdminRoutes extends Component {
                     <Route exact path="/admin/grammar" component={AdminGrammar}/>
                     <Route exact path="/admin/grammar/:id" component={AdminItemContentGrammar}/>      
                     <Route exact path="/admin/lesson/edit/:id" component={AdminEditLessonPage}/>    
+                    <Route exact path="/admin/comments" component={AdminCommentPage}/>    
+                    
                     {/* <Route exact path="/user/course" component={UserCoursePage}/>    */}
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>   

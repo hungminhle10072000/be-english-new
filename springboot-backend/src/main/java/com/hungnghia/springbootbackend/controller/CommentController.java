@@ -25,6 +25,11 @@ public class CommentController {
         List<CommentDto> commentDtos = commentConverter.toListDto(commentEntities);
         return commentDtos;
     }
+    @GetMapping("/getAll")
+    public List<CommentDto> getAllComment() {
+        List<CommentDto> commentDtos = commentService.getAllComment();
+        return commentDtos;
+    }
     @PostMapping("/add")
     public  CommentDto addComment(@RequestBody CommentDto comment) {
         CommentDto commentDto = commentService.addComment(comment);
