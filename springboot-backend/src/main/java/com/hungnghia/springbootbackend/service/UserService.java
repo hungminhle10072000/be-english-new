@@ -5,6 +5,8 @@ import com.hungnghia.springbootbackend.entities.UserEntity;
 import com.hungnghia.springbootbackend.exception.ResourceNotFoundException;
 import com.hungnghia.springbootbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,15 +20,17 @@ import java.util.Random;
 @Service
 public class UserService {
 
+    private AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final AmazonClient amazonClient;
     private final PasswordEncoder bcryptEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, AmazonClient amazonClient, PasswordEncoder bcryptEncoder) {
+    public UserService(UserRepository userRepository, AmazonClient amazonClient, PasswordEncoder bcryptEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.amazonClient = amazonClient;
         this.bcryptEncoder = bcryptEncoder;
+        this.authenticationManager = authenticationManager;
     }
 
     public List<UserEntity> getUsers(){
@@ -57,6 +61,15 @@ public class UserService {
         return false;
     }
 
+    public boolean checkPassWordOld(String username , String passWordOld){
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, passWordOld));
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
     public UserEntity addUser(UserDto userDto, MultipartFile file){
         UserEntity userEntity = new UserEntity();
         userEntity.setFullname(userDto.getFullname());
@@ -80,6 +93,14 @@ public class UserService {
         UserEntity userUpdatePassword = getUser(username);
         userUpdatePassword.setPassword(bcryptEncoder.encode(password));
         return userRepository.save(userUpdatePassword);
+    }
+
+    /*Update password*/
+    public String userUpdatePassWord (String username, String password){
+        UserEntity userUpdatePassword = getUser(username);
+        userUpdatePassword.setPassword(bcryptEncoder.encode(password));
+        userRepository.save(userUpdatePassword);
+        return bcryptEncoder.encode((password));
     }
 
     /*Edit User*/

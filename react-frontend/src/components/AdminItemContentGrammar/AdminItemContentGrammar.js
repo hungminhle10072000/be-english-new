@@ -4,7 +4,6 @@ import Classiceditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import { connect } from 'react-redux'
 import allActions from '../../actions'
-
 class AdminItemContentGrammar extends Component {
 
     constructor(props){
@@ -26,6 +25,12 @@ class AdminItemContentGrammar extends Component {
     
     componentDidMount() {
         this.props.getAllGrammars();
+    }
+
+    editorConfig = {
+        mediaEmbed: {
+            previewsInData: true
+        }
     }
     
     componentWillReceiveProps(nextProps) {
@@ -65,7 +70,7 @@ class AdminItemContentGrammar extends Component {
         return (
             <div className="container-fluid">
                 <div className="row text-center justify-content-center">
-                    <div className="col-md-8 title-name-grammar">{this.state.grammarEdit.name}</div>
+                    <div className="col-md-8 title-name-grammar text-center">{this.state.grammarEdit.name}</div>
                 </div>
                 <div className="row mt-4">
                     <h3>Nội dung bài học:</h3>
@@ -76,6 +81,7 @@ class AdminItemContentGrammar extends Component {
                             onReady={ editor => {
                                 
                             }}
+                            config={ this.editorConfig }
                             onChange={this.handleCkeditorState}
                         />                    
                     </div>
