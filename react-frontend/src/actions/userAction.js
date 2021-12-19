@@ -28,11 +28,10 @@ const actRegisterRequest = (userDto, file) => {
             UserService.register(userDto,file).then(
                 (res) => 
                 {
-                    console.log(res.status)
                     dispatch(actRegisterSuccess())
                 }
-            ).catch(           
-                error => {
+            ).catch(      
+                error => {    
                     if(error.response.status === 409){
                         dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
                     }
@@ -49,6 +48,38 @@ const actRegisterRequest = (userDto, file) => {
 const actRegisterSuccess = () => {
     return {
         type: Types.REGISTER_USER_SUCCESS
+    }
+}
+
+// user update password request
+const actUserUpdatePassWordRequest = (username, passwordOld, passwordNew) => {
+    return(dispatch) => {
+        return(
+            UserService.userUpdatePassWord(username, passwordOld, passwordNew)
+            .then(
+                (res) => 
+                {
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật mật khẩu thành công", "success"))    
+                    dispatch(actUserUpdatePassword(res.data)) 
+                }
+            ).catch(       
+                error => {
+                    if(error.response.status === 409){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật mật khẩu thất bại", "danger"))           
+                    }
+                    if(error.response.status === 400){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Mật khẩu cũ không chính xác !!!!", "danger"))           
+                    }            
+                }        
+            )
+        )
+    }
+}
+
+const actUserUpdatePassword = (passwordNew) => {
+    return {
+        type: Types.USER_UPDATE_PASSWORD,
+        passwordNew
     }
 }
 
@@ -124,6 +155,32 @@ const actGetUser = (user) => {
     }
 }
 
+// user login update info
+const actUpdateUserInfoRequest = (userDto, file, checkFile) => {
+    return dispatch => {
+        return (
+            UserService.updateUser(userDto, userDto.id, file, checkFile).then(
+                (res) => 
+                {
+                    dispatch(actUpdateUser(res.data));
+                    dispatch(actGetUserRequest(res.data.id));
+                    dispatch(actLoginUser(res.data));
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công","success")) 
+                }
+            ).catch(           
+                error => {
+                    if(error.response.status === 409){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
+                    }
+                    if(error.response.status === 400){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Email đã có tài khoản đăng ký ! Yêu cầu sử dụng email khác", "danger"))           
+                    }            
+                }        
+            )
+        )
+    }
+}
+
 
 // update user
 const actUpdateUserRequest = (userDto, file, checkFile) => {
@@ -135,7 +192,6 @@ const actUpdateUserRequest = (userDto, file, checkFile) => {
             UserService.updateUser(userDto, userDto.id, file, checkFile).then(
                 (res) => 
                 {
-                    // console.log(res.status)
                     dispatch(actUpdateUser(res.data));
                     dispatch(actGetUserRequest(res.data.id))
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công","success")) 
@@ -223,5 +279,7 @@ export default {
     actLoginUserRequest,
     actRegisterRequest,
     actForgetPassWordRequest,
-    actRememberUserLoginRequest
+    actRememberUserLoginRequest,
+    actUserUpdatePassWordRequest,
+    actUpdateUserInfoRequest
 }

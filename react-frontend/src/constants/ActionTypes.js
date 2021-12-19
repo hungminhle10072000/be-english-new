@@ -14,6 +14,7 @@ export const REMEMBER_USER_LOGIN = 'REMEMBER_USER_LOGIN';
 export const ResetPassWord = 'ResetPassWord';
 export const FORM_SEND_MAIL_ON = 'FORM_SEND_MAIL_ON';
 export const FORM_SEND_MAIL_OFF = 'FORM_SEND_MAIL_OFF';
+export const USER_UPDATE_PASSWORD = 'USER_UPDATE_PASSWORD';
 
 
 // Vocabulary Topic

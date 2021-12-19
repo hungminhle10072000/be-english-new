@@ -33,8 +33,19 @@ class AdminEditInfo extends Component {
             statuschossefile: false,
 
             // validation
-            validationMsg: {}
+            validationMsg: {},
+            validationMsgPassword:{},
+            openFormResetPassword: false,
+            passwordOld: '',
+            passwordNew: '',
+            repeat_passwordNew: ''
         }
+    }
+
+    openFormResetPassWord () {
+        this.setState({
+            openFormResetPassword: !this.state.openFormResetPassword
+        })
     }
 
     selectFile(event) {
@@ -73,6 +84,14 @@ class AdminEditInfo extends Component {
         })
     }
 
+    isChangePassWord = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({
+            [name]: value
+        })
+    }
+
     updateUser = (event) => {
         event.preventDefault();
         this.handleConfirmationBox();
@@ -99,6 +118,34 @@ class AdminEditInfo extends Component {
                 })
             }
         }
+    }
+
+    validatePassWord = () => {
+        const msgPassWord = {}
+        // if(!validator.equals(this.props.itemUserEdit.password, this.state.passwordOld)){
+        //     console.log(this.props.itemUserEdit.password + ' ---- ' + this.state.passwordOld)
+        //     console.log(validator.equals(this.state.user.password, this.state.passwordOld))
+        //     msgPassWord.passwordOld = "Mật khẩu cũ không chính xác !"
+        // }
+        if(validator.isEmpty(this.state.passwordNew)){
+            msgPassWord.passwordNew = "Yêu cầu nhập mật khẩu mới !"
+        } else if (!validator.equals(this.state.passwordNew, this.state.repeat_passwordNew)) {
+            msgPassWord.repeat_passwordNew = "Mật khẩu nhập lại không khớp !"
+        }
+        this.setState({
+            validationMsgPassword: msgPassWord
+        })
+        if(Object.keys(msgPassWord).length > 0) return false
+        return true;
+    }
+
+    handleUpdatePassWord = () => {
+        const isValid = this.validatePassWord()
+        const {user, passwordOld, passwordNew} = this.state
+        if(!isValid) return
+        else{
+            this.props.onUserUpdatePassWord(user.username,passwordOld, passwordNew)
+        } 
     }
 
     validateAll = () => {
@@ -159,7 +206,8 @@ class AdminEditInfo extends Component {
         const checkavartar = this.state.user.avatar !== '' && this.state.statuschossefile === false;
         const { 
             previewImage,
-            validationMsg
+            validationMsg,
+            validationMsgPassword
         } = this.state;
 
         return (
@@ -281,13 +329,35 @@ class AdminEditInfo extends Component {
                                     <button type="button" onClick={(event) => this.handleConfirmationBox(event)}
                                     className="btn btn-success btn-save-account">Cập nhật <BiSave /></button> 
 
-                                    <button type="reset" onClick={(event) =>  this.resetForm(event)}
+                                    <button type="button" onClick={(event) =>  this.openFormResetPassWord()}
                                     className="btn btn-danger">Đổi mật khẩu <BiKey /></button> 
 
                                     <button type="reset" onClick={(event) =>  this.resetForm(event)} style={{marginLeft: '1%'}}
                                     className="btn btn-warning">Reset <BiReset /></button> 
                             </div>
                         </form>
+                        {this.state.openFormResetPassword && 
+                        <div className="row mt-3 div-reset-password">
+                            <div className="col-md-6">
+                                <label htmlFor="passwordOld"><b>Mật khẩu cũ</b></label>
+                                <input className="input-field" type="password" onChange={(event) => this.isChangePassWord(event)}
+                                placeholder="Mật khẩu" name="passwordOld" id="passwordOld" />
+                                <p className="msg-error">{validationMsgPassword.passwordOld}</p>
+
+                                <label htmlFor="passwordNew"><b>Mật khẩu mới</b></label>
+                                <input className="input-field" type="password" onChange={(event) => this.isChangePassWord(event)}
+                                placeholder="Nhập lại mật khẩu" name="passwordNew" id="passwordNew" />
+                                <p className="msg-error">{validationMsgPassword.passwordNew}</p>
+
+                                <label htmlFor="repeat_passwordNew"><b>Nhập lại mật khẩu mới</b></label>
+                                <input className="input-field" type="password" onChange={(event) => this.isChangePassWord(event)}
+                                placeholder="Nhập lại mật khẩu" name="repeat_passwordNew" id="repeat_passwordNew" />
+                                <p className="msg-error">{validationMsgPassword.repeat_passwordNew}</p>
+                                
+                                <button type="button" onClick={() =>  this.handleUpdatePassWord()}
+                                className="btn btn-danger">Cập nhật <BiKey /></button> 
+                            </div> 
+                        </div> }
                     </div>
                 </div>
             </div>
@@ -309,10 +379,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(allActions.userAction.actGetUserRequest(id));
         },
         onUpdateUser: (userDto, file, checkFile) => {
-            dispatch(allActions.userAction.actUpdateUserRequest(userDto, file, checkFile));
+            dispatch(allActions.userAction.actUpdateUserInfoRequest(userDto, file, checkFile));
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
+        },
+        onUserUpdatePassWord: (username, passwordOld, passwordNew) => {
+            dispatch(allActions.userAction.actUserUpdatePassWordRequest(username, passwordOld, passwordNew))
         }
     }
 }

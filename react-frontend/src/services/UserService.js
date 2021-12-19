@@ -105,6 +105,24 @@ class UserService {
         }
         return axios.post(USER_API_ForgetPassWord, missPassWordDto);
     }
+
+    //user update password
+    userUpdatePassWord(username, passwordOld, passwordNew){
+        let formData = new FormData();
+        formData.append('username', username);
+        formData.append('passwordOld', passwordOld);
+        formData.append('passwordNew', passwordNew);
+        // let passwordUpdate = {
+        //     username: 'hunguser1',
+        //     passwordOld: passwordOld,
+        //     passwordNew: passwordNew
+        // }
+        // console.log(username + "----" + passwordOld + "------" + passwordNew)
+        return axios.put(USER_API_END_POINT + '/change-passWord', formData, {
+            headers:{...headers,...authHeader()}
+        })
+    }
+    
 }
 
 export default new UserService()

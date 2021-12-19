@@ -46,8 +46,8 @@ class UserGrammar extends Component {
                 </div>
                 <div className='row mt-2 mb-2 div-content-user-learn-grammar pt-3'>
                     <div className='col-md-12 ck-content'>
-                        <div className='mb-5'>
-                            <span className='title-user-learn-grammar'>{this.state.itemGrammarLearning.name}</span>
+                        <div className='mb-5 text-center'>
+                            <span className='title-user-learn-grammar text-center'>{this.state.itemGrammarLearning.name}</span>
                         </div>
                         {ReactHTMLParser(this.state.itemGrammarLearning.content)}             
                     </div>
