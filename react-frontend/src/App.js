@@ -16,24 +16,9 @@ import { connect } from 'react-redux';
 
 class App extends Component {
 
-  // eslint-disable-next-line no-useless-constructor
   constructor(props){
     super(props);
-    // this.state = {
-    //   role: ''
-    // }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //     if(nextProps && nextProps.itemUserLogin){
-  //         let {itemUserLogin} = nextProps
-  //         this.setState({
-  //           role: itemUserLogin.role
-  //         })
-  //     }
-  // }
-  
-  
 
   render() {
     const checkRoleAdmin = (localStorage.getItem('w2rt3') === "popqw")

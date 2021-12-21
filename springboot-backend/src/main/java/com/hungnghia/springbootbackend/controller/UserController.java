@@ -107,4 +107,20 @@ public class UserController {
         return new ResponseEntity<>("Tên đăng nhập hoặc email không chính xác !!!",HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping("/users/change-passWord")
+    public ResponseEntity<String> changPassWord (@RequestParam("username") String username,@RequestParam("passwordOld") String passwordOld, @RequestParam("passwordNew") String passwordNew){
+        boolean checkPassWordOld = userService.checkPassWordOld(username, passwordOld);
+        if(!checkPassWordOld){
+            System.out.println("Mật khẩu không chính xác");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            try{
+                return ResponseEntity.ok(userService.userUpdatePassWord(username, passwordNew));
+            } catch (Exception e){
+                System.out.println("Cập nhật mật khẩu thất bại");
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+    }
+
 }

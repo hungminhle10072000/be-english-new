@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -46,8 +47,11 @@ public class CommentEntity {
     @JsonIgnore
     private LessonEntity lessonEntity;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "parent_id")
-    @JsonIgnore
     private CommentEntity commentEntity;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "commentEntity", cascade = CascadeType.ALL)
+    private List<CommentEntity> commentEntities;
 }

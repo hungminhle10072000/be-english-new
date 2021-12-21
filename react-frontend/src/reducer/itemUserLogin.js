@@ -11,6 +11,8 @@ const itemUserLogin = (state = itemUserLoginState, action) => {
             return action.user;
         case Types.REMEMBER_USER_LOGIN:
             return action.user;
+        case Types.USER_UPDATE_PASSWORD:
+            return {...state, password: action.passwordNew}
         default:
             return state
     }

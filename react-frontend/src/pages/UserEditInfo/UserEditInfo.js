@@ -117,11 +117,11 @@ class UserEditInfo extends Component {
 
     validatePassWord = () => {
         const msgPassWord = {}
-        if(!validator.equals(this.props.itemUserEdit.password, this.state.passwordOld)){
-            console.log(this.props.itemUserEdit.password + ' ---- ' + this.state.passwordOld)
-            console.log(validator.equals(this.state.user.password, this.state.passwordOld))
-            msgPassWord.passwordOld = "Mật khẩu cũ không chính xác !"
-        }
+        // if(!validator.equals(this.props.itemUserEdit.password, this.state.passwordOld)){
+        //     console.log(this.props.itemUserEdit.password + ' ---- ' + this.state.passwordOld)
+        //     console.log(validator.equals(this.state.user.password, this.state.passwordOld))
+        //     msgPassWord.passwordOld = "Mật khẩu cũ không chính xác !"
+        // }
         if(validator.isEmpty(this.state.passwordNew)){
             msgPassWord.passwordNew = "Yêu cầu nhập mật khẩu mới !"
         } else if (!validator.equals(this.state.passwordNew, this.state.repeat_passwordNew)) {
@@ -136,9 +136,10 @@ class UserEditInfo extends Component {
 
     handleUpdatePassWord = () => {
         const isValid = this.validatePassWord()
+        const {user, passwordOld, passwordNew} = this.state
         if(!isValid) return
         else{
-            alert("Thực hiện cập nhật");
+            this.props.onUserUpdatePassWord(user.username,passwordOld, passwordNew)
         } 
     }
 
@@ -377,10 +378,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(allActions.userAction.actGetUserRequest(id));
         },
         onUpdateUser: (userDto, file, checkFile) => {
-            dispatch(allActions.userAction.actUpdateUserRequest(userDto, file, checkFile));
+            dispatch(allActions.userAction.actUpdateUserInfoRequest(userDto, file, checkFile));
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
+        },
+        onUserUpdatePassWord: (username, passwordOld, passwordNew) => {
+            dispatch(allActions.userAction.actUserUpdatePassWordRequest(username, passwordOld, passwordNew))
         }
     }
 }
