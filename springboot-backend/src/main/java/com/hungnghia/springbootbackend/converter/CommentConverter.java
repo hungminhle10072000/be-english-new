@@ -8,6 +8,7 @@ import com.hungnghia.springbootbackend.repository.CommentRepository;
 import com.hungnghia.springbootbackend.repository.LessonRepository;
 import com.hungnghia.springbootbackend.repository.UserRepository;
 import com.hungnghia.springbootbackend.repository.VocabularyTopicRepository;
+import com.hungnghia.springbootbackend.service.LessonService;
 import com.hungnghia.springbootbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,8 @@ public class CommentConverter {
     private UserService userService;
     @Autowired
     private UserConverter userConverter;
+    @Autowired
+    private LessonService lessonService;
 
     public CommentEntity toEntity(CommentDto commentDto) {
         CommentEntity commentEntity = new CommentEntity();
@@ -77,7 +80,9 @@ public class CommentConverter {
         //Grammar
 
         if (commentEntity.getLessonEntity() != null) {
+            LessonDto lessonDto = lessonService.getLessonById(commentEntity.getLessonEntity().getId());
             commentDto.setLessonId(commentEntity.getLessonEntity().getId());
+            commentDto.setLessonDto(lessonDto);
         }
         if (commentEntity.getUserEntity() != null) {
             commentDto.setUserId(commentEntity.getId());
