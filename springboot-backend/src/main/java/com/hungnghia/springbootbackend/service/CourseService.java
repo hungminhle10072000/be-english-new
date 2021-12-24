@@ -23,7 +23,6 @@ public class CourseService  {
         String imageUrl = amazonClient.uploadFile(file);
         courseEntity.setImage(imageUrl);
         CourseEntity courseResult = courseRepository.save(courseEntity);
-
         return courseConverter.toDto(courseResult);
     }
 
