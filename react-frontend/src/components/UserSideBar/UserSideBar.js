@@ -12,6 +12,12 @@ export const UserSideBar = [
     cName: 'nav-user-text'
   },
   {
+    title: 'Kiểm tra từ',
+    path: '/user/test-vocabulary',
+    icon: <FaAdversal color='black'/>,
+    cName: 'nav-user-text'
+  },
+  {
     title: 'Ngữ pháp',
     path: '/user/grammar',
     icon: <GoBook color='black'/>,

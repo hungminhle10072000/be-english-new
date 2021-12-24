@@ -7,6 +7,7 @@ const actUserFetchVocaTopicsRequest = () => {
         return (
             VocabularyTopicService.userGetAllVocaTopic().then((res) => {
                 dispatch(actUserFetchVocaTopics(res.data))
+                dispatch(actUserCreateValueSelectTopic(res.data))
             })
         )
     }
@@ -19,7 +20,15 @@ const actUserFetchVocaTopics = (vocabularyTopics) => {
     }
 }
 
+const actUserCreateValueSelectTopic = (listValueKeySelect) => {
+    return {
+        type: Types.USER_CREATE_VALUE_SELECT_TOPIC,
+        listValueKeySelect
+    }
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    actUserFetchVocaTopicsRequest
+    actUserFetchVocaTopicsRequest,
+    actUserCreateValueSelectTopic
 }
