@@ -4,6 +4,7 @@ import {MdOndemandVideo} from 'react-icons/md'
 import {GoBook} from 'react-icons/go'
 import {FaAdversal} from 'react-icons/fa'
 import {FaUserEdit} from 'react-icons/fa'
+import {GiPrayer} from 'react-icons/gi'
 
 export const AdminSideNav = [
   {
@@ -43,14 +44,20 @@ export const AdminSideNav = [
     cName: 'nav-text'
   },
   {
-    title: 'Thay đổi thông tin',
-    path: '/admin/edit/info',
+    title: 'Quản lí bình luận',
+    path: '/admin/comments',
     icon: <FaUserEdit />,
     cName: 'nav-text'
   },
   {
-    title: 'Quản lí bình luận',
-    path: '/admin/comments',
+    title: 'Quản lí bài tập',
+    path: '/admin/exercise',
+    icon: <GiPrayer />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Thay đổi thông tin',
+    path: '/admin/edit/info',
     icon: <FaUserEdit />,
     cName: 'nav-text'
   },

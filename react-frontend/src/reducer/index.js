@@ -33,6 +33,8 @@ import userVocabularyWithTopic from './VocabularyReducer/userListVocabularyWithT
 import UserItemLearnGrammar from './UserItemLearnGrammar/UserItemLearnGrammar'
 import userListGrammar from './UserGrammarReducer/userListGrammar'
 import userValueSelectGrammar from './UserGrammarReducer/userValueSelectGrammar'
+import statusFormAdminExercise from "./AdminExercise/statusFormAdminExercise"
+import exerciseReducer from "./AdminExercise/exerciseReducer"
 
 const appReducers = combineReducers({
     users,
@@ -61,6 +63,8 @@ const appReducers = combineReducers({
     userVocabularyWithTopic,
     UserItemLearnGrammar,
     userListGrammar,
-    userValueSelectGrammar
+    userValueSelectGrammar,
+    statusFormAdminExercise,
+    exerciseReducer
 });
 export default appReducers;

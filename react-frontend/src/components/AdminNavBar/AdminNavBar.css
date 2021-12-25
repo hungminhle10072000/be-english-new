@@ -42,6 +42,14 @@
     transition: 350ms;
   }
 
+  ul.nav-menu-items {
+    overflow-y: scroll;
+  }
+
+  ul.nav-menu-items::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Tránh bị nội dung ghi đè */
   nav.nav-menu { 
     z-index: 100; 

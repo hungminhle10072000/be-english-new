@@ -64,5 +64,12 @@ module.exports = function (app) {
             changeOrigin: true
         })
     );
+
+    app.use("/api/exercise",
+        createProxyMiddleware({
+            target: `${API_BASE}`,
+            changeOrigin: true
+        })
+    );
     
 };

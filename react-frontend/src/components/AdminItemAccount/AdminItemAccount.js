@@ -49,10 +49,10 @@ class AdminItemAccount extends Component {
                     <td><img style={{width:100, height:100}} src={this.props.avartar} alt="Ảnh đại diện"/></td>
                     <td>
                         <Link to={`/admin/account/edit/${this.props.id}`}>
-                            <button type="button" className="btn btn-warning btn-edit-account">Sửa</button>
+                            <button type="button" className="btn btn-warning btn-edit-account mb-1">Sửa</button>
                         </Link>
                         <button onClick={() => this.onDelete()}
-                        type="button" className="btn btn-danger btn-delete-account">Xóa</button>
+                        type="button" className="btn btn-danger btn-delete-account mb-1">Xóa</button>
                     </td>
                 </tr>
             </Fragment>
