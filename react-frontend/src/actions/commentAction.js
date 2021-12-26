@@ -21,6 +21,44 @@ const actGetCommentByLessonId = (comments) => {
     }
 }
 
+// get by id
+// get comment by topic id
+const actGetCommentByTopicIdRequest = (lessonId) => {
+    return dispatch => {
+        return (
+            CommentService.getCommentByTopicId(lessonId).then((res) => {
+                console.log("ResData",res.data)
+                dispatch(actGetCommentByTopicId(res.data));
+            })
+        )
+    }
+}
+
+const actGetCommentByTopicId = (comments) => {
+    return {
+        type:Types.FETCH_COMMENTS,
+        comments
+    }
+}
+// get by id
+// get comment by topic id
+const actGetCommentByGrammarIdRequest = (grammarId) => {
+    return dispatch => {
+        return (
+            CommentService.getCommentByGrammarId(grammarId).then((res) => {
+                console.log("ResData",res.data)
+                dispatch(actGetCommentByGrammarId(res.data));
+            })
+        )
+    }
+}
+
+const actGetCommentByGrammarId = (comments) => {
+    return {
+        type:Types.FETCH_COMMENTS,
+        comments
+    }
+}
 // get all comments
 const actFetchCommentRequest = () => {
     return (dispatch) => {
@@ -138,5 +176,7 @@ export default {
     actDeleteCommentRequest,
     actUpdateCommentRequest,
     actGetCommentByCourseIdRequest,
-    actGetCommentByLessonIdRequest
+    actGetCommentByLessonIdRequest,
+    actGetCommentByTopicIdRequest,
+    actGetCommentByGrammarIdRequest
 }

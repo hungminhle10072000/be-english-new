@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity,Long> {
     List<CommentEntity> findCommentEntitiesByLessonEntity_Id(Long lessonId);
+    List<CommentEntity> findCommentEntitiesByVocabularyTopicEntity_Id(Long vocabularyTopicId);
+    List<CommentEntity> findCommentEntitiesByGrammarEntity_Id(Long grammarId);
 }

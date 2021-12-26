@@ -3,7 +3,7 @@ import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import CommentService from '../../services/CommentService'
 
-const Comments = ({currentUserId,comments,learningLessonId}) => {
+const Comments = ({currentUserId,comments,learningId,type="1"}) => {
     const [backendComments, setBackendComments] = useState(comments)
     const [replyingComment, setReplyingComment] = useState(null)
     const rootComments = backendComments.filter((backendComment) => backendComment.parentId===null)
@@ -28,10 +28,23 @@ const Comments = ({currentUserId,comments,learningLessonId}) => {
         var comment = {
             content: body,
             parentId: parentId,
-            lessonId: learningLessonId,
+            lessonId: null,
+            vocabularyTopicId:null,
+            grammarId:null,
             userId: currentUserId,
-            type: "1"
+            type: type
         }
+  
+        if (type === "1") {
+            comment.lessonId =learningId;
+        } else if (type === "2") {
+            comment.vocabularyTopicId =learningId;
+        } else if (type === "3") {
+            comment.grammarId =learningId;
+        }
+
+        console.log("COMMENT: ",comment)
+        
         CommentService.addComment(comment).then(
            
             (comm) => {
@@ -40,12 +53,11 @@ const Comments = ({currentUserId,comments,learningLessonId}) => {
         })
         setReplyingComment(null)
     }
-    console.log("ListComment:",backendComments )
 
     return (
         
         <div className="comments">
-            <h3 className="comments-title">Comments</h3>
+            <h3 className="comments-title">Để lại bình luận ở bên dưới</h3>
             <CommentForm handleSubmit={addComment}/>
             <br/>
             <div className="comment-container">

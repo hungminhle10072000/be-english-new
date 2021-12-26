@@ -25,7 +25,18 @@ public class CommentController {
         List<CommentDto> commentDtos = commentConverter.toListDto(commentEntities);
         return commentDtos;
     }
-
+    @GetMapping("/getCommentByVocabularyTopicId/{vocabularyTopicId}")
+    public List<CommentDto> getCommentByVocabularyTopicId(@PathVariable Long vocabularyTopicId) {
+        List<CommentEntity> commentEntities = commentService.getCommentByVocabularyTopicId(vocabularyTopicId);
+        List<CommentDto> commentDtos = commentConverter.toListDto(commentEntities);
+        return commentDtos;
+    }
+    @GetMapping("/getCommentByGrammarId/{grammarId}")
+    public List<CommentDto> getCommentByGrammarId(@PathVariable Long grammarId) {
+        List<CommentEntity> commentEntities = commentService.getCommentByGrammarId(grammarId);
+        List<CommentDto> commentDtos = commentConverter.toListDto(commentEntities);
+        return commentDtos;
+    }
     @GetMapping("/getAll")
     public List<CommentDto> getAllComment() {
         List<CommentDto> commentDtos = commentService.getAllComment();
@@ -36,5 +47,9 @@ public class CommentController {
     public CommentDto addComment(@RequestBody CommentDto comment) {
         CommentDto commentDto = commentService.addComment(comment);
         return commentDto;
+    }
+    @DeleteMapping("/delete/{id}")
+    public CommentDto deleteComment(@PathVariable Long id) {
+        return commentService.deleteComment(id);
     }
 }

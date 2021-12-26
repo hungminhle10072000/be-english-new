@@ -6,6 +6,7 @@ import allActions from '../../actions';
 import {connect} from 'react-redux';
 import {Modal,Button, ModalBody} from 'react-bootstrap'
 
+
 class AdminCommentPage extends Component {
     constructor(props) {
         super(props)
@@ -20,7 +21,8 @@ class AdminCommentPage extends Component {
                 lessonId:-1,
                 userId: this.props.userCurrent.id
             },
-            text:''
+            text:'',
+            msgErr:''
         }
         this.handleClose = this.handleClose.bind(this)
         this.handleOpen = this.handleOpen.bind(this)
@@ -48,7 +50,8 @@ class AdminCommentPage extends Component {
     handleClose = () =>{
         this.setState({
             isShow:false,
-            parentid:-1
+            parentid:-1,
+            msgErr:''
         })
     }
     handleOpen = (parentid) => {
@@ -60,21 +63,25 @@ class AdminCommentPage extends Component {
         console.log("F", this.state.isShow)
     }
     handleSubmit = () => {
-        var commentParent = {}
-        console.log("ParentId",this.state.parentid)
-        console.log("Commens", this.state.comments)
-        commentParent = this.props.commentReducer.find(comment => comment.id == this.state.parentid)
-        console.log("CommetParent:",commentParent)
-        var commentDto = {
-            content:this.state.text,
-            parentId:this.state.parentid,
-            lessonId:commentParent.lessonId,
-            userId: this.props.userCurrent.id
+        if (this.state.text.trim() ==='') {
+            this.setState({
+                msgErr:'Vui lòng nhập nội dung bình luận!'
+            })
+        } else {
+            var commentParent = {}
+            commentParent = this.props.commentReducer.find(comment => comment.id == this.state.parentid)
+            var commentDto = {
+                content:this.state.text,
+                parentId:this.state.parentid,
+                lessonId:commentParent.lessonId,
+                userId: this.props.userCurrent.id
+            }
+            this.setState({
+                isShow:false,
+                msgErr:''
+            })
+            this.props.replyComment(commentDto)
         }
-        this.setState({
-            isShow:false
-        })
-        this.props.replyComment(commentDto)
     }
     setText = (value) =>{
         this.setState({
@@ -99,13 +106,10 @@ class AdminCommentPage extends Component {
                     <div className="col-12">
                         <div style={{marginTop: 10}}>
                             <div className="jumbotron manager-account">
-                                <h2>Quản lí khoá học</h2>  
+                                <h2>Quản lí bình luận</h2>  
                             </div>
                             
-                            <Link to="/admin/comment/add" style={{textDecoration:"none"}}>
-                                <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
-                            </Link>
-                         
+                        
                             <input onChange={(event) => this.callback(event.target.value)}
                             type="text" name="search" placeholder="Tìm kiếm ..." className="searchAccount" />
                         </div>
@@ -135,11 +139,10 @@ class AdminCommentPage extends Component {
                 </div>
                 <Modal show={this.state.isShow} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Trả lời bình luận</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        I will not close if you click outside me. Don't even try to press
-                        escape key.
+                        {this.state.msgErr}
                     </Modal.Body>
                     {<textarea
                 className="comment-form-textarea"
@@ -148,10 +151,10 @@ class AdminCommentPage extends Component {
             />}
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleClose}>
-                            Close
+                            Đóng
                         </Button>
                         <Button variant="primary" onClick={this.handleSubmit}>
-                            Save Changes
+                            Trả lời
                         </Button>
                     </Modal.Footer>
                 </Modal>

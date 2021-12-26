@@ -23,6 +23,15 @@ public class CommentService {
         return lessonEntities;
     }
 
+    public List<CommentEntity> getCommentByVocabularyTopicId(Long vocabularyTopicId) {
+        List<CommentEntity> lessonEntities = commentRepository.findCommentEntitiesByVocabularyTopicEntity_Id(vocabularyTopicId);
+        return lessonEntities;
+    }
+    public List<CommentEntity> getCommentByGrammarId(Long grammarId) {
+        List<CommentEntity> lessonEntities = commentRepository.findCommentEntitiesByGrammarEntity_Id(grammarId);
+        return lessonEntities;
+    }
+
     public CommentDto addComment(CommentDto commentDto) {
         CommentEntity commentEntity = commentConverter.toEntity(commentDto);
         commentEntity.setTime(new Date());
@@ -33,5 +42,16 @@ public class CommentService {
         List<CommentEntity> commentEntities = commentRepository.findAll();
         List<CommentDto> commentDtos = commentConverter.toListDto(commentEntities);
         return commentDtos;
+    }
+
+    public CommentDto deleteComment(Long id) {
+        try {
+            CommentEntity commentEntity = commentRepository.getById(id);
+            commentRepository.delete(commentEntity);
+            return commentConverter.toDto(commentEntity);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 }

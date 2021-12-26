@@ -39,7 +39,6 @@ class UserLearningPage extends Component {
                 comments: this.props.comments,
                 userCurrent: this.props.userCurrent
             })
-
         }
         if ( prevProps.comments[0] && this.props.comments[0] && prevProps.comments[0].id !== this.props.comments[0].id) {
             this.props.onGetCommentByLessonId(this.state.learningLessonId)
@@ -48,7 +47,6 @@ class UserLearningPage extends Component {
                 comments: this.props.comments,
                 userCurrent: this.props.userCurrent
             })
-
         }
         if (prevProps.comments.length !== this.props.comments.length) {
             this.props.onGetCommentByLessonId(this.state.learningLessonId)
@@ -57,7 +55,6 @@ class UserLearningPage extends Component {
                 comments: this.props.comments,
                 userCurrent: this.props.userCurrent
             })
-
         }
     }
     componentDidMount() {
@@ -69,6 +66,10 @@ class UserLearningPage extends Component {
             comments: this.props.comments,
             userCurrent: this.props.userCurrent
         })
+        if (course.chapters.length > 0 && course.chapters[0].lessons.length >0) {
+            this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id)
+        }
+      
     }
     componentWillReceiveProps(nextProps) {
         

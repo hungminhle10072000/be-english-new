@@ -4,7 +4,7 @@ import UserGrammarSelect from '../../components/UserGrammarSelect/UserGrammarSel
 import { connect } from 'react-redux'
 import allActions from '../../actions'
 import ReactHTMLParser from 'react-html-parser'
-
+import Comments from '../../components/Comment/Comments'
 
 class UserGrammar extends Component {
 
@@ -12,14 +12,22 @@ class UserGrammar extends Component {
         super(props)
         this.state = {
             itemGrammarLearning: {},
-            userValueSelectGrammar: []
+            userValueSelectGrammar: [],
+            comments:[],
+            learningGrammarId:0,
+            userCurrent: {
+                id: -1
+            }
         }
+        this.onChangeGrammarId = this.onChangeGrammarId.bind(this)
     }
 
     componentWillReceiveProps(nextProps) {
         if(nextProps && nextProps.UserItemLearnGrammar){
             const {UserItemLearnGrammar} = nextProps
             this.setState({
+                comments: this.props.comments,
+                userCurrent: this.props.userCurrent,
                 itemGrammarLearning: UserItemLearnGrammar
             })
         }
@@ -27,13 +35,47 @@ class UserGrammar extends Component {
         if(nextProps && nextProps.userValueSelectGrammar){
             const {userValueSelectGrammar} = nextProps
             this.setState({
+                comments: this.props.comments,
+                userCurrent: this.props.userCurrent,
                 userValueSelectGrammar: userValueSelectGrammar
             })
         }
     }
+    componentDidUpdate(prevProps) {
+        if (prevProps.comments !== this.props.comments) {
+            this.setState({
+                comments: this.props.comments,
+            })
+            this.props.onGetCommentByGrammarId(this.state.learningGrammarId);
+        }
+    }
 
+    componentDidMount() {
+        this.props.onUserGetAllGrammar();
+        this.setState({
+            comments: this.props.comments,
+            itemGrammarLearning: this.props.UserItemLearnGrammar
+        })
+        console.log("Item",this.state.itemGrammarLearning)
+        if (this.state.learningGrammarId !== 0) {
+            this.props.onGetCommentByGrammarId(this.state.learningGrammarId);
+        }
+    }
     componentWillMount() {
         this.props.onUserGetAllGrammar();
+        this.setState({
+            comments: this.props.comments,
+        })
+        if (this.state.learningGrammarId !== 0) {
+            this.props.onGetCommentByGrammarId(this.state.learningGrammarId);
+        }
+    }
+    
+    onChangeGrammarId(grammarId) {
+        this.setState({
+            learningGrammarId:grammarId
+        })
+        this.props.onGetCommentByGrammarId(grammarId);
     }
 
     render() {
@@ -41,7 +83,7 @@ class UserGrammar extends Component {
             <div className='container-fluid main-content-user-grammar'>
                 <div className='row div-grammar-select justify-content-center'>
                     <div className='col-md-12'>
-                        <UserGrammarSelect />
+                        <UserGrammarSelect onChangeGrammarId={this.onChangeGrammarId}/>
                     </div>
                 </div>
                 <div className='row mt-2 mb-2 div-content-user-learn-grammar pt-3'>
@@ -52,6 +94,7 @@ class UserGrammar extends Component {
                         {ReactHTMLParser(this.state.itemGrammarLearning.content)}             
                     </div>
                 </div>
+                <Comments currentUserId={this.state.userCurrent.id} comments={this.state.comments} learningId={this.state.itemGrammarLearning.id} type="3"/>
             </div>
         )
     }
@@ -61,7 +104,9 @@ const mapStateToProps = (state, ownProps) => {
     return {
         userListGrammar: state.userListGrammar,
         UserItemLearnGrammar: state.UserItemLearnGrammar,
-        userValueSelectGrammar : state.userValueSelectGrammar
+        userValueSelectGrammar : state.userValueSelectGrammar,
+        userCurrent: state.itemUserLogin,
+        comments: state.commentReducer
     }
 }
 
@@ -72,7 +117,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onUserGetGrammarLearning: (grammarId) => {
             dispatch(allActions.userGrammarAction.actUserGetLearnGrammarRequest(grammarId))
-        }
+        },
+        onGetCommentByGrammarId: (grammarId) => {
+            dispatch(allActions.commentAction.actGetCommentByGrammarIdRequest(grammarId))
+        },
     }
 }
 

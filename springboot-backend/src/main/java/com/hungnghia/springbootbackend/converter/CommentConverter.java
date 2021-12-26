@@ -4,10 +4,7 @@ import com.hungnghia.springbootbackend.dto.CommentDto;
 import com.hungnghia.springbootbackend.dto.LessonDto;
 import com.hungnghia.springbootbackend.dto.UserDto;
 import com.hungnghia.springbootbackend.entities.*;
-import com.hungnghia.springbootbackend.repository.CommentRepository;
-import com.hungnghia.springbootbackend.repository.LessonRepository;
-import com.hungnghia.springbootbackend.repository.UserRepository;
-import com.hungnghia.springbootbackend.repository.VocabularyTopicRepository;
+import com.hungnghia.springbootbackend.repository.*;
 import com.hungnghia.springbootbackend.service.LessonService;
 import com.hungnghia.springbootbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +29,8 @@ public class CommentConverter {
     private UserConverter userConverter;
     @Autowired
     private LessonService lessonService;
+    @Autowired
+    private GrammarRepository grammarRepository;
 
     public CommentEntity toEntity(CommentDto commentDto) {
         CommentEntity commentEntity = new CommentEntity();
@@ -47,7 +46,8 @@ public class CommentConverter {
             commentEntity.setUserEntity(user);
         }
         if (commentDto.getGrammarId() !=null) {
-            //commentEntity.setGrammarEntity();
+            GrammarEntity grammarEntity = grammarRepository.getById(commentDto.getGrammarId());
+            commentEntity.setGrammarEntity(grammarEntity);
         }
 
         if (commentDto.getVocabularyTopicId() != null) {
@@ -78,6 +78,9 @@ public class CommentConverter {
             commentDto.setParentId(commentEntity.getCommentEntity().getId());
         }
         //Grammar
+        if (commentEntity.getGrammarEntity() !=null ) {
+            commentDto.setGrammarId(commentEntity.getGrammarEntity().getId());
+        }
 
         if (commentEntity.getLessonEntity() != null) {
             LessonDto lessonDto = lessonService.getLessonById(commentEntity.getLessonEntity().getId());
