@@ -3,7 +3,7 @@ import './UserDetailTopicVocabulary.css'
 import allActions from '../../actions'
 import { connect } from 'react-redux'
 import UserItemDetailVocabularyTopic from '../../components/UserItemDetailVocabularyTopic/UserItemDetailVocabularyTopic'
-
+import Comments from '../../components/Comment/Comments'
 
 class UserDetailTopicVocabulary extends Component {
 
@@ -13,13 +13,50 @@ class UserDetailTopicVocabulary extends Component {
             idTopic: this.props.match.params.idTopic,
             nameTopicPara: this.props.match.params.nameTopicVoca,
             userListVocabularyWithTopic: [],
-            nameTopic: ''
+            nameTopic: '',
+            userCurrent: {
+                id: -1
+            },
+            comments:[],
+            learningTopicId:0
         })
+    }
+
+    componentDidUpdate(prevProps) {
+        var course = this.props.course;
+        if (prevProps.comments.length ===0 && this.props.comments.length !==0) {
+            
+            this.setState({
+
+                comments: this.props.comments,
+                userCurrent: this.props.userCurrent
+            })
+        }
+        if ( prevProps.comments[0] && this.props.comments[0] && prevProps.comments[0].id !== this.props.comments[0].id) {
+            
+            this.setState({
+                comments: this.props.comments,
+                userCurrent: this.props.userCurrent
+            })
+        }
+        if (prevProps.comments.length !== this.props.comments.length) {
+            
+            this.setState({
+                comments: this.props.comments,
+                userCurrent: this.props.userCurrent
+            })
+        }
     }
 
     componentDidMount() {
         const {nameTopicPara,idTopic} = this.state
         this.props.userGetVocaWithTopic(nameTopicPara,idTopic);
+        this.props.onGetCommentByTopicId(idTopic)
+        this.setState({
+            comments: this.props.comments,
+            userCurrent: this.props.userCurrent,
+            learningTopicId: idTopic
+        })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -64,6 +101,7 @@ class UserDetailTopicVocabulary extends Component {
                     <div className="col-sm-4 user-title-name-detail-topic">BÀI {this.state.nameTopic.toUpperCase()}</div>
                 </div>
                 {this.showItemVocabulary()}
+                <Comments currentUserId={this.state.userCurrent.id} comments={this.state.comments} learningId={this.state.idTopic} type="2"/>
             </div>
         )
     }
@@ -71,6 +109,8 @@ class UserDetailTopicVocabulary extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        comments: state.commentReducer,
+        userCurrent: state.itemUserLogin,
         userVocabularyWithTopic: state.userVocabularyWithTopic
     }
 }
@@ -79,6 +119,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         userGetVocaWithTopic: (nameTopic, topicId) => {
             dispatch(allActions.userVocabularyAction.actUserFetchListVocaWithTopicsRequest(nameTopic, topicId))
+        },
+        onGetCommentByTopicId: (topicId) => {
+            dispatch(allActions.commentAction.actGetCommentByTopicIdRequest(topicId))
         }
     }
 }

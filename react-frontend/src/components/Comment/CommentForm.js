@@ -15,7 +15,7 @@ const CommentForm = ({handleSubmit}) => {
                 value= {text}
                 onChange={(e) =>setText(e.target.value)}
             />
-            <button className="comment-form-button" disabled={isTextareaDisabled}>Submit</button>
+            <button className="comment-form-button" disabled={isTextareaDisabled}>Bình luận</button>
         </form>
     )
 }

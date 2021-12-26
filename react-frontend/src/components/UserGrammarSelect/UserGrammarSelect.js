@@ -18,6 +18,7 @@ class UserGrammarSelect extends Component {
             this.setState({
                 idLearnGrammar: event.value
             })
+            this.props.onChangeGrammarId(event.value)
         }
     }
 

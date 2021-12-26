@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import allActions from '../../actions/index'
 import { confirmAlert } from 'react-confirm-alert';
+import moment from 'moment'
 
 class AdminItemComment extends Component {
     constructor(props) {
@@ -37,7 +38,7 @@ class AdminItemComment extends Component {
                     <td>{this.props.comment.id}</td>
                     <td>{this.props.comment.userDto.fullname}</td>
                     <td>{this.props.comment.content}</td>
-                    <td>{this.props.comment.time}</td>
+                    <td>{moment(this.props.comment.time).format("DD/MM/YYYY hh:mm:ss")}</td>
                     <td>
                         <button type="button" className="btn btn-warning btn-edit-account" onClick={() =>this.props.handleOpen(this.props.comment.id)}>Trả lời</button>
                         <button onClick={() => this.onDelete()}

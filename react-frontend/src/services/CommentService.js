@@ -22,6 +22,18 @@ class CommentService {
         })
     }
 
+    getCommentByTopicId(topicId) {
+        return axios.get(COMMENT_API_BASE_URL+'/getCommentByVocabularyTopicId/'+topicId,{
+            headers: {...headers, ...authHeader()},
+        })
+    }
+    getCommentByGrammarId(grammarId) {
+        return axios.get(COMMENT_API_BASE_URL+'/getCommentByGrammarId/'+grammarId,{
+            headers: {...headers, ...authHeader()},
+        })
+    }
+
+
     addComment(comment) {
         console.log("AddCommentService",comment)
         return axios.post(COMMENT_API_BASE_URL+'/add',comment,{
@@ -29,6 +41,11 @@ class CommentService {
                 ...headers,
                 ...authHeader()
             }
+        })
+    }
+    deleteComment(id) {
+        return axios.delete(COMMENT_API_BASE_URL+'/delete/'+id,{
+            headers: {...headers, ...authHeader()},
         })
     }
 
