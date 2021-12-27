@@ -13,18 +13,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 @Component
 public class CourseConverter {
-
     @Autowired
     private ChapterConverter chapterConverter;
     @Autowired
     private UserConverter userConverter;
-
-
-
     public CourseEntity toEntity(CourseDto courseDto) {
         CourseEntity courseEntity = new CourseEntity();
         courseEntity.setId(courseDto.getId());
@@ -47,7 +41,6 @@ public class CourseConverter {
 
         return courseEntity;
     }
-
     public CourseDto toDto(CourseEntity courseEntity) {
         CourseDto courseDto = new CourseDto();
         courseDto.setId(courseEntity.getId());
@@ -77,7 +70,6 @@ public class CourseConverter {
         courseDto.setUsers(lstUser);
         return courseDto;
     }
-
     public List<CourseDto> toListDto(List<CourseEntity> courseEntities) {
         List<CourseDto> courseDtos = new ArrayList<>();
         if (courseEntities != null) {
