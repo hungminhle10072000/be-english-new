@@ -93,9 +93,10 @@ class AdminCommentPage extends Component {
         var keyword = this.state.term;
         var comment = this.props.commentReducer;
         var resultSearch = []
+        console.log("COMMENT: ",comment)
         comment.forEach(x => {
-            if (x.id.toString().indexOf(keyword)!=-1 || x.name.indexOf(keyword)!=-1 ||
-             x.introduce.indexOf(keyword)!= -1) {
+            if (x.id.toString().indexOf(keyword)!=-1 || x.content.indexOf(keyword)!=-1 ||
+             x.userDto.fullname.indexOf(keyword)!= -1) {
                  resultSearch.push(x)
              }
         });

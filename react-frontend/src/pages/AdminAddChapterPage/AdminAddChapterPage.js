@@ -15,6 +15,7 @@ class AdminAddChapterPage extends React.Component {
             chapter: {
                 courseId:this.props.match.params.courseId,
                 name: '',
+                numPriority : -1,
                 courseName:''
             },
             validationMsg: {},
@@ -23,11 +24,12 @@ class AdminAddChapterPage extends React.Component {
         
     }
     componentDidUpdate(prevProps) {
-        if (prevProps.course.name == '' && this.props.course.name !='') {
+        if (prevProps.course !== this.props.course) {
             this.setState({
                 chapter: {
                     ...this.state.chapter,
-                    courseName: this.props.course.name
+                    courseName: this.props.course.name,
+                    numPriority:this.props.course.numOfChapter
                 }
             })
         }
@@ -39,7 +41,8 @@ class AdminAddChapterPage extends React.Component {
         this.setState({
             chapter: {
                 ...this.state.chapter,
-                courseName: this.props.course.name
+                courseName: this.props.course.name,
+                numPriority:this.props.course.numOfChapter
             }
         })
     }
@@ -49,6 +52,10 @@ class AdminAddChapterPage extends React.Component {
     isChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
+
+        if (name === 'numPriority' && value < 0 || name === 'numPriority' && value > this.props.course.numOfChapter ) {
+            return;
+        }
 
         this.setState({
             chapter: {     
@@ -73,6 +80,7 @@ class AdminAddChapterPage extends React.Component {
         var chapterDto = {}
         chapterDto.courseId = this.state.chapter.courseId;
         chapterDto.name = this.state.chapter.name;
+        chapterDto.numPriority = this.state.chapter.numPriority;
         window.history.back();
         this.props.onAddChapter(chapterDto)
     }
@@ -146,7 +154,10 @@ class AdminAddChapterPage extends React.Component {
 
                         <input  className="input-field" readOnly={true}
                           value={this.state.chapter.courseName}  type="text" placeholder="Tên khoá học" name="nameCourse" id="chapterName" />
-
+                        <label htmlFor="name"><b>Số thứ tự:</b></label>
+                        <input onChange={(event) => this.isChange(event)} className="input-field" type="number"
+                            value={this.state.chapter.numPriority} placeholder="Nhập STT" name="numPriority" id="numPriority" />
+                        <p className="msg-error">{this.state.validationMsg.number}</p>
 
                         <label htmlFor="name"><b>Tên chương:</b></label>
                         <input onChange={(event) => this.isChange(event)} className="input-field" type="text"

@@ -54,7 +54,7 @@ class AdminCoursePage extends Component {
                             </div>
                             
                             <Link to="/admin/course/add" style={{textDecoration:"none"}}>
-                                <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
+                                <button type="button" className="btn btn-success">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
                             </Link>
                          
                             <input onChange={(event) => this.callback(event.target.value)}
@@ -72,7 +72,7 @@ class AdminCoursePage extends Component {
                                             <th scope="col">Tên khoá học</th>
                                             <th scope="col">Giới Thiệu</th>
                                             <th scope="col">Ảnh khoá học</th>
-                                            <th scope="col">Chức năng</th>
+                                            <th scope="col" style={{width:"250px"}}>Chức năng</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -48,7 +48,7 @@ class NavigationBar extends Component {
                 <div className="div-brand-user">
                     <Navbar.Brand href="/" className="navBrand-user-home">
                         <img
-                            src="/logo.jpg"
+                            src="/logo.png"
                             width="80"
                             height="80"
                             className="d-inline-block align-top"

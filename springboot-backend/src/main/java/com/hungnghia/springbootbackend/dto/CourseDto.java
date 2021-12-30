@@ -12,6 +12,7 @@ public class CourseDto {
     private String name;
     private String image;
     private String introduce;
+    private int numOfChapter;
     private List<ChapterDto> chapters;
     private List<UserDto> users;
 }

@@ -25,10 +25,8 @@ public class ChapterConverter {
         ChapterEntity chapterEntity = new ChapterEntity();
         chapterEntity.setId(chapterDto.getId());
         chapterEntity.setName(chapterDto.getName());
-        chapterEntity.setNumber(chapterDto.getNumber());
-
-        CourseEntity courseEntity = courseRepository.getById((long) chapterDto.getCourseId());
-
+        chapterEntity.setNumPriority(chapterDto.getNumPriority());
+        CourseEntity courseEntity = courseRepository.findById((long)chapterDto.getCourseId()).get();
         chapterEntity.setCourseEntity(courseEntity);
         return chapterEntity;
     }
@@ -37,7 +35,7 @@ public class ChapterConverter {
         ChapterDto chapterDto = new ChapterDto();
         chapterDto.setId(chapterEntity.getId());
         chapterDto.setName(chapterEntity.getName());
-        chapterDto.setNumber(chapterEntity.getNumber());
+        chapterDto.setNumPriority(chapterEntity.getNumPriority());
         chapterDto.setCourseId((int)chapterEntity.getCourseEntity().getId());
         chapterDto.setCourseName(chapterEntity.getCourseEntity().getName());
         List<LessonEntity> lstLessonEntity = chapterEntity.getLessonEntityList();

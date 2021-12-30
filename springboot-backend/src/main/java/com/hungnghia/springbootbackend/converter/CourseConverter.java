@@ -7,6 +7,7 @@ import com.hungnghia.springbootbackend.entities.ChapterEntity;
 import com.hungnghia.springbootbackend.entities.CourseEntity;
 import com.hungnghia.springbootbackend.entities.UserEntity;
 import com.hungnghia.springbootbackend.entities.User_Course_Entity;
+import com.hungnghia.springbootbackend.repository.ChapterRepository;
 import com.hungnghia.springbootbackend.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 @Component
 public class CourseConverter {
+    @Autowired
+    private ChapterRepository chapterRepository;
+
     @Autowired
     private ChapterConverter chapterConverter;
     @Autowired
@@ -48,9 +52,14 @@ public class CourseConverter {
         courseDto.setImage(courseEntity.getImage());
         courseDto.setIntroduce(courseEntity.getIntroduce());
 
-        List<ChapterEntity> lstChapterEntity = courseEntity.getChapterEntityList();
+        List<ChapterEntity> lstChapterEntity = chapterRepository.getChapterEntitiesByCourseEntity_Id(courseEntity.getId());
         List<ChapterDto> lstChapterDto = chapterConverter.toListDto(lstChapterEntity);
-        courseDto.setChapters(lstChapterDto);
+        if (lstChapterDto != null) {
+            courseDto.setChapters(lstChapterDto);
+            courseDto.setNumOfChapter(lstChapterDto.size());
+        }
+
+
         /*if (lstChapterEntity != null) {
             List<ChapterDto> lstChapterDto = new ArrayList<>();
             for (ChapterEntity t: lstChapterEntity) {
