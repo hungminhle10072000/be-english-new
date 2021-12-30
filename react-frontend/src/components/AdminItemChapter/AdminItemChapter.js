@@ -36,7 +36,7 @@ class AdminItemChapter extends Component {
                 <tr>
                     <td>{this.props.chapter.id}</td>
                     <td>{this.props.chapter.name}</td>
-                    <td>{this.props.chapter.number}</td>
+                    <td>{this.props.chapter.numOfLesson}</td>
                     <td>{this.props.chapter.courseName}</td>
                     <td>
                         <Link to={`/admin/lesson/${this.props.chapter.id}`}>

@@ -18,7 +18,7 @@ class AdminChapterPage extends Component {
     showItemsChapter(chapters) {
         var result = null;
         if (chapters!= undefined && chapters.length > 0) {
-            result = chapters.map((chapter,key) => <AdminItemChapter chapter={chapter} key={key}/>) 
+            result = chapters.sort((a,b) => a.numPriority - b.numPriority).map((chapter,key) => <AdminItemChapter chapter={chapter} key={key}/>) 
         }
         return result;
     }

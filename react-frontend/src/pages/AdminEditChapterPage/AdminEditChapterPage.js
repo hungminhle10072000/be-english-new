@@ -13,8 +13,9 @@ class AdminEditChapterPage extends React.Component {
         this.state = {  
             chapter: {
                 id:this.props.match.params.id,
-                courseId: undefined ,
+                courseId: 1 ,
                 name: '',
+                numPriority : -1,
                 courseName:''
             },
             validationMsg: {},
@@ -24,6 +25,11 @@ class AdminEditChapterPage extends React.Component {
     }
     componentDidMount() {
         this.props.onGetChapterById(this.state.chapter.id)
+        this.setState({
+            chapter: this.props.chapter
+        })
+        this.props.onGetCourseById(this.props.chapter.courseId)
+        
     }
 
     componentWillReceiveProps(nextProps) {
@@ -38,6 +44,11 @@ class AdminEditChapterPage extends React.Component {
     isChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
+
+        console.log("NUMOFCHAPTER: ",this.props.course.numOfChapter)
+        if (name === 'numPriority' && value < 0 || name === 'numPriority' && value > this.props.course.numOfChapter ) {
+            return;
+        }
 
         this.setState({
             chapter: {     
@@ -59,6 +70,7 @@ class AdminEditChapterPage extends React.Component {
         var chapterDto = {}
         chapterDto.id = this.state.chapter.id;
         chapterDto.courseId = this.state.chapter.courseId;
+        chapterDto.numPriority = this.state.chapter.numPriority;
         chapterDto.name = this.state.chapter.name;
         window.history.back();
         this.props.onUpdateChapter(chapterDto)
@@ -128,13 +140,16 @@ class AdminEditChapterPage extends React.Component {
                     <div className="col-sm-6">
                         <h2>Sửa chương học</h2>
                         <br></br>
-                        <lable htmlFor="name"><b>Tên khoá học:</b></lable>
+                        <label htmlFor="name"><b>Tên khoá học:</b></label>
 
-                        <input  className="input-field" readOnly="true"
+                        <input  className="input-field" readOnly={true}
                           value={this.state.chapter.courseName}  type="text" placeholder="Tên khoá học" name="nameCourse" id="chapterName" />
+                        <label htmlFor="name"><b>Số thứ tự:</b></label>
+                        <input onChange={(event) => this.isChange(event)} className="input-field" type="number"
+                            value={this.state.chapter.numPriority} placeholder="Nhập STT" name="numPriority" id="numPriority" />
+                        <p className="msg-error">{this.state.validationMsg.number}</p>
 
-
-                        <lable htmlFor="name"><b>Tên chương:</b></lable>
+                        <label htmlFor="name"><b>Tên chương:</b></label>
                         <input onChange={(event) => this.isChange(event)} className="input-field" type="text"
                             value={this.state.chapter.name} placeholder="Nhập tên chương" name="name" id="name" />
                         <p className="msg-error">{this.state.validationMsg.name}</p>
@@ -158,7 +173,8 @@ class AdminEditChapterPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        chapter: state.chapterEditReducer
+        chapter: state.chapterEditReducer,
+        course: state.courseEditReducer
     }
 }
 
@@ -168,9 +184,9 @@ const mapDispatchToProps = (dispatch) => {
             console.log("Hero")
             dispatch(allActions.chapterAction.actUpdateChapterRequest(chapterDto))
         },
-        // onGetCourseById: (courseId) => {
-        //     dispatch(allActions.courseAction.actGetCourseRequest(courseId))
-        // },
+        onGetCourseById: (courseId) => {
+            dispatch(allActions.courseAction.actGetCourseRequest(courseId))
+        },
         onGetChapterById: (id) => {
             dispatch(allActions.chapterAction.actGetChapterRequest(id))
         }

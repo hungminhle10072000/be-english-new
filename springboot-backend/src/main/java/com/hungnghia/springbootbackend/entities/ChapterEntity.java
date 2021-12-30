@@ -23,6 +23,9 @@ public class ChapterEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "numPriority")
+    private int numPriority;
+
     @Column(name = "number")
     private int number;
 

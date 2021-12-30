@@ -8,6 +8,11 @@ import validator from 'validator';
 import allActions from '../../actions';
 import Dropzone from '../../components/DropZone'
 import LessonService from '../../services/LessonService';
+import { usePromiseTracker } from "react-promise-tracker";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
+import {Oval} from "react-loader-spinner";
+
 
 class AdminAddLessonPage extends React.Component {
     constructor(props) {
@@ -18,7 +23,8 @@ class AdminAddLessonPage extends React.Component {
                 name: '',
                 chapterName:'',
                 numPriority : -1,
-                courseName:''
+                courseName:'',
+                video:null
             },
             validationMsg: {},
             confirmDialog: false,
@@ -76,21 +82,25 @@ class AdminAddLessonPage extends React.Component {
         this.setState({
             lesson: {
                 ...this.state.lesson,
-    
+                video:null,
                 name: ''
             },
             validationMsg: {},
             confirmDialog: false,
         }) 
     }
-    addLesson = (event) => {
+    addLesson =async (event) => {
         event.preventDefault();
         var lessonDto = {}
         lessonDto.chapterId = this.state.lesson.chapterId;
         lessonDto.name = this.state.lesson.name;
         lessonDto.numPriority = this.state.lesson.numPriority;
+        this.setState({
+            confirmDialog: false
+        })
+        // {<Oval arialLabel="loading-indicator" />}
+         await this.props.onAddLesson(lessonDto,this.state.lesson.video)
         window.history.back();
-        this.props.onAddLesson(lessonDto,this.state.lesson.video)
     }
     validateAll = () => {
         const msg = {}
@@ -156,7 +166,7 @@ class AdminAddLessonPage extends React.Component {
                     </div>
                     <div className="col-sm-3"></div>
                     <div className="col-sm-6">
-                        <h2>Thêm chương học</h2>
+                        <h2>Thêm bài học</h2>
                         <br></br>
                         <label htmlFor="name"><b>Tên khoá học:</b></label>
 
@@ -189,7 +199,7 @@ class AdminAddLessonPage extends React.Component {
                                     type="button" className="btn btn-success btn-save-account">Lưu <BiSave /></button>
                             </Link>
                             <button onClick = {(event) => this.resetForm(event)}
-                                type="reset" className="btn btn-warning" >Reset <BiReset /></button>
+                                type="reset" className="btn btn-warning" >Làm mới <BiReset /></button>
                         </div>
 
                     </div>
@@ -209,8 +219,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAddLesson: (lessonDto, file) => {
-            dispatch(allActions.lessonAction.actAddLessonRequest(lessonDto,file))
+        onAddLesson: async (lessonDto, file) => {
+            await dispatch(allActions.lessonAction.actAddLessonRequest(lessonDto,file))
         },
         onGetCourseById: (chapterId) => {
             dispatch(allActions.chapterAction.actGetCourseRequest(chapterId))
