@@ -13,6 +13,7 @@ import UserTopicVocabulary from '../pages/UserTopicVocabulary/UserTopicVocabular
 import UserDetailTopicVocabulary from '../pages/UserDetailTopicVocabulary/UserDetailTopicVocabulary'
 import UserGrammar from '../pages/UserGrammar/UserGrammar'
 import UserEditInfomation from '../pages/UserEditInfo/UserEditInfo';
+import UserExercisePage from '../pages/UserHomePage/UserExercisePage';
 
 export default class UserRoutes extends Component {
     render() {
@@ -26,6 +27,7 @@ export default class UserRoutes extends Component {
                     <Route exact path="/user/courses" component={UserCoursePage}/>   
                     <Route exact path="/user/learning/:id" component={UserLearningPage}/>
                     <Route exact path="/user/account/edit/:id" component={UserEditInfomation}/>   
+                    <Route exact path="/user/exercise/:id" component={UserExercisePage}/>   
                     {/* <Route exact path="/" component={ContentPage} />
                     <Route path="*" component={NotFoundPage} /> */}
                 </Switch>   
