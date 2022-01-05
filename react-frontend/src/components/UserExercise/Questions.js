@@ -33,7 +33,7 @@ function Questions({data, onAnswerUpdate,numberOfQuestion, activeQuestion, onSet
     return(
         <div>
             {data.map((x,i) => (
-                <Question data={x}
+                <Question key={x.id} data={x}
                 onAnswerUpdate={onAnswerUpdate}
                 numberOfQuestion={numberOfQuestion}
                 activeQuestion={activeQuestion}
