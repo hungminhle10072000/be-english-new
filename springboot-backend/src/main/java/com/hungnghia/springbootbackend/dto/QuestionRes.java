@@ -3,9 +3,18 @@ package com.hungnghia.springbootbackend.dto;
 import java.util.List;
 
 public class QuestionRes {
+    private Long id;
     private String question;
     private List<String> choices;
     private String answer;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getQuestion() {
         return question;

@@ -1,9 +1,12 @@
 package com.hungnghia.springbootbackend.service;
 
 import com.hungnghia.springbootbackend.converter.QuestionConverter;
+import com.hungnghia.springbootbackend.converter.ResultDetailConverter;
 import com.hungnghia.springbootbackend.dto.QuestionDto;
 import com.hungnghia.springbootbackend.dto.QuestionRes;
+import com.hungnghia.springbootbackend.dto.ResultDetailDto;
 import com.hungnghia.springbootbackend.entities.QuestionEntity;
+import com.hungnghia.springbootbackend.entities.ResultDetailEntity;
 import com.hungnghia.springbootbackend.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import java.util.List;
 public class QuestionService {
     @Autowired
     private QuestionConverter questionConverter;
+
     @Autowired
     private QuestionRepository questionRepository;
     public List<QuestionRes> findQuestionByExerciseId(Long exerciseId) {
@@ -25,6 +29,7 @@ public class QuestionService {
             for (QuestionEntity question:questionEntities ) {
                 QuestionRes questionRes = new QuestionRes();
                 List<String> choices = new ArrayList<>();
+                questionRes.setId(question.getId());
                 questionRes.setQuestion(question.getContent_question());
                 choices.add(question.getOption_1());
                 choices.add(question.getOption_2());
@@ -37,4 +42,6 @@ public class QuestionService {
         }
         return data;
     }
+
+
 }
