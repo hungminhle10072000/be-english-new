@@ -22,6 +22,12 @@ export const UserSideBar = [
     path: '/user/courses',
     icon: <MdOndemandVideo color='black'/>,
     cName: 'nav-user-text'
+  },
+  {
+    title: 'Bài tập',
+    path: '/user/exercise',
+    icon: <MdOndemandVideo color='black'/>,
+    cName: 'nav-user-text'
   }
 ];
 
