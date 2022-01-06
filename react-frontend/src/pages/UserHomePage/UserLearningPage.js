@@ -151,7 +151,7 @@ class UserLearningPage extends Component {
                </div>
                <br/>
                {this.state.isChapter&&this.showChapterItem(!isSub)}
-               {this.state.isComment && (<Comments currentUserId={this.state.userCurrent.id} comments={this.state.comments} learningLessonId={this.state.learningLessonId}/>)} 
+               {this.state.isComment && (<Comments currentUserId={this.state.userCurrent.id} comments={this.state.comments} learningId={this.state.learningLessonId} type='1'/>)} 
                 <br/>
                 <br/>
             </div>
