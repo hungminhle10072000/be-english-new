@@ -12,6 +12,9 @@ import { useSelector } from 'react-redux';
 import {authHeader} from '../../services/auth-header';
 import ResultService from '../../services/ResultService'
 import ResultDetailService from '../../services/ResultDetailService'
+import ExerciseService from '../../services/ExerciseService';
+import { useParams } from 'react-router-dom';
+
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
     "Access-Control-Allow-Origin": "*",
@@ -31,20 +34,23 @@ function UserExercisePage() {
   const [showModal, setShowModal] = useState(false)
   const [isReset, setIsReset] = useState(false)
   const userCurrent = useSelector((state) => state.itemUserLogin)
+  const params = useParams()
+
+
   console.log('UserCurrent: ',userCurrent)
 
   useEffect(() => {
 
-    axios.get('http://localhost:8080/api/question/findQuestionByExerciseId/3',{
+    axios.get('http://localhost:8080/api/question/findQuestionByExerciseId/'+params.id,{
         headers: {...headers, ...authHeader()},
     })
     .then(res => {
         quizData.data = res.data;
       })
-    ResultService.getResultByUserIdAndExerciseId(userCurrent.id,3).then(res=> {
-      console.log("Wrong+ Right",res.data[0].totalWrong + res.data[0].totalRight )
-        if (res.data.length > 0 && isReset == false) {
-          ResultDetailService.getResultDetailByUserIdAndExerciseId(userCurrent.id,3).then(res=> {
+    ResultService.getResultByUserIdAndExerciseId(userCurrent.id,params.id).then(res=> {
+      console.log('Total', res.data)
+        if (res.data.length > 0 && (res.data[0].totalRight > 0 || res.data[0].totalWrong > 0)) {
+          ResultDetailService.getResultDetailByUserIdAndExerciseId(userCurrent.id,params.id).then(res=> {
             setAnswers(res.data)
           })
           setStep(3)
@@ -83,7 +89,7 @@ function UserExercisePage() {
   const quizStartHandler = () => {
     setStep(2)
     let resultDto = {
-      exerciseId:3,
+      exerciseId:params.id,
       userId:userCurrent.id
     }
     ResultService.addResult(resultDto)
@@ -92,6 +98,7 @@ function UserExercisePage() {
 
   const resetClickHandler = ()=>{
     setIsReset(true)
+    ExerciseService.resetExercise(userCurrent.id,params.id)
     setActiveQuestion(0)
     setAnswers([])
     setStep(2)

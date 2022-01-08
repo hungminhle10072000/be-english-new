@@ -42,10 +42,10 @@ public class ResultConverter {
     public ResultDto toDto(ResultEntity resultEntity) {
         ResultDto resultDto = new ResultDto();
         resultDto.setId(resultEntity.getId());
-        resultDto.setCorrectListen(resultDto.getCorrectListen());
+        resultDto.setCorrectListen(resultEntity.getCorrect_listen());
         resultDto.setCorrectRead(resultEntity.getCorrect_read());
-        resultDto.setTotalRight(resultDto.getTotalRight());
-        resultDto.setTotalWrong(resultDto.getTotalWrong());
+        resultDto.setTotalRight(resultEntity.getTotal_right());
+        resultDto.setTotalWrong(resultEntity.getTotal_wrong());
         if (resultEntity.getUserEntity()!=null) {
             resultDto.setUserId(resultEntity.getUserEntity().getId());
         }

@@ -25,7 +25,7 @@ function UserTopicExercisePage() {
                        status = 1 ;    
                    }
                })
-            return <UserItemTopicExercise id={x.id} img={x.image} name={x.name} status={status}/>
+            return <UserItemTopicExercise key={x.id} id={x.id} img={x.image} name={x.name} status={status}/>
            })
 }         </div>
     )

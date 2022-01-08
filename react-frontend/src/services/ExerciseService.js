@@ -41,6 +41,12 @@ class ExerciseService {
         })
     }
 
+    resetExercise(userId,exerciseId){
+        return axios.put(EXERCISE_API_END_POINT+"/reset/"+userId+"/"+exerciseId, {
+            headers: {...headers, ...authHeader()},
+        })
+    }
+
 }
 
 export default new ExerciseService()

@@ -1,7 +1,5 @@
 package com.hungnghia.springbootbackend.controller;
 
-
-import com.hungnghia.springbootbackend.dto.ResultDto;
 import com.hungnghia.springbootbackend.service.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +11,7 @@ public class UserExerciseController {
     @Autowired
     private ExerciseService exerciseService;
 
-    @PutMapping("/reset")
+    @PutMapping("/reset/{userId}/{exerciseId}")
     public boolean resetExercise(@PathVariable Long userId,@PathVariable Long exerciseId) {
         exerciseService.resetExercise(userId, exerciseId);
         return true;
