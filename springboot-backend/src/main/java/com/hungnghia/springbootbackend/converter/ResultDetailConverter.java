@@ -43,6 +43,12 @@ public class ResultDetailConverter {
         resultDetailDto.setQuestionId(resultDetailEntity.getQuestionEntity().getId());
         resultDetailDto.setUserAnswer(resultDetailEntity.getUser_answer());
         resultDetailDto.setCorrectAnswer(resultDetailEntity.getCorrect_answer());
+        if (resultDetailEntity.getQuestionEntity() != null ) {
+            resultDetailDto.setQ(resultDetailEntity.getQuestionEntity().getContent_question());
+            if (resultDetailEntity.getQuestionEntity().getExerciseEntity() != null) {
+                resultDetailDto.setExerciseId(resultDetailEntity.getQuestionEntity().getExerciseEntity().getId());
+            }
+        }
         return resultDetailDto;
     }
 

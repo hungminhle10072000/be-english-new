@@ -16,6 +16,12 @@ public class ResultDetailController {
     @Autowired
     private ResultDetailService resultDetailService;
 
+    @GetMapping("/findResultDetailsByUserIdAndExerciseId/{userId}/{exerciseId}")
+    public List<ResultDetailDto> findResultDetailsByUserIdAndExerciseId(@PathVariable Long userId,@PathVariable Long exerciseId) {
+        List<ResultDetailDto> resultDetailDtos = resultDetailService.findResultDetailEntitiesByUserEntity_IdAndQuestionEntity_ExerciseEntity_Id(userId,exerciseId);
+        return resultDetailDtos;
+    }
+
     @PostMapping("/addAnswers")
     public boolean addAnswers(@RequestPart("answers")  List<ResultDetailDto> answers) {
         boolean result = resultDetailService.addAnswers(answers);

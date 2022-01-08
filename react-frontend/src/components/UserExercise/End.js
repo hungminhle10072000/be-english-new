@@ -3,7 +3,6 @@ import {formatTime} from '../../utils/index'
 
 function End({results, data, onReset,  onAnswersCheck, time}) {
     const [correctAnswers, setCorrectAnswers] = useState(0)
-
     useEffect(()=>{
         let correct =0;
         results.forEach((result,index) => {
@@ -12,7 +11,7 @@ function End({results, data, onReset,  onAnswersCheck, time}) {
             }
         });
         setCorrectAnswers(correct);
-    },[])
+    },[results,data])
     return(
         <div className='card'>
             <div className='card-content'>

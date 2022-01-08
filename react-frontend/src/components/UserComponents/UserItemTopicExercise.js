@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from "react-router-dom"
 
-function UserItemTopicExercise({id,img, name}) {
+function UserItemTopicExercise({id,img, name, status}) {
     return(
         <div>
             <Link to={"/user/exercise/"+id}>     
@@ -10,8 +10,10 @@ function UserItemTopicExercise({id,img, name}) {
                     <img className="card-img-top img-user-topic" src={img} alt="Ảnh mô tả chủ đề topic"/>
                     <div className="card-body">
                         <h6 className="card-title">{name}</h6>
+                        {status === 1 ? <span>Đã làm</span> :  <span>Chưa làm</span>}
+                        
                     </div>
-
+                    
                 </div>
             </div>
             </Link>

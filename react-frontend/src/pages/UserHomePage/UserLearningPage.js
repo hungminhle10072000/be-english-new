@@ -32,6 +32,15 @@ class UserLearningPage extends Component {
     }
     componentDidUpdate(prevProps) {
         var course = this.props.course;
+       
+        if (prevProps.course.chapters.length !== this.props.course.chapters.length) {
+            console.log('Prev',prevProps.course.chapters )
+            console.log('Cur',this.props.course.chapters )
+            if (course.chapters.length > 0 && course.chapters[0].lessons.length >0) {
+                this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id)
+            }
+        }
+
         if (prevProps.comments.length ===0 && this.props.comments.length !==0) {
             this.props.onGetCommentByLessonId(this.state.learningLessonId)
             this.setState({
@@ -39,6 +48,7 @@ class UserLearningPage extends Component {
                 comments: this.props.comments,
                 userCurrent: this.props.userCurrent
             })
+            
         }
         if ( prevProps.comments[0] && this.props.comments[0] && prevProps.comments[0].id !== this.props.comments[0].id) {
             this.props.onGetCommentByLessonId(this.state.learningLessonId)
@@ -80,11 +90,15 @@ class UserLearningPage extends Component {
                 comments: this.props.comments,
                 userCurrent: nextProps.userCurrent
             })
-
+            // if (course.chapters.length > 0 && course.chapters[0].lessons.length >0) {
+            //     this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id)
+            // }
         }
+       
     }
-
+    
     changedVideo = (url,lessonId) => {
+        console.log("Changedvideo Id ",lessonId)
         this.props.onGetCommentByLessonId(lessonId)
         this.setState({linkVideo:url,
             learningLessonId:lessonId,

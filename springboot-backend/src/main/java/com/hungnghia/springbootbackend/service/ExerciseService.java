@@ -2,8 +2,14 @@ package com.hungnghia.springbootbackend.service;
 
 import com.hungnghia.springbootbackend.dto.AddExerciseDto;
 import com.hungnghia.springbootbackend.entities.ExerciseEntity;
+import com.hungnghia.springbootbackend.entities.QuestionEntity;
+import com.hungnghia.springbootbackend.entities.ResultDetailEntity;
+import com.hungnghia.springbootbackend.entities.ResultEntity;
 import com.hungnghia.springbootbackend.exception.ResourceNotFoundException;
 import com.hungnghia.springbootbackend.repository.ExerciseRepository;
+import com.hungnghia.springbootbackend.repository.QuestionRepository;
+import com.hungnghia.springbootbackend.repository.ResultDetailRepository;
+import com.hungnghia.springbootbackend.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +23,15 @@ public class ExerciseService {
     private ExerciseRepository exerciseRepository;
 
     @Autowired
+    private ResultRepository resultRepository;
+
+    @Autowired
+    private QuestionRepository questionRepository;
+
+    @Autowired
+    private ResultDetailRepository resultDetailRepository;
+
+    @Autowired
     private AmazonClient amazonClient;
 
     public List<ExerciseEntity> getAllExercise() {
@@ -25,6 +40,27 @@ public class ExerciseService {
 
     public ExerciseEntity getExerciseWithId(Long id) {
         return exerciseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tồn tại bài tập với id : " + id));
+    }
+
+    public boolean resetExercise(Long userId, Long exerciseId) {
+        List<ResultEntity> resultEntityList = resultRepository.findResultEntitiesByUserEntity_IdAndExerciseEntity_Id(userId, exerciseId);
+        if (resultEntityList !=null) {
+            if (resultEntityList.get(0) != null) {
+                ResultEntity result = resultEntityList.get(0);
+                result.setTotal_wrong(0);
+                result.setTotal_right(0);
+                resultRepository.save(result);
+                List<ResultDetailEntity> resultDetailEntityList = resultDetailRepository.findResultDetailEntitiesByUserEntity_IdAndQuestionEntity_ExerciseEntity_Id(userId, exerciseId);
+                if (resultDetailEntityList != null) {
+                    for (ResultDetailEntity item : resultDetailEntityList) {
+                        item.setUser_answer(null);
+                        resultDetailRepository.save(item);
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public boolean deleteExercise(Long id){

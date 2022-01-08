@@ -10,6 +10,10 @@ import './css/UserExercise.css'
 import axios from 'axios'
 import { useSelector } from 'react-redux';
 import {authHeader} from '../../services/auth-header';
+import ResultService from '../../services/ResultService'
+import ResultDetailService from '../../services/ResultDetailService'
+import ExerciseService from '../../services/ExerciseService';
+import { useParams } from 'react-router-dom';
 
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -28,19 +32,38 @@ function UserExercisePage() {
   const [answers, setAnswers] = useState([])
   const [time, setTime] = useState(0)
   const [showModal, setShowModal] = useState(false)
+  const [isReset, setIsReset] = useState(false)
   const userCurrent = useSelector((state) => state.itemUserLogin)
+  const params = useParams()
+
+
   console.log('UserCurrent: ',userCurrent)
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/question/findQuestionByExerciseId/3',{
+
+    axios.get('http://localhost:8080/api/question/findQuestionByExerciseId/'+params.id,{
         headers: {...headers, ...authHeader()},
     })
     .then(res => {
-        quizData.data = res.data;})
+        quizData.data = res.data;
+      })
+    ResultService.getResultByUserIdAndExerciseId(userCurrent.id,params.id).then(res=> {
+      console.log('Total', res.data)
+        if (res.data.length > 0 && (res.data[0].totalRight > 0 || res.data[0].totalWrong > 0)) {
+          ResultDetailService.getResultDetailByUserIdAndExerciseId(userCurrent.id,params.id).then(res=> {
+            setAnswers(res.data)
+          })
+          setStep(3)
+        }
+      })
+
+    
+
+    
     if (step ===3) {
       clearInterval(interval)
       newListAnswer = listAnswer.map(x => {x.userId=userCurrent.id; return x} )
-      console.log('NEW LIST',newListAnswer)
+      
       let formData = new FormData()
       const jsonLesson = JSON.stringify(newListAnswer)
       const blob = new Blob([jsonLesson], {
@@ -65,10 +88,17 @@ function UserExercisePage() {
 
   const quizStartHandler = () => {
     setStep(2)
+    let resultDto = {
+      exerciseId:params.id,
+      userId:userCurrent.id
+    }
+    ResultService.addResult(resultDto)
     interval = setInterval(() => setTime(prevTime => prevTime+1), 1000);
   }
 
   const resetClickHandler = ()=>{
+    setIsReset(true)
+    ExerciseService.resetExercise(userCurrent.id,params.id)
     setActiveQuestion(0)
     setAnswers([])
     setStep(2)
