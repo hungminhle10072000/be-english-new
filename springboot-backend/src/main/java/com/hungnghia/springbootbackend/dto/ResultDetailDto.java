@@ -5,6 +5,8 @@ public class ResultDetailDto {
     private Long questionId;
     private String correctAnswer;
     private String userAnswer;
+    private Long exerciseId;
+    private String q;
 
     public Long getUserId() {
         return userId;
@@ -36,5 +38,21 @@ public class ResultDetailDto {
 
     public void setUserAnswer(String userAnswer) {
         this.userAnswer = userAnswer;
+    }
+
+    public Long getExerciseId() {
+        return exerciseId;
+    }
+
+    public void setExerciseId(Long exerciseId) {
+        this.exerciseId = exerciseId;
+    }
+
+    public String getQ() {
+        return q;
+    }
+
+    public void setQ(String q) {
+        this.q = q;
     }
 }

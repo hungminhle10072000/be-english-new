@@ -1,4 +1,5 @@
 import React,{useState, useEffect, useRef} from "react";
+import './Exercise.css'
 
 function Question({data, onAnswerUpdate,numberOfQuestion, activeQuestion, onSetActiveQuestion, onSetStep, index}) {
     const [selected, setSelected] = useState('')
@@ -18,7 +19,6 @@ function Question({data, onAnswerUpdate,numberOfQuestion, activeQuestion, onSetA
         if (error) {
             setError('')
         }
-        console.log('index',index)
     }
 
     const nextClickHandler = (e) => {
@@ -35,7 +35,7 @@ function Question({data, onAnswerUpdate,numberOfQuestion, activeQuestion, onSetA
     }
 
     return(
-        <div className="card">
+        <div className="card question">
             <div className="card-content">
                 <div className="content">
                     <h2 className="mb-5">{"Câu "+ index +": "+ data.question}</h2>

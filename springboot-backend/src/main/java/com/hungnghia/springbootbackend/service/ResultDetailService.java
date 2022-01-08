@@ -27,4 +27,9 @@ public class ResultDetailService {
         }
         return true;
     }
+    public List<ResultDetailDto> findResultDetailEntitiesByUserEntity_IdAndQuestionEntity_ExerciseEntity_Id(Long userId, Long exerciseId) {
+        List<ResultDetailEntity> resultDetailEntities = resultDetailRepository.findResultDetailEntitiesByUserEntity_IdAndQuestionEntity_ExerciseEntity_Id(userId,exerciseId);
+        List<ResultDetailDto> resultDetailDtos = resultDetailConverter.toListDtos(resultDetailEntities);
+        return  resultDetailDtos;
+    }
 }

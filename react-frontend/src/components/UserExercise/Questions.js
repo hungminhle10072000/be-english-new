@@ -31,7 +31,7 @@ function Questions({data, onAnswerUpdate,numberOfQuestion, activeQuestion, onSet
     }
 
     return(
-        <div>
+        <div style={{width:"100%"}}>
             {data.map((x,i) => (
                 <Question key={x.id} data={x}
                 onAnswerUpdate={onAnswerUpdate}

@@ -10,7 +10,8 @@ import './css/UserExercise.css'
 import axios from 'axios'
 import { useSelector } from 'react-redux';
 import {authHeader} from '../../services/auth-header';
-
+import ResultService from '../../services/ResultService'
+import ResultDetailService from '../../services/ResultDetailService'
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
     "Access-Control-Allow-Origin": "*",
@@ -28,19 +29,35 @@ function UserExercisePage() {
   const [answers, setAnswers] = useState([])
   const [time, setTime] = useState(0)
   const [showModal, setShowModal] = useState(false)
+  const [isReset, setIsReset] = useState(false)
   const userCurrent = useSelector((state) => state.itemUserLogin)
   console.log('UserCurrent: ',userCurrent)
 
   useEffect(() => {
+
     axios.get('http://localhost:8080/api/question/findQuestionByExerciseId/3',{
         headers: {...headers, ...authHeader()},
     })
     .then(res => {
-        quizData.data = res.data;})
+        quizData.data = res.data;
+      })
+    ResultService.getResultByUserIdAndExerciseId(userCurrent.id,3).then(res=> {
+      console.log("Wrong+ Right",res.data[0].totalWrong + res.data[0].totalRight )
+        if (res.data.length > 0 && isReset == false) {
+          ResultDetailService.getResultDetailByUserIdAndExerciseId(userCurrent.id,3).then(res=> {
+            setAnswers(res.data)
+          })
+          setStep(3)
+        }
+      })
+
+    
+
+    
     if (step ===3) {
       clearInterval(interval)
       newListAnswer = listAnswer.map(x => {x.userId=userCurrent.id; return x} )
-      console.log('NEW LIST',newListAnswer)
+      
       let formData = new FormData()
       const jsonLesson = JSON.stringify(newListAnswer)
       const blob = new Blob([jsonLesson], {
@@ -65,10 +82,16 @@ function UserExercisePage() {
 
   const quizStartHandler = () => {
     setStep(2)
+    let resultDto = {
+      exerciseId:3,
+      userId:userCurrent.id
+    }
+    ResultService.addResult(resultDto)
     interval = setInterval(() => setTime(prevTime => prevTime+1), 1000);
   }
 
   const resetClickHandler = ()=>{
+    setIsReset(true)
     setActiveQuestion(0)
     setAnswers([])
     setStep(2)
