@@ -6,7 +6,8 @@ import { Modal, Button} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { AiOutlineFileAdd } from "react-icons/ai";
 import AdminFormAddExercise from '../../components/AdminFormAddExercise/AdminFormAddExercise';
-import AdminItemExercise from '../../components/AdminItemExercise/AdminItemExercise'
+import AdminItemExercise from '../../components/AdminItemExercise/AdminItemExercise';
+import AdminFormEditExercise from '../../components/AdminFormEditExercise/AdminFormEditExercise';
 
 class AdminExercises extends Component {
 
@@ -54,7 +55,7 @@ class AdminExercises extends Component {
     }
 
     handleCloseEdit = () => {
-        // this.props.offFormEditVocaTopic();
+        this.props.offFormEditExercise();
     }
 
     callback = (term) => {
@@ -133,21 +134,21 @@ class AdminExercises extends Component {
                     </div>
 
                 </div>
-                {/* <Modal show={this.state.showFormEdit} onHide={() => this.handleCloseEdit()}>
+                <Modal show={this.state.showFormEdit} onHide={() => this.handleCloseEdit()}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            Chỉnh sửa chủ đề từ vựng
+                            Chỉnh sửa bài tập
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <AdminFormEditTopicVocabulary />
+                        <AdminFormEditExercise />
                     </Modal.Body>
                     <Modal.Footer>
                             <Button variant="secondary"  onClick={() => this.handleCloseEdit()}>
                                 Hủy
                             </Button>
                     </Modal.Footer>
-                </Modal> */}
+                </Modal>
                 <Modal show={this.state.showForm} onHide={() => this.handleClose()}>
                     <Modal.Header closeButton>
                         <Modal.Title>

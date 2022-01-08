@@ -35,6 +35,9 @@ import userListGrammar from './UserGrammarReducer/userListGrammar'
 import userValueSelectGrammar from './UserGrammarReducer/userValueSelectGrammar'
 import statusFormAdminExercise from "./AdminExercise/statusFormAdminExercise"
 import exerciseReducer from "./AdminExercise/exerciseReducer"
+import itemExerciseEdit from './AdminExercise/itemExerciseEdit'
+import questionReducer from './QuestionReducer/questionReducer'
+import itemQuestionEditReducer from './QuestionReducer/itemQuestionEditReducer'
 
 const appReducers = combineReducers({
     users,
@@ -65,6 +68,9 @@ const appReducers = combineReducers({
     userListGrammar,
     userValueSelectGrammar,
     statusFormAdminExercise,
-    exerciseReducer
+    exerciseReducer,
+    itemExerciseEdit,
+    questionReducer,
+    itemQuestionEditReducer
 });
 export default appReducers;

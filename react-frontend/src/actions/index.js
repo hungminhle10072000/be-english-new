@@ -16,6 +16,7 @@ import userVocabularyAction from "./userVocabularyAction";
 import userGrammarAction from './userGrammarAction';
 import userCourseAction from './userCourseAction';
 import adminExerciseAction from "./adminExerciseAction";
+import questionAction from './questionAction'
 
 const allActions = {
     userAction,
@@ -35,7 +36,8 @@ const allActions = {
     userVocabularyAction,
     userGrammarAction,
     userCourseAction,
-    adminExerciseAction
+    adminExerciseAction,
+    questionAction
 }
 
 export default allActions

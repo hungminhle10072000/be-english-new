@@ -71,7 +71,7 @@ class NavigationBar extends Component {
                         {checkUserLogin ?   
                         <Nav className="ml-auto" className="div-setting-user">
                             <Nav.Item>
-                                <img style={{borderRadius: '50%'}} className='icon-user-login' src={this.props.itemUserLogin.avartar} width='50px' height='50px'/>
+                                <img style={{borderRadius: '50%'}} className='icon-user-login' src={this.props.itemUserLogin.avartar} width='70px' height='70px'/>
                                 {/* <BiUserCircle color='black' className='icon-user-login'/> */}
                             </Nav.Item> 
                             <div className="setting-user">

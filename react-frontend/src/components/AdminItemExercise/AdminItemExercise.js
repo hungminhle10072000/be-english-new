@@ -6,6 +6,7 @@ import {
     Link
 } from "react-router-dom"
 import { confirmAlert } from 'react-confirm-alert'
+import convertURL from '../../constants/convertUrl'
 
 class AdminItemExercise extends Component {
 
@@ -31,8 +32,8 @@ class AdminItemExercise extends Component {
     }
 
     onEdit = () => {
-        // this.props.onGetVocaTopicEdit(this.props.id)
-        // this.props.onFormEditExercise()
+        this.props.onGetExerciseEdit(this.props.id)
+        this.props.onFormEditExercise()
     }
 
     render() {
@@ -60,7 +61,7 @@ class AdminItemExercise extends Component {
                         </Link>
                         <button onClick={() => this.onDelete()}
                         type="button" className="btn btn-danger btn-delete-voca-topic">Xóa</button>
-                         <Link to={"/admin/topic-vocabulary/" + this.props.id }>
+                         <Link to={"/admin/exercise/" + this.props.id + "/" + convertURL(this.props.name) }>
                             <button type="button" className="btn btn-info btn-detail-voca-topic">Chi tiết</button>
                         </Link>
                     </td>
@@ -79,9 +80,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onFormEditExercise: () => {
             dispatch(allActions.adminExerciseAction.changeFormEditExerciseOn());
         },
-        // onGetVocaTopicEdit: (id) => {
-        //     dispatch(allActions.vocabularyTopicAction.actGetVocaTopicRequest(id))
-        // }
+        onGetExerciseEdit: (id) => {
+            dispatch(allActions.adminExerciseAction.actGetExerciseWithIdRequest(id))
+        }
     }
 }
 

@@ -52,4 +52,25 @@ public class ExerciseService {
             return null;
         }
     }
+
+    public ExerciseEntity updateExerciese(Long id,AddExerciseDto updateExerciseDto, MultipartFile img){
+        try{
+            ExerciseEntity exerciseEntityUpdate = getExerciseEntityById(id);
+            exerciseEntityUpdate.setName(updateExerciseDto.getName());
+            exerciseEntityUpdate.setType(updateExerciseDto.getType());
+            exerciseEntityUpdate.setDescription(updateExerciseDto.getDescription());
+            if(!(img == null)){
+                String imgUrl = amazonClient.uploadFile(img);
+                exerciseEntityUpdate.setImage(imgUrl);
+            }
+            return exerciseRepository.save(exerciseEntityUpdate);
+        } catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public ExerciseEntity getExerciseEntityById(Long id){
+        return exerciseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tồn tại bài tập với id :" + id));
+    }
 }

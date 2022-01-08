@@ -86,8 +86,8 @@ span.text-brand {
 	content: "";
     position: absolute;
     top: 50%;
-    margin-top: -155px;
-    left: 203px;
+    margin-top: -141px;
+    left: 194px;
     border: solid 15px transparent;
     border-bottom-color: #d5d4c7;
     z-index: 1;

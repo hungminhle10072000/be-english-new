@@ -15,7 +15,7 @@ var findIndex = (allExercise, id) => {
 const exerciseReducer = (state = nameInitialState, action) => {
 
     let index = -1;
-    const {id} = action
+    const {id, itemExerciseUpdate} = action
 
     switch (action.type) {
         case Types.FETCH_EXERCISE:
@@ -28,6 +28,13 @@ const exerciseReducer = (state = nameInitialState, action) => {
             index = findIndex(state, id)
             state.splice(index,1)
             return[...state]
+        case Types.UPDATE_EXERCISE:
+            state.forEach((item, index) => {
+                if(item.id === itemExerciseUpdate.id){
+                    state[index] = itemExerciseUpdate;
+                }
+            });
+            return [...state]
         default:
             return state
     }

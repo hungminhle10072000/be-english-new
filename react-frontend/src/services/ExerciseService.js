@@ -25,7 +25,6 @@ class ExerciseService {
 
     // add exercise
     addExercise(AddExerciseDto, img_des){
-        console.log(AddExerciseDto)
         let formData = new FormData();
 
         const json = JSON.stringify(AddExerciseDto);
@@ -38,6 +37,29 @@ class ExerciseService {
 
         return axios.post(EXERCISE_API_END_POINT, formData, {
             headers:{...headers, ...authHeader(),'Content-Type': 'multipart/form-data'}
+        })
+    }
+
+    // get exercise by id
+    getExerciseById(id) {
+        return axios.get(EXERCISE_API_END_POINT + '/' + id, {headers: {...headers, ...authHeader()}});
+    }
+
+    // update exercise
+    updateExercise(id, UpdateExerciseDto, img_des){
+        
+        let formData = new FormData()
+
+        const json = JSON.stringify(UpdateExerciseDto);
+        const blob = new Blob([json], {
+            type: 'application/json'
+        });
+
+        formData.append("UpdateExerciseDto", blob);
+        formData.append("img_des", img_des);
+
+        return axios.put(EXERCISE_API_END_POINT + '/' + id, formData, {
+            headers:{...headers,...authHeader(),'Content-Type': 'multipart/form-data'}
         })
     }
 

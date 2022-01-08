@@ -99,6 +99,48 @@ const actAddExercise = (exercise) => {
     }
 }
 
+// get exercise with id
+const actGetExerciseWithIdRequest = (id) => {
+    return (dispatch) => (
+        ExerciseService.getExerciseById(id).then((res) => {
+            dispatch(actGetExerciseWithId(res.data))
+        }).catch(
+            error => {
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại !!! Xin hãy thử lại", "danger"))
+            }
+        )
+    )
+}
+
+const actGetExerciseWithId = (itemExercise) => {
+    return {
+        type: Types.GET_EXERCISE_WITH_ID,
+        itemExercise
+    }
+}
+
+
+// update exercise
+const actUpdateExerciseRequest = (id, UpdateExerciseDto, img_des) => {
+    return (dispatch) => {
+        ExerciseService.updateExercise(id, UpdateExerciseDto, img_des).then((res) => {
+            dispatch(actUpdateExercise(res.data))
+            dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công !!!", "success"))
+            dispatch(changeFormEditExerciseOff())
+        }).catch(
+            error => {
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại !!! Xin hãy thử lại", "danger"))
+            }
+        )
+    }
+}
+
+const actUpdateExercise = (itemExerciseUpdate) => {
+    return {
+        type: Types.UPDATE_EXERCISE,
+        itemExerciseUpdate
+    }
+}
 
 export default {
     changeFormAddExerciseOn,
@@ -107,5 +149,7 @@ export default {
     changeFormEditExerciseOff,
     actFetchAllExerciseRequest,
     actDeleteExerciseWithIdRequest,
-    actAddExerciseRequest
+    actAddExerciseRequest,
+    actGetExerciseWithIdRequest,
+    actUpdateExerciseRequest
 }
