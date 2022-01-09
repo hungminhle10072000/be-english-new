@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap"
 import './FormSendMail.css'
 import allActions from '../../actions/index';
 import { connect } from 'react-redux';
+import * as ReactBootstrap from 'react-bootstrap'
 class FormSendMail extends Component {
 
     constructor(props){
@@ -10,7 +11,8 @@ class FormSendMail extends Component {
 
         this.state = {
             username: '',
-            email: ''
+            email: '',
+            statusCheckItemLoading: false
         }
     }
 
@@ -22,14 +24,24 @@ class FormSendMail extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.statusItemLoading){
+            this.setState({
+                statusCheckItemLoading: nextProps.statusItemLoading.statusCheck
+            })
+        }
+    }
+
     handleSendMailPassWord = (e,username, email) => {
         e.preventDefault();
+        this.props.onOpenItemLoading()
         this.props.onForgetPassWord(username, email);
     }
 
     render() {
         return (
             <Form onSubmit={(e) => this.handleSendMailPassWord(e,this.state.username, this.state.email)}>
+                {this.state.statusCheckItemLoading ? <ReactBootstrap.Spinner animation="border" className='item-loading-form-sendmail'/> : ''}
                 <Form.Group>
                     <Form.Control
                         className="form-send-mail"
@@ -58,13 +70,22 @@ class FormSendMail extends Component {
     }
 }
 
+const mapStateToProps = (state, ownProps) => {
+    return {
+        statusItemLoading: state.statusItemLoading
+    }
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onForgetPassWord : (username, email) => {
             dispatch(allActions.userAction.actForgetPassWordRequest(username, email))
+        },
+        onOpenItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }
 
 
-export default connect(null, mapDispatchToProps) (FormSendMail);
+export default connect(mapStateToProps, mapDispatchToProps) (FormSendMail);

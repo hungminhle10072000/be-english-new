@@ -50,6 +50,7 @@ class UserDetailTopicVocabulary extends Component {
 
     componentDidMount() {
         const {nameTopicPara,idTopic} = this.state
+        this.props.onOpenItemLoading()
         this.props.userGetVocaWithTopic(nameTopicPara,idTopic);
         this.props.onGetCommentByTopicId(idTopic)
         this.setState({
@@ -122,6 +123,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onGetCommentByTopicId: (topicId) => {
             dispatch(allActions.commentAction.actGetCommentByTopicIdRequest(topicId))
+        },
+        onOpenItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

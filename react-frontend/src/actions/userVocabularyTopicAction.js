@@ -1,5 +1,7 @@
 import * as Types from '../constants/ActionTypes';
 import VocabularyTopicService from '../services/VocabularyTopicService';
+import userItemLoadingAction from './userItemLoadingAction'
+import adminAlertInfoAction from './admin-alert-infoAction'
 
 // get all users
 const actUserFetchVocaTopicsRequest = () => {
@@ -7,7 +9,15 @@ const actUserFetchVocaTopicsRequest = () => {
         return (
             VocabularyTopicService.userGetAllVocaTopic().then((res) => {
                 dispatch(actUserFetchVocaTopics(res.data))
+            }).then(() => {
+                dispatch(userItemLoadingAction.closeItemLoading())
             })
+            .catch(      
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())    
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại !!! Xin hãy thử lại", "danger"))           
+                }        
+            )
         )
     }
 }

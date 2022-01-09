@@ -1,5 +1,7 @@
 import * as Types from '../constants/ActionTypes';
 import GrammarService from '../services/GrammarService'
+import userItemLoadingAction from './userItemLoadingAction'
+import adminAlertInfoAction from './admin-alert-infoAction'
 
 // user get all users
 const actUserFetchAllGrammarRequest = () => {
@@ -12,6 +14,11 @@ const actUserFetchAllGrammarRequest = () => {
                     dispatch(actUserGetLearnGrammarRequest(res.data[0].id))
                 }
             })
+            .catch(      
+                error => {
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại !!! Xin hãy thử lại", "danger"))           
+                }        
+            )
         )
     }
 }
@@ -29,7 +36,15 @@ const actUserGetLearnGrammarRequest = (grammarId) => {
         return (
             GrammarService.userGetGrammarLearn(grammarId).then((res) => {
                 dispatch(actUserGetLearnGrammar(res.data))
+            }).then(() => {
+                dispatch(userItemLoadingAction.closeItemLoading())
             })
+            .catch(      
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())    
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại !!! Xin hãy thử lại", "danger"))           
+                }        
+            )
         )
     }
 }

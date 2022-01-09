@@ -38,6 +38,7 @@ import exerciseReducer from "./AdminExercise/exerciseReducer"
 import itemExerciseEdit from './AdminExercise/itemExerciseEdit'
 import questionReducer from './QuestionReducer/questionReducer'
 import itemQuestionEditReducer from './QuestionReducer/itemQuestionEditReducer'
+import statusItemLoading from './statusItemLoading'
 
 const appReducers = combineReducers({
     users,
@@ -71,6 +72,7 @@ const appReducers = combineReducers({
     exerciseReducer,
     itemExerciseEdit,
     questionReducer,
-    itemQuestionEditReducer
+    itemQuestionEditReducer,
+    statusItemLoading
 });
 export default appReducers;

@@ -51,6 +51,7 @@ class UserGrammar extends Component {
     }
 
     componentDidMount() {
+        this.props.onItemLoading()
         this.props.onUserGetAllGrammar();
         this.setState({
             comments: this.props.comments,
@@ -62,6 +63,7 @@ class UserGrammar extends Component {
         }
     }
     componentWillMount() {
+        this.props.onItemLoading()
         this.props.onUserGetAllGrammar();
         this.setState({
             comments: this.props.comments,
@@ -121,6 +123,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onGetCommentByGrammarId: (grammarId) => {
             dispatch(allActions.commentAction.actGetCommentByGrammarIdRequest(grammarId))
         },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
+        }
     }
 }
 

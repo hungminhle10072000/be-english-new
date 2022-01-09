@@ -11,6 +11,7 @@ import AdminAlertInfo from '../../components/AdminAlertInfo/AdminAlertInfo';
 import { Link } from 'react-router-dom';
 import { Modal, Button} from 'react-bootstrap';
 import FormSendMail from '../../components/FormSendMail/FormSendMail';
+import * as ReactBootstrap from 'react-bootstrap'
 
 class LoginPage extends Component {
 
@@ -21,7 +22,8 @@ class LoginPage extends Component {
             username: '',
             psw: '',
             validationMsg: {},
-            showForm: false
+            showForm: false,
+            statusCheckItemLoading: false
         }
     }
 
@@ -30,6 +32,11 @@ class LoginPage extends Component {
             let {statusFormSendMail} = nextProps
             this.setState({
                 showForm: statusFormSendMail.openFormSendMail
+            })
+        }
+        if(nextProps && nextProps.statusItemLoading){
+            this.setState({
+                statusCheckItemLoading: nextProps.statusItemLoading.statusCheck
             })
         }
     }
@@ -69,7 +76,11 @@ class LoginPage extends Component {
         let {username, psw} = this.state;
         const isValid = this.validateAll();
         if(!isValid) return
-        else this.props.onLoginUser(username, psw);         
+        else 
+        {
+            this.props.onOpenItemLoading();
+            this.props.onLoginUser(username, psw);
+        }         
     }
 
     handleRedirectHome = () => {
@@ -94,6 +105,7 @@ class LoginPage extends Component {
         }  
         return (
             <div className="container-fluid container-login">
+                {this.state.statusCheckItemLoading ? <ReactBootstrap.Spinner animation="border" className='item-loading'/> : ''}
                 <AdminAlertInfo />
                 <div className="login-form">
                     <div>  
@@ -167,7 +179,8 @@ class LoginPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         itemUserLogin: state.itemUserLogin,
-        statusFormSendMail: state.statusFormSendMail
+        statusFormSendMail: state.statusFormSendMail,
+        statusItemLoading: state.statusItemLoading
     }
 }
 
@@ -181,6 +194,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         offFormSendMail : () => {
             dispatch(allActions.openFormSendMail.changeFormSendMailOff())
+        },
+        onOpenItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

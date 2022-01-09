@@ -13,7 +13,7 @@ function Questions({data, onAnswerUpdate,numberOfQuestion, activeQuestion, onSet
         if (error) {
             setError('')
         }
-    }
+    } 
 
     const nextClickHandler = (e) => {
         onSetStep(3)

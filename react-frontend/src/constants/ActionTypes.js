@@ -109,3 +109,10 @@ export const DELETE_QUESTION_WITH_ID = 'DELETE_QUESTION_WITH_ID';
 export const ADD_QUESTION_READ = 'ADD_QUESTION_READ';
 export const GET_QUESTION_BY_ID = 'GET_QUESTION_BY_ID';
 export const UPDATE_QUESTION = 'UPDATE_QUESTION';
+
+
+// open item loading user
+export const OPEN_ITEM_LOADING_USER = 'OPEN_ITEM_LOADING_USER';
+
+// close item loading user
+export const CLOSE_ITEM_LOADING_USER = 'CLOSE_ITEM_LOADING_USER';

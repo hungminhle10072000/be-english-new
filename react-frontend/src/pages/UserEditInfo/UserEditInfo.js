@@ -90,6 +90,7 @@ class UserEditInfo extends Component {
     updateUser = (event) => {
         event.preventDefault();
         this.handleConfirmationBox();
+        this.props.onOpenItemLoading()
         this.props.onUpdateUser(this.state.user, this.state.currentFile, this.state.statuschossefile);
         // this.props.history.goBack();
         // this.props.changeAdminAlertOn("Cập nhật thành công","success");
@@ -139,6 +140,7 @@ class UserEditInfo extends Component {
         const {user, passwordOld, passwordNew} = this.state
         if(!isValid) return
         else{
+            this.props.onOpenItemLoading()
             this.props.onUserUpdatePassWord(user.username,passwordOld, passwordNew)
         } 
     }
@@ -385,6 +387,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onUserUpdatePassWord: (username, passwordOld, passwordNew) => {
             dispatch(allActions.userAction.actUserUpdatePassWordRequest(username, passwordOld, passwordNew))
+        },
+        onOpenItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }
