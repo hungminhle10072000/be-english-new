@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Button } from "react-bootstrap"
 import './AdminFormEditGrammar.css'
 import allActions from '../../actions'
+import { BiSave, BiRefresh } from "react-icons/bi"
 
 class AdminFormEditGrammar extends Component {
 
@@ -10,7 +11,8 @@ class AdminFormEditGrammar extends Component {
         super(props);
         
         this.state = {
-            name_grammar : ''
+            name_grammar : '',
+            statusCheck: false
         }
     }
 
@@ -19,6 +21,11 @@ class AdminFormEditGrammar extends Component {
             let {itemGrammarEdit} = nextProps;
             this.setState({
                 name_grammar: itemGrammarEdit.name
+            })
+        }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
             })
         }
     }
@@ -34,6 +41,7 @@ class AdminFormEditGrammar extends Component {
     handleUpdateNameGrammar = (e) => {
         const {name_grammar} = this.state
         e.preventDefault();
+        this.props.onOpenButtonLoading()
         this.props.onUpdateVocaTopic(this.props.itemGrammarEdit.id, name_grammar)
     }
 
@@ -46,7 +54,8 @@ class AdminFormEditGrammar extends Component {
 
     render() {
         const {
-            name_grammar
+            name_grammar,
+            statusCheck
         } = this.state;
         return (
             <Form onSubmit={(e) => this.handleUpdateNameGrammar(e)}>
@@ -61,8 +70,11 @@ class AdminFormEditGrammar extends Component {
                         required
                     />
                 </Form.Group>
-                <Button variant="success" type="submit" className="button-update-grammar">
-                    Cập nhật
+                <Button disabled={statusCheck} variant="success" type="submit" className="button-update-grammar">
+                    {statusCheck && "Đang xử lý "}
+                    {statusCheck && <BiRefresh />}
+                    {!statusCheck && "Cập nhật "}
+                    {!statusCheck && <BiSave />}
                 </Button>
                 <Button variant="warning" type="reset" className="button-reset-grammar" onClick={() => {this.resetForm()}}>
                     Reset
@@ -74,7 +86,8 @@ class AdminFormEditGrammar extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        itemGrammarEdit: state.itemGrammarEdit
+        itemGrammarEdit: state.itemGrammarEdit,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -82,6 +95,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onUpdateVocaTopic: (id,name_grammar) => {
             dispatch(allActions.grammarAction.actUpdateNameGrammarRequest(id, name_grammar));
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

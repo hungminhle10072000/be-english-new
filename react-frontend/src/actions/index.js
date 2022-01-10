@@ -18,6 +18,7 @@ import userCourseAction from './userCourseAction';
 import adminExerciseAction from "./adminExerciseAction";
 import questionAction from './questionAction'
 import userItemLoadingAction from './userItemLoadingAction'
+import statusButtonLoadingAction from "./statusButtonLoadingAction";
 
 const allActions = {
     userAction,
@@ -39,7 +40,8 @@ const allActions = {
     userCourseAction,
     adminExerciseAction,
     questionAction,
-    userItemLoadingAction
+    userItemLoadingAction,
+    statusButtonLoadingAction
 }
 
 export default allActions

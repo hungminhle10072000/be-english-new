@@ -2,14 +2,22 @@ import * as Types from '../constants/ActionTypes';
 import GrammarService from '../services/GrammarService'
 import adminAlertInfoAction from './admin-alert-infoAction';
 import openFormAddGrammar from './openFormAddGrammar';
+import userItemLoadingAction from './userItemLoadingAction'
+import statusButtonLoadingAction from './statusButtonLoadingAction'
 
 // get all grammar
 const actFetchGrammarRequest = () => {
     return (dispatch) => {
         return(
             GrammarService.getAllGrammar().then((res) => {
-                dispatch(actFetchGrammar(res.data))
-            })
+                dispatch(userItemLoadingAction.closeItemLoading())
+                dispatch(actFetchGrammar(res.data))              
+            }).catch(
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+                }
+            )
         )
     }
 }
@@ -44,9 +52,16 @@ const actAddGrammarNameRequest = (nameGrammar) => {
         return(
             GrammarService.addGrammarWithName(nameGrammar).then((res) => {
                 dispatch(actAddGrammarName(res.data))
+                dispatch(userItemLoadingAction.closeItemLoading())
                 dispatch(openFormAddGrammar.changeFormGrammarOff())
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm bài học thành công !","success"))
             })
+            .catch(
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOff("Tác vụ thất bại!!! Xin hãy thử lại","danger"))
+                }
+            )
         )
     }
 }
@@ -79,9 +94,16 @@ const actUpdateNameGrammarRequest = (id,name_grammar) => {
     return(dispatch) => {
         GrammarService.updateNameGrammar(id,name_grammar).then((res) => {
             dispatch(actUpdateNameGrammar(res.data))
+            dispatch(statusButtonLoadingAction.closeButtonLoading())
             dispatch(openFormAddGrammar.changeFormEditGrammarOff())
             dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công !","success"))
         })
+        .catch(
+            error => {
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!! Xin hãy thử lại","danger"))
+            }
+        )
     }
 }
 
@@ -97,8 +119,15 @@ const actUpdateContentGrammarRequest = (id, content_grammar) => {
     return(dispatch) => {
         GrammarService.updateContentGrammar(id,content_grammar).then((res) => {
             dispatch(actUpdateConentGrammar(res.data))
+            dispatch(statusButtonLoadingAction.closeButtonLoading())
             dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công !","success"))
         })
+        .catch(
+            error => {
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!! Xin hãy thử lại", "danger"))
+            }
+        )
     }
 }
 

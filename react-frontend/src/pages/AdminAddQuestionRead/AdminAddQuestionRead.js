@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { BiSave, BiReset } from "react-icons/bi"
+import { BiSave, BiReset, BiRefresh } from "react-icons/bi"
 import allActions from '../../actions/index'
 import { connect } from 'react-redux';
 import convertURL from '../../constants/convertUrl';
@@ -20,7 +20,8 @@ class AdminAddQuestionRead extends Component {
             option_3: '',
             option_4: '',
             idExercise: this.props.match.params.idExercise,
-            nameExercise: this.props.match.params.nameExercise
+            nameExercise: this.props.match.params.nameExercise,
+            statusCheck: false
         })
     }
 
@@ -31,6 +32,14 @@ class AdminAddQuestionRead extends Component {
         this.setState({
             [name]: value
         })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
+        }
     }
 
     addQuestionRead = (event) => {
@@ -71,10 +80,14 @@ class AdminAddQuestionRead extends Component {
         addQuestionReadDto.option_4 = this.state.option_4;
         addQuestionReadDto.idExercise = this.state.idExercise;
 
+        this.props.onOpenButtonLoading()
         this.props.onAddQuestionRead(addQuestionReadDto)
     }
 
     render() {
+        const {
+            statusCheck
+        } = this.state;
         return (
             <div className="container-fluid container-admin-add-account">
                 <div className="row">
@@ -126,7 +139,12 @@ class AdminAddQuestionRead extends Component {
                                 </div>
                                 
                                 <div className="div-button-account mb-3 mt-3">
-                                    <button onClick={(event) => this.addQuestionRead(event)} type="button" className="btn btn-success btn-save-account">Lưu <BiSave /></button> 
+                                    <button disabled={statusCheck} onClick={(event) => this.addQuestionRead(event)} type="button" className="btn btn-success btn-save-account">
+                                        {statusCheck && "Đang xử lý "}
+                                        {statusCheck && <BiRefresh />}
+                                        {!statusCheck && "Thêm "}
+                                        {!statusCheck && <BiSave />}
+                                    </button> 
                                     <button type="reset" className="btn btn-warning">Reset <BiReset /></button>
                                     <Link to={"/admin/exercise/" + this.state.idExercise + "/" + convertURL(this.state.nameExercise) }>
                                         <button type="button" className='btn btn-danger ml-3'>Quay lại</button>
@@ -142,12 +160,21 @@ class AdminAddQuestionRead extends Component {
     }
 }
 
+const mapStateToProps = (state, ownProps) => {
+    return {
+        statusButtonLoading: state.statusButtonLoading
+    }
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onAddQuestionRead: (addQuestionReadDto) => {
             dispatch(allActions.questionAction.actAddQuestionRequest(addQuestionReadDto))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }
 
-export default connect(null, mapDispatchToProps) (AdminAddQuestionRead);
+export default connect(mapStateToProps, mapDispatchToProps) (AdminAddQuestionRead);

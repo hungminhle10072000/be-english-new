@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './AdminEditInfo.css'
 import { connect } from 'react-redux'
-import { BiSave, BiReset,BiKey } from "react-icons/bi"
+import { BiSave, BiReset,BiKey, BiRefresh } from "react-icons/bi"
 import allActions from '../../actions/index'
 import validator from 'validator'
 
@@ -10,10 +10,10 @@ class AdminEditInfo extends Component {
         super(props);
 
         this.selectFile = this.selectFile.bind(this);
-        this.upload = this.upload.bind(this);
+        // this.upload = this.upload.bind(this);
 
         this.state = {
-            id: this.props.itemUserLogin.id,
+            id: localStorage.getItem('idUser'),
             user: {
                 fullname: '',
                 username: '',
@@ -38,7 +38,8 @@ class AdminEditInfo extends Component {
             openFormResetPassword: false,
             passwordOld: '',
             passwordNew: '',
-            repeat_passwordNew: ''
+            repeat_passwordNew: '',
+            statusCheck: false
         }
     }
 
@@ -56,22 +57,28 @@ class AdminEditInfo extends Component {
         });
     }
 
-    upload() {
-        this.setState({
-            process: 0,
-        });
-    }
+    // upload() {
+    //     this.setState({
+    //         process: 0
+    //     });
+    // }
 
 
     componentDidMount() {
+        this.props.onItemLoading();
         this.props.onEditUser(this.state.id);
     }
 
     componentWillReceiveProps(nextProps) {
         if(nextProps && nextProps.itemUserEdit){
-            var {itemUserEdit} = nextProps;
+            const {itemUserEdit} = nextProps;
             this.setState({
                 user: {...itemUserEdit}
+            })
+        }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
             })
         }
     }
@@ -95,9 +102,8 @@ class AdminEditInfo extends Component {
     updateUser = (event) => {
         event.preventDefault();
         this.handleConfirmationBox();
+        this.props.onOpenButtonLoading()
         this.props.onUpdateUser(this.state.user, this.state.currentFile, this.state.statuschossefile);
-        // this.props.history.goBack();
-        // this.props.changeAdminAlertOn("Cập nhật thành công","success");
     }
 
     handleConfirmationBox = (event) => {
@@ -144,6 +150,7 @@ class AdminEditInfo extends Component {
         const {user, passwordOld, passwordNew} = this.state
         if(!isValid) return
         else{
+            this.props.onOpenButtonLoading()
             this.props.onUserUpdatePassWord(user.username,passwordOld, passwordNew)
         } 
     }
@@ -207,7 +214,8 @@ class AdminEditInfo extends Component {
         const { 
             previewImage,
             validationMsg,
-            validationMsgPassword
+            validationMsgPassword,
+            statusCheck
         } = this.state;
 
         return (
@@ -326,8 +334,13 @@ class AdminEditInfo extends Component {
                             </div>
 
                             <div className="div-button-account">
-                                    <button type="button" onClick={(event) => this.handleConfirmationBox(event)}
-                                    className="btn btn-success btn-save-account">Cập nhật <BiSave /></button> 
+                                    <button disabled={statusCheck} type="button" onClick={(event) => this.handleConfirmationBox(event)}
+                                    className="btn btn-success btn-save-account">
+                                        {statusCheck && "Đang xử lý "}
+                                        {statusCheck && <BiRefresh />}
+                                        {!statusCheck && "Cập nhật "}
+                                        {!statusCheck && <BiSave />}
+                                    </button> 
 
                                     <button type="button" onClick={(event) =>  this.openFormResetPassWord()}
                                     className="btn btn-danger">Đổi mật khẩu <BiKey /></button> 
@@ -354,8 +367,13 @@ class AdminEditInfo extends Component {
                                 placeholder="Nhập lại mật khẩu" name="repeat_passwordNew" id="repeat_passwordNew" />
                                 <p className="msg-error">{validationMsgPassword.repeat_passwordNew}</p>
                                 
-                                <button type="button" onClick={() =>  this.handleUpdatePassWord()}
-                                className="btn btn-danger">Cập nhật <BiKey /></button> 
+                                <button disabled={statusCheck} type="button" onClick={() =>  this.handleUpdatePassWord()}
+                                className="btn btn-danger">
+                                    {statusCheck && "Đang xử lý "}
+                                    {statusCheck && <BiRefresh />}
+                                    {!statusCheck && "Cập nhật "}
+                                    {!statusCheck && <BiKey />}
+                                </button> 
                             </div> 
                         </div> }
                     </div>
@@ -369,7 +387,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         itemUserEdit: state.itemUserEdit,
         users: state.users,
-        itemUserLogin: state.itemUserLogin
+        itemUserLogin: state.itemUserLogin,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -386,6 +405,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onUserUpdatePassWord: (username, passwordOld, passwordNew) => {
             dispatch(allActions.userAction.actUserUpdatePassWordRequest(username, passwordOld, passwordNew))
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

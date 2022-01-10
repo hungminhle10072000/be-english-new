@@ -3,6 +3,7 @@ import UserService from '../services/UserService'
 import adminAlertInfoAction from './admin-alert-infoAction'
 import openFormSendMail from './openFormSendMail'
 import userItemLoadingAction from './userItemLoadingAction'
+import statusButtonLoadingAction from './statusButtonLoadingAction'
 
 // get all users
 const actFetchUsersRequest = () => {
@@ -10,7 +11,13 @@ const actFetchUsersRequest = () => {
         return (
             UserService.getUsers().then((res) => {
                 dispatch(actFetchUsers(res.data))
-            })
+                dispatch(userItemLoadingAction.closeItemLoading())
+            }).catch(
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+                }
+            )
         )
     }
 }
@@ -63,11 +70,13 @@ const actUserUpdatePassWordRequest = (username, passwordOld, passwordNew) => {
                 (res) => 
                 {
                     dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật mật khẩu thành công", "success"))    
                     dispatch(actUserUpdatePassword(res.data)) 
                 }
             ).catch(       
                 error => {
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
                     dispatch(userItemLoadingAction.closeItemLoading())
                     if(error.response.status === 409){
                         dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật mật khẩu thất bại", "danger"))           
@@ -94,7 +103,21 @@ const actAddUserRequest = (userDto,file) => {
         return(
             UserService.createUser(userDto,file).then((res) => {
                 dispatch(actAddUser(res.data))
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm thành công!!!", "success"))
+                window.history.back();
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
             })
+            .catch(
+                error => {
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
+                    if(error.response.status === 409){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
+                    }
+                    if(error.response.status === 400){
+                        dispatch(adminAlertInfoAction.changeAdminAlertOn("Email đã có tài khoản đăng ký ! Yêu cầu sử dụng email khác", "danger"))           
+                    }            
+                }        
+            )
         )
     }
 }
@@ -148,7 +171,13 @@ const actGetUserRequest = (id) => {
         return (
             UserService.getUserById(id).then((res) => {
                 dispatch(actGetUser(res.data));
-            })
+                dispatch(userItemLoadingAction.closeItemLoading())
+            }).catch(
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+                }
+            )
         )
     }
 }
@@ -171,11 +200,13 @@ const actUpdateUserInfoRequest = (userDto, file, checkFile) => {
                     dispatch(actGetUserRequest(res.data.id));
                     dispatch(actLoginUser(res.data));
                     dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công","success")) 
                 }
             ).catch(
                 error => {
                     dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
                     if(error.response.status === 409){
                         dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
                     }
@@ -201,10 +232,12 @@ const actUpdateUserRequest = (userDto, file, checkFile) => {
                 {
                     dispatch(actUpdateUser(res.data));
                     dispatch(actGetUserRequest(res.data.id))
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công","success")) 
                 }
             ).catch(           
                 error => {
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
                     if(error.response.status === 409){
                         dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
                     }

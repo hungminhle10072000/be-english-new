@@ -26,6 +26,7 @@ class AdminDetailTopicVocabulary extends Component {
 
     componentDidMount() {
         const {nameTopicPara,idTopic} = this.state
+        this.props.onItemLoading()
         this.props.getVocaWithTopic(nameTopicPara,idTopic);
     }
 
@@ -164,6 +165,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onOffFormEditVoca: () => {
             dispatch(allActions.openFormAddVoca.changeFormEditVocaOff())
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

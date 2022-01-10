@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Button } from "react-bootstrap"
 import allActions from '../../actions'
 import ReactAudioPlayer from 'react-audio-player'
+import { BiSave, BiRefresh } from "react-icons/bi"
 
 
 class AdminFormEditVocabulary extends Component {
@@ -29,7 +30,8 @@ class AdminFormEditVocabulary extends Component {
                 example_vocabulary: '',
                 file_audio: '',
                 image: ''
-            }
+            },
+            statusCheck: false
         }
     }
 
@@ -64,6 +66,11 @@ class AdminFormEditVocabulary extends Component {
                     file_audio: itemVocaEdit.file_audio,
                     image: itemVocaEdit.image
                 }
+            })
+        }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
             })
         }
     }
@@ -105,6 +112,7 @@ class AdminFormEditVocabulary extends Component {
     handleUpdateVoca = (e) => {
         let {itemVoca,currentFileAudio,currentFile} = this.state
         e.preventDefault();
+        this.props.onOpenButtonLoading()
         this.props.onUpdateVocabulary(itemVoca.id, itemVoca, currentFileAudio, currentFile);
     }
 
@@ -114,7 +122,8 @@ class AdminFormEditVocabulary extends Component {
             previewAudio,
             itemVoca,
             statusChossefileImage,
-            statusChossefileAudio
+            statusChossefileAudio,
+            statusCheck
         } = this.state;
 
         const checkfileAudio = itemVoca.file_audio !== '' && statusChossefileAudio === false
@@ -228,8 +237,11 @@ class AdminFormEditVocabulary extends Component {
                         </div>
                     )}
                 </Form.Group>
-                <Button variant="success" type="submit" className="button-edit-vocabulary">
-                    Cập nhật
+                <Button disabled={statusCheck} variant="success" type="submit" className="button-edit-vocabulary">  
+                    {statusCheck && "Đang xử lý "}
+                    {statusCheck && <BiRefresh />}
+                    {!statusCheck && "Cập nhật "}
+                    {!statusCheck && <BiSave />}
                 </Button>
                 <Button style={{marginLeft: 5}} variant="warning" type="reset" className="button-reset-vocabulary" onClick={() => this.handleReset()}>
                     Reset
@@ -241,7 +253,8 @@ class AdminFormEditVocabulary extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        itemVocaEdit: state.itemVocaEdit
+        itemVocaEdit: state.itemVocaEdit,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -249,6 +262,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onUpdateVocabulary: (id , vocabularyUpdateDto, file_audio, image) => {
             dispatch(allActions.vocabularyAction.actUpdateVocabularyRequest(id , vocabularyUpdateDto, file_audio, image))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

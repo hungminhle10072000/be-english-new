@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap"
 import { connect } from 'react-redux';
 import './AdminFormAddTopicVocabulary.css'
 import allActions from '../../actions'
+import { BiSave, BiRefresh } from "react-icons/bi"
 
 class AdminFormAddTopicVocabulary extends Component {
 
@@ -13,7 +14,16 @@ class AdminFormAddTopicVocabulary extends Component {
         this.state = {
             name_topic : '',
             currentFile: undefined,
-            previewImage: undefined
+            previewImage: undefined,
+            statusCheck: false
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
         }
     }
 
@@ -34,12 +44,14 @@ class AdminFormAddTopicVocabulary extends Component {
 
     handleAddVocaTopic = (e,name_topic, image) => {
         e.preventDefault();
+        this.props.onOpenButtonLoading()
         this.props.onAddVocaTopic(name_topic, image);
     }
 
     render() {
         const {
-            previewImage
+            previewImage,
+            statusCheck
         } = this.state;
         return (
             <Form onSubmit={(e) => this.handleAddVocaTopic(e,this.state.name_topic, this.state.currentFile)}>
@@ -69,11 +81,20 @@ class AdminFormAddTopicVocabulary extends Component {
                         </div>
                     )}
                 </Form.Group>
-                <Button variant="success" type="submit" className="button-add-topic-vocabulary">
-                    Thêm
+                <Button variant="success" type="submit" className="button-add-topic-vocabulary" disabled={statusCheck}>
+                    {statusCheck && "Đang xử lý "}
+                    {statusCheck && <BiRefresh />}
+                    {!statusCheck && "Thêm "}
+                    {!statusCheck && <BiSave />}
                 </Button>
             </Form>
         )
+    }
+}
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -81,10 +102,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onAddVocaTopic : (name, image) => {
             dispatch(allActions.vocabularyTopicAction.actAddVocaTopicRequest(name, image))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }
 
-export default connect(null, mapDispatchToProps) (AdminFormAddTopicVocabulary);
+export default connect(mapStateToProps, mapDispatchToProps) (AdminFormAddTopicVocabulary);
 
 

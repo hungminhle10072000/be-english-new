@@ -1,6 +1,8 @@
 import * as Types from '../constants/ActionTypes';
 import adminAlertInfoAction from './admin-alert-infoAction';
 import ExerciseService from '../services/ExerciseService'
+import userItemLoadingAction from './userItemLoadingAction'
+import statusButtonLoadingAction from './statusButtonLoadingAction';
 
 const changeFormAddExerciseOn = () => {
     return{
@@ -31,9 +33,11 @@ const actFetchAllExerciseRequest = () => {
     return(dispatch) => {
         return (
             ExerciseService.getAllExercise().then((res) => {
+                dispatch(userItemLoadingAction.closeItemLoading())    
                 dispatch(actFetchAllExercise(res.data))
             }).catch(      
-                error => {    
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())    
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại !!! Xin hãy thử lại", "danger"))          
                 }        
             )
@@ -79,13 +83,16 @@ const actAddExerciseRequest = (AddExerciseDto, img_des) => {
         ExerciseService.addExercise(AddExerciseDto, img_des).then((res) => {
             if(res.data === null){
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm thất bại !!!", "danger"))
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
             } else {
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
                 dispatch(actAddExercise(res.data))
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm thành công !!!", "success"))
                 dispatch(changeFormAddExerciseOff())
             }
         }).catch(      
             error => {    
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại !!! Xin hãy thử lại", "danger"))          
             }        
         )
@@ -124,11 +131,13 @@ const actGetExerciseWithId = (itemExercise) => {
 const actUpdateExerciseRequest = (id, UpdateExerciseDto, img_des) => {
     return (dispatch) => {
         ExerciseService.updateExercise(id, UpdateExerciseDto, img_des).then((res) => {
+            dispatch(statusButtonLoadingAction.closeButtonLoading())
             dispatch(actUpdateExercise(res.data))
             dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công !!!", "success"))
             dispatch(changeFormEditExerciseOff())
         }).catch(
             error => {
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại !!! Xin hãy thử lại", "danger"))
             }
         )

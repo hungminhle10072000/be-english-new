@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import allActions from '../../actions'
 import { Form, Button, FloatingLabel } from "react-bootstrap"
+import { BiSave, BiRefresh } from "react-icons/bi"
 
 class AdminFormEditExercise extends Component {
 
@@ -15,9 +16,11 @@ class AdminFormEditExercise extends Component {
             description_exercise: "",
             currentFile: undefined,
             previewImage: undefined,
-            statuschossefile: false
+            statuschossefile: false,
+            statusCheck: false
         }
     }
+    
 
     selectFile(event) {
         this.setState({
@@ -42,6 +45,7 @@ class AdminFormEditExercise extends Component {
             type: this.state.type_exercise.toString(),
             description: this.state.description_exercise
         }
+        this.props.onOpenButtonLoading()
         this.props.onUpdateExercise(this.props.itemExerciseEdit.id ,updateDto, this.state.currentFile);
     }
 
@@ -69,6 +73,11 @@ class AdminFormEditExercise extends Component {
                 description_exercise: itemExerciseEdit.description
             })
         }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
+        }
     }
 
     render() {
@@ -77,7 +86,8 @@ class AdminFormEditExercise extends Component {
             name_exercise,
             type_exercise,
             description_exercise,
-            statuschossefile
+            statuschossefile,
+            statusCheck
         } = this.state;
 
         const checkimage = this.props.itemExerciseEdit.image !== '' && statuschossefile === false
@@ -132,8 +142,11 @@ class AdminFormEditExercise extends Component {
                         </div>
                     )}
                 </Form.Group>
-                <Button variant="success" type="submit" className="button-add-topic-vocabulary">
-                    Cập nhật
+                <Button disabled={statusCheck} variant="success" type="submit" className="button-add-topic-vocabulary">
+                    {statusCheck && "Đang xử lý "}
+                    {statusCheck && <BiRefresh />}
+                    {!statusCheck && "Cập nhật "}
+                    {!statusCheck && <BiSave />}
                 </Button>
                 <Button variant="warning" type="reset" className="button-edit-topic-vocabulary" onClick={() => {this.resetForm()}}>
                     Reset
@@ -145,7 +158,8 @@ class AdminFormEditExercise extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        itemExerciseEdit: state.itemExerciseEdit
+        itemExerciseEdit: state.itemExerciseEdit,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -153,6 +167,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onUpdateExercise: (id, UpdateExerciseDto, img_des) => {
             dispatch(allActions.adminExerciseAction.actUpdateExerciseRequest(id, UpdateExerciseDto, img_des))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

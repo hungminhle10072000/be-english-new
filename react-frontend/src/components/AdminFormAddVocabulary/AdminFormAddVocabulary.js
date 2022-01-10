@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Button } from "react-bootstrap"
 import allActions from '../../actions'
 import ReactAudioPlayer from 'react-audio-player'
+import { BiSave, BiRefresh } from "react-icons/bi"
 
 class AdminFormAddVocabulary extends Component {
 
@@ -25,7 +26,16 @@ class AdminFormAddVocabulary extends Component {
                 explain_vocabulary: '',
                 example_vocabulary: '',
                 idVocabularyTopic: this.props.idTopic
-            }
+            },
+            statusCheck: false
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
         }
     }
 
@@ -57,13 +67,15 @@ class AdminFormAddVocabulary extends Component {
     handleAddVoca = (e) => {
         const {currentFile, currentFileAudio, vocaDto} = this.state
         e.preventDefault();
+        this.props.onOpenButtonLoading()
         this.props.onAddVocabulary(vocaDto, currentFileAudio, currentFile)
     }
 
     render() {
         const {
             previewImage,
-            previewAudio
+            previewAudio,
+            statusCheck
         } = this.state;
         return (
             <Form onSubmit={(e) => this.handleAddVoca(e)}>
@@ -160,8 +172,11 @@ class AdminFormAddVocabulary extends Component {
                         </div>
                     )}
                 </Form.Group>
-                <Button variant="success" type="submit" className="button-add-topic-vocabulary">
-                    Thêm
+                <Button disabled={statusCheck} variant="success" type="submit" className="button-add-topic-vocabulary">
+                    {statusCheck && "Đang xử lý "}
+                    {statusCheck && <BiRefresh />}
+                    {!statusCheck && "Thêm "}
+                    {!statusCheck && <BiSave />}
                 </Button>
             </Form>
         )
@@ -170,7 +185,7 @@ class AdminFormAddVocabulary extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        // prop: state.prop
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -178,6 +193,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onAddVocabulary: (vocaDto, file_audio, file_image) => {
             dispatch(allActions.vocabularyAction.actAddVocaForTopicRequest(vocaDto, file_audio, file_image))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

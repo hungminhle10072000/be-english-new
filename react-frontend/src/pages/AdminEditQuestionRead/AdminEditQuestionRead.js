@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import allActions from '../../actions/index'
-import { BiSave, BiReset } from "react-icons/bi"
+import { BiSave, BiReset, BiRefresh } from "react-icons/bi"
 import {
     Link
 } from "react-router-dom"
@@ -23,7 +23,8 @@ class AdminEditQuestionRead extends Component {
             option_3: '',
             option_4: '',
             idExercise: -1,
-            nameExercise: ''
+            nameExercise: '',
+            statusCheck: false
         })
     }
 
@@ -74,7 +75,7 @@ class AdminEditQuestionRead extends Component {
         questionReadUpdateDto.option_3 = this.state.option_3;
         questionReadUpdateDto.option_4 = this.state.option_4;
         questionReadUpdateDto.idExercise = this.state.idExercise;
-
+        this.props.onOpenButtonLoading()
         this.props.onUpdateQuestion(this.state.idQuestion, questionReadUpdateDto);
 
     }
@@ -116,11 +117,21 @@ class AdminEditQuestionRead extends Component {
                 nameExercise: itemQuestionEditReducer.exerciseEntity.name
             })
         }
+
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
+        }
     }
     
     
 
     render() {
+        // this.props.onItemLoading()
+        const {
+            statusCheck
+        } = this.state;
         return (
             <div className="container-fluid container-admin-add-account">
                 <div className="row">
@@ -172,7 +183,12 @@ class AdminEditQuestionRead extends Component {
                                 </div>
                                 
                                 <div className="div-button-account mb-3 mt-3">
-                                    <button onClick={(event) => this.updateQuestionRead(event)} type="button" className="btn btn-success btn-save-account">Cập nhật <BiSave /></button> 
+                                    <button disabled={statusCheck} onClick={(event) => this.updateQuestionRead(event)} type="button" className="btn btn-success btn-save-account">
+                                        {statusCheck && "Đang xử lý "}
+                                        {statusCheck && <BiRefresh />}
+                                        {!statusCheck && "Cập nhật "}
+                                        {!statusCheck && <BiSave />}
+                                    </button> 
                                     <button type="reset" className="btn btn-warning" onClick={(event) =>  this.resetForm(event)}>Reset <BiReset /></button>
                                     <Link to={"/admin/exercise/" + this.state.idExercise + "/" + convertURL(this.state.nameExercise) }>
                                         <button type="button" className='btn btn-danger ml-3'>Quay lại</button>
@@ -190,7 +206,8 @@ class AdminEditQuestionRead extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        itemQuestionEditReducer: state.itemQuestionEditReducer
+        itemQuestionEditReducer: state.itemQuestionEditReducer,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -201,6 +218,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onUpdateQuestion: (id, questionReadUpdateDto) => {
             dispatch(allActions.questionAction.actUpdateQuestionRequest(id, questionReadUpdateDto))
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

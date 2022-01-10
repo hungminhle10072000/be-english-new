@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './AdminAccountEdit.css'
-import { BiSave, BiReset } from "react-icons/bi"
+import { BiSave, BiReset, BiRefresh } from "react-icons/bi"
 import allActions from '../../actions/index'
 import validator from 'validator'
 import {withRouter} from 'react-router-dom'
@@ -36,7 +36,8 @@ class AdminAccountEdit extends Component {
             statuschossefile: false,
 
             // validation
-            validationMsg: {}
+            validationMsg: {},
+            statusCheck: false
         }
     }
 
@@ -56,6 +57,7 @@ class AdminAccountEdit extends Component {
 
 
     componentDidMount() {
+        this.props.onItemLoading()
         this.props.onEditUser(this.state.id);
     }
 
@@ -64,6 +66,11 @@ class AdminAccountEdit extends Component {
             var {itemUserEdit} = nextProps;
             this.setState({
                 user: {...itemUserEdit}
+            })
+        }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
             })
         }
     }
@@ -79,6 +86,7 @@ class AdminAccountEdit extends Component {
     updateUser = (event) => {
         event.preventDefault();
         this.handleConfirmationBox();
+        this.props.onOpenButtonLoading();
         this.props.onUpdateUser(this.state.user, this.state.currentFile, this.state.statuschossefile);
         // this.props.history.goBack();
         // this.props.changeAdminAlertOn("Cập nhật thành công","success");
@@ -161,7 +169,8 @@ class AdminAccountEdit extends Component {
         const checkavartar = this.state.user.avatar !== '' && this.state.statuschossefile === false;
         const { 
             previewImage,
-            validationMsg
+            validationMsg,
+            statusCheck
         } = this.state;
 
         return (
@@ -279,8 +288,13 @@ class AdminAccountEdit extends Component {
                             </div>
 
                             <div className="div-button-account">
-                                    <button type="button" onClick={(event) => this.handleConfirmationBox(event)}
-                                    className="btn btn-success btn-save-account">Cập nhật <BiSave /></button> 
+                                    <button disabled={statusCheck} type="button" onClick={(event) => this.handleConfirmationBox(event)}
+                                    className="btn btn-success btn-save-account">
+                                        {statusCheck && "Đang xử lý "}
+                                        {statusCheck && <BiRefresh />}
+                                        {!statusCheck && "Cập nhật "}
+                                        {!statusCheck && <BiSave />}
+                                    </button> 
 
                                     <button type="reset" onClick={(event) =>  this.resetForm(event)}
                                     className="btn btn-warning">Reset <BiReset /></button> 
@@ -296,7 +310,8 @@ class AdminAccountEdit extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         itemUserEdit: state.itemUserEdit,
-        users: state.users
+        users: state.users,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -310,6 +325,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

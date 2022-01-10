@@ -2,14 +2,22 @@ import * as Types from '../constants/ActionTypes';
 import VocabularyTopicService from '../services/VocabularyTopicService';
 import adminAlertInfoAction from './admin-alert-infoAction';
 import openFormAddVocaTopic from './openFormAddVocaTopic';
+import statusButtonLoadingAction from './statusButtonLoadingAction'
+import userItemLoadingAction from './userItemLoadingAction'
 
 // get all users
 const actFetchVocaTopicsRequest = () => {
     return(dispatch) => {
         return (
             VocabularyTopicService.getVocabularyTopic().then((res) => {
+                dispatch(userItemLoadingAction.closeItemLoading())
                 dispatch(actFetchVocaTopics(res.data))
-            })
+            }).catch(
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+                }
+            )
         )
     }
 }
@@ -27,8 +35,15 @@ const actAddVocaTopicRequest = (name, image) => {
             VocabularyTopicService.createTopicVoca(name, image).then((res) => {
                 dispatch(actAddVocaTopic(res.data))
                 dispatch(openFormAddVocaTopic.changeFormAddVocaTopicOff())
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm chủ đề thành công !","success"))
             })
+            .catch(           
+                error => {
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!! Xin hãy thử lại", "danger"))                    
+                }        
+            )
         )
     }
 }
@@ -81,8 +96,15 @@ const actUpdateVocaTopicRequest = (id,name_topic,image) => {
         VocabularyTopicService.updateVocaTopic(id,name_topic,image).then((res) => {
             dispatch(actUpdateVocaTopic(res.data))
             dispatch(openFormAddVocaTopic.chagneFormEditVocaTopicOff())
+            dispatch(statusButtonLoadingAction.closeButtonLoading())
             dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật chủ đề thành công !","success"))
         })
+        .catch(           
+            error => {
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!! Xin hãy thử lại", "danger"))                    
+            }        
+        )
     }
 }
 

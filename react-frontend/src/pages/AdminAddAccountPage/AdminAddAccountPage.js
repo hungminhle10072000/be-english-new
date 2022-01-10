@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { BiSave, BiReset } from "react-icons/bi";
+import { BiSave, BiReset, BiRefresh } from "react-icons/bi";
 import './AdminAddAccountPage.css'
 import { connect } from 'react-redux';
 import allActions from '../../actions/index';
@@ -46,7 +46,8 @@ class AdminAddAccountPage extends Component {
             previewImage: undefined,
 
             // validation
-            validationMsg: {}
+            validationMsg: {},
+            statusCheck: false
 
 
         }
@@ -115,6 +116,15 @@ class AdminAddAccountPage extends Component {
         })
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
+        }
+    }
+    
+    
     addUser = (event) => {
         event.preventDefault();
         var userDto = {}
@@ -128,14 +138,15 @@ class AdminAddAccountPage extends Component {
         userDto.birthday = this.state.birthday;
         userDto.role = this.state.role;
         // UserService.createUser(user,this.state.currentFile);
+        this.handleConfirmationBox();
+        this.props.onOpenButtonLoading();
         this.props.onAddUser(userDto,this.state.currentFile);
-        window.history.back();
-        this.props.changeAdminAlertOn("Thêm thành công","success");     
+        // window.history.back();
+        // this.props.changeAdminAlertOn("Thêm thành công","success");     
 
     }
 
     handleConfirmationBox = (event) => {
-        event.preventDefault();
         const isValid = this.validateAll()
         if(!isValid) return 
         else {
@@ -158,7 +169,8 @@ class AdminAddAccountPage extends Component {
     render() {
         const {
             previewImage,
-            validationMsg
+            validationMsg,
+            statusCheck
         } = this.state;
 
         return (
@@ -267,10 +279,15 @@ class AdminAddAccountPage extends Component {
                             </div>
 
                             <div className="div-button-account">
-                                <Link to="/admin/add/account">
+                                {/* <Link to="/admin/add/account"> */}
                                     <button onClick={(event) => this.handleConfirmationBox(event)} 
-                                    type="button" className="btn btn-success btn-save-account">Lưu <BiSave /></button> 
-                                </Link>
+                                    type="button" disabled={statusCheck} className="btn btn-success btn-save-account">
+                                        {statusCheck && "Đang xử lý "}
+                                        {statusCheck && <BiRefresh />}
+                                        {!statusCheck && "Lưu "}
+                                        {!statusCheck && <BiSave />}
+                                    </button> 
+                                {/* </Link> */}
                                 <button type="reset" className="btn btn-warning">Reset <BiReset /></button> 
                             </div>
                         </form>
@@ -283,7 +300,8 @@ class AdminAddAccountPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        users: state.users
+        users: state.users,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -294,6 +312,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

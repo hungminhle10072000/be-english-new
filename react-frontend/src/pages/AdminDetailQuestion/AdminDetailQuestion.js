@@ -21,6 +21,7 @@ class AdminDetailQuestion extends Component {
 
     componentDidMount() {
         const {nameExercisePara,idExercise} = this.state
+        this.props.onItemLoading()
         this.props.onGetQuestionWithExercise(nameExercisePara,idExercise);
     }
 
@@ -122,6 +123,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onGetQuestionWithExercise: (nameExercisePara,idExercise) => {
             dispatch(allActions.questionAction.actGetAllQuestionExerciseByIdRequest(nameExercisePara, idExercise))
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

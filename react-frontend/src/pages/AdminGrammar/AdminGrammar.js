@@ -21,6 +21,7 @@ class AdminGrammar extends Component {
     }
 
     componentDidMount() {
+        this.props.onItemLoading();
         this.props.getAllGrammars();
     }
 
@@ -178,6 +179,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         offFormEditGrammar: () => {
             dispatch(allActions.openFormGrammar.changeFormEditGrammarOff())
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

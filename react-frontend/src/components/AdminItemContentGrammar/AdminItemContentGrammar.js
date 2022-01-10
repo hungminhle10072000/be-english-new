@@ -4,6 +4,7 @@ import Classiceditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import { connect } from 'react-redux'
 import allActions from '../../actions'
+import { BiSave, BiRefresh } from "react-icons/bi"
 class AdminItemContentGrammar extends Component {
 
     constructor(props){
@@ -11,7 +12,8 @@ class AdminItemContentGrammar extends Component {
 
         this.state = ({
             idGrammar: this.props.match.params.id,
-            grammarEdit: {}
+            grammarEdit: {},
+            statusCheck: false
         })
         
     }
@@ -24,6 +26,7 @@ class AdminItemContentGrammar extends Component {
     }
     
     componentDidMount() {
+        // this.props.onItemLoading();
         this.props.getAllGrammars();
     }
 
@@ -46,10 +49,16 @@ class AdminItemContentGrammar extends Component {
                 })
             }
         }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
+        }
     }
 
     handleUpdateContent = () => {
         const {idGrammar} =  this.state
+        this.props.onOpenButtonLoading();
         this.props.onUpdateContentGrammar(idGrammar, this.state.grammarEdit.content)
     }
 
@@ -67,6 +76,7 @@ class AdminItemContentGrammar extends Component {
     }
 
     render() {
+        const {statusCheck} = this.state
         return (
             <div className="container-fluid">
                 <div className="row text-center justify-content-center">
@@ -87,7 +97,12 @@ class AdminItemContentGrammar extends Component {
                     </div>
                 </div>
                 <div className="mt-2 mb-2">
-                    <button className="btn btn-success" onClick={() => this.handleUpdateContent()}>Cập nhật</button>
+                    <button disabled={statusCheck} className="btn btn-success" onClick={() => this.handleUpdateContent()}>
+                        {statusCheck && "Đang xử lý "}
+                        {statusCheck && <BiRefresh />}
+                        {!statusCheck && "Cập nhật "}
+                        {!statusCheck && <BiSave />}
+                    </button>
                     <button className="btn btn-warning btn-reset-content-grammar" type="reset" onClick={() => this.handleReset()}>Reset</button>
                 </div>
             </div>
@@ -97,7 +112,8 @@ class AdminItemContentGrammar extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        grammars: state.grammarsReducer
+        grammars: state.grammarsReducer,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -108,6 +124,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onUpdateContentGrammar: (id, content_grammar) => {
             dispatch(allActions.grammarAction.actUpdateContentGrammarRequest(id, content_grammar));
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

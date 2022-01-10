@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Button } from "react-bootstrap"
 import './AdminFormEditTopicVocabulary.css'
-import allActions from '../../actions';
+import allActions from '../../actions'
+import { BiSave, BiRefresh } from "react-icons/bi"
 
 class AdminFormEditTopicVocabulary extends Component {
 
@@ -20,6 +21,7 @@ class AdminFormEditTopicVocabulary extends Component {
                 name: ''
             },
             statuschossefile: false,
+            statusCheck: false
         }
     }
 
@@ -49,6 +51,11 @@ class AdminFormEditTopicVocabulary extends Component {
                 itemVocaTopic: {...itemVocaTopicEdit}
             })
         }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
+        }
     }
 
     resetForm = () => {
@@ -69,6 +76,7 @@ class AdminFormEditTopicVocabulary extends Component {
         const {name} = this.state.itemVocaTopic
         const {currentFile} = this.state
         e.preventDefault();
+        this.props.onOpenButtonLoading()
         this.props.onUpdateVocaTopic(this.state.itemVocaTopic.id, name, currentFile)
     }
     
@@ -78,6 +86,7 @@ class AdminFormEditTopicVocabulary extends Component {
             previewImage,
             itemVocaTopic,
             statuschossefile,
+            statusCheck
         } = this.state;
 
         const checkimage = itemVocaTopic.image !== '' && statuschossefile === false
@@ -112,8 +121,11 @@ class AdminFormEditTopicVocabulary extends Component {
                     )}
 
                 </Form.Group>
-                <Button variant="success" type="submit" className="button-add-topic-vocabulary">
-                    Cập nhật
+                <Button disabled={statusCheck} variant="success" type="submit" className="button-add-topic-vocabulary">
+                    {statusCheck && "Đang xử lý "}
+                    {statusCheck && <BiRefresh />}
+                    {!statusCheck && "Cập nhật "}
+                    {!statusCheck && <BiSave />}
                 </Button>
                 <Button variant="warning" type="reset" className="button-edit-topic-vocabulary" onClick={() => {this.resetForm()}}>
                     Reset
@@ -125,7 +137,8 @@ class AdminFormEditTopicVocabulary extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        itemVocaTopicEdit: state.itemVocaTopicEdit
+        itemVocaTopicEdit: state.itemVocaTopicEdit,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -133,6 +146,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onUpdateVocaTopic: (id,name_topic,image) => {
             dispatch(allActions.vocabularyTopicAction.actUpdateVocaTopicRequest(id, name_topic,image));
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Form, Button, FloatingLabel } from "react-bootstrap"
 import { connect } from 'react-redux';
-import allActions from '../../actions'
+import allActions from '../../actions';
+import { BiSave, BiRefresh } from "react-icons/bi";
 
 class AdminFormAddExercise extends Component {
 
@@ -14,7 +15,16 @@ class AdminFormAddExercise extends Component {
             type_exercise: "1",
             description_exercise: "",
             currentFile: undefined,
-            previewImage: undefined
+            previewImage: undefined,
+            statusCheck: false
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
         }
     }
 
@@ -40,12 +50,14 @@ class AdminFormAddExercise extends Component {
             type: this.state.type_exercise.toString(),
             description: this.state.description_exercise
         }
+        this.props.onOpenButtonLoading()
         this.props.onAddExercise(addDto, this.state.currentFile);
     }
 
     render() {
         const {
-            previewImage
+            previewImage,
+            statusCheck
         } = this.state;
         return (
             <Form onSubmit={(e) => this.handleAddVocaTopic(e)}>
@@ -96,11 +108,20 @@ class AdminFormAddExercise extends Component {
                         </div>
                     )}
                 </Form.Group>
-                <Button variant="success" type="submit" className="button-add-topic-vocabulary">
-                    Thêm
+                <Button  disabled={statusCheck} variant="success" type="submit" className="button-add-topic-vocabulary">
+                    {statusCheck && "Đang xử lý "}
+                    {statusCheck && <BiRefresh />}
+                    {!statusCheck && "Thêm "}
+                    {!statusCheck && <BiSave />}
                 </Button>
             </Form>
         )
+    }
+}
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -108,8 +129,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
        onAddExercise: (AddExerciseDto, img_des) => {
             dispatch(allActions.adminExerciseAction.actAddExerciseRequest(AddExerciseDto, img_des))
-       }
+       },
+       onOpenButtonLoading: () => {
+        dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
+    }
     }
 }
 
-export default connect(null,mapDispatchToProps) (AdminFormAddExercise)
+export default connect(mapStateToProps,mapDispatchToProps) (AdminFormAddExercise)

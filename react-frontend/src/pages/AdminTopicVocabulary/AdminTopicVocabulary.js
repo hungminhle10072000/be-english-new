@@ -22,6 +22,7 @@ class AdminTopicVocabulary extends Component {
     }
 
     componentDidMount() {
+        this.props.onItemLoading()
         this.props.getAllVocaTopics();
     }
     
@@ -183,6 +184,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         offFormEditVocaTopic: () => {
             dispatch(allActions.openFormAddVocaTopic.chagneFormEditVocaTopicOff());
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

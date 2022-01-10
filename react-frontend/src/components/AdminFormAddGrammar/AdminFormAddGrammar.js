@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import allActions from '../../actions'
 import { Form, Button } from "react-bootstrap"
 import './AdminFormAddGrammar.css'
+import { BiSave, BiRefresh } from "react-icons/bi"
 
 class AdminFormAddGrammar extends Component {
 
@@ -11,8 +12,18 @@ class AdminFormAddGrammar extends Component {
 
         this.state = {
             name_grammar : '',
+            statusCheck: false
         }
     }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
+        }
+    }
+    
 
     isChange = (event) => {
         const name = event.target.name;
@@ -24,10 +35,12 @@ class AdminFormAddGrammar extends Component {
 
     handleAddGrammar = (e,name_grammar) => {
         e.preventDefault();
+        this.props.onOpenButtonLoading()
         this.props.onAddGrammarName(name_grammar);
     }
 
     render() {
+        const {statusCheck} = this.state
         return (
             <Form onSubmit={(e) => this.handleAddGrammar(e,this.state.name_grammar)}>
                 <Form.Group>
@@ -40,11 +53,20 @@ class AdminFormAddGrammar extends Component {
                         required
                     />
                 </Form.Group>
-                <Button variant="success" type="submit" className="button-add-grammar">
-                    Thêm
+                <Button disabled={statusCheck} variant="success" type="submit" className="button-add-grammar">
+                    {statusCheck && "Đang xử lý "}
+                    {statusCheck && <BiRefresh />}
+                    {!statusCheck && "Thêm "}
+                    {!statusCheck && <BiSave />}
                 </Button>
             </Form>
         )
+    }
+}
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -52,10 +74,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onAddGrammarName : (name) => {
             dispatch(allActions.grammarAction.actAddGrammarNameRequest(name))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }
 
-export default connect(null, mapDispatchToProps) (AdminFormAddGrammar);
+export default connect(mapStateToProps, mapDispatchToProps) (AdminFormAddGrammar);
 
 

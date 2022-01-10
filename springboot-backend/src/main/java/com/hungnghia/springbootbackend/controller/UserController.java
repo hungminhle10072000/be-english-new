@@ -36,8 +36,14 @@ public class UserController {
 
     /*Add user*/
     @PostMapping("/users")
-    public UserEntity addUser(@RequestPart("userDto") UserDto userDto, @RequestPart("file") MultipartFile file){
-        return userService.addUser(userDto, file);
+    public ResponseEntity<UserEntity> addUser(@RequestPart("userDto") UserDto userDto, @RequestPart("file") MultipartFile file){
+        if(userService.checkExistUserName(userDto.getUsername())){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        else if(userService.checkExistEmail(userDto.getEmail())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        else return ResponseEntity.ok(userService.addUser(userDto, file));
     }
 
     /*Delete User*/

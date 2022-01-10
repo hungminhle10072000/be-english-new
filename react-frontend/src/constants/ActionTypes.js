@@ -116,3 +116,9 @@ export const OPEN_ITEM_LOADING_USER = 'OPEN_ITEM_LOADING_USER';
 
 // close item loading user
 export const CLOSE_ITEM_LOADING_USER = 'CLOSE_ITEM_LOADING_USER';
+
+// open button loading
+export const OPEN_ITEM_BUTTON_LOADING = 'OPEN_ITEM_BUTTON_LOADING';
+
+// close
+export const CLOSE_ITEM_BUTTON_LOADING = 'CLOSE_ITEM_BUTTON_LOADING';

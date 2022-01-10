@@ -2,6 +2,8 @@ import * as Types from '../constants/ActionTypes';
 import VocabularyService from '../services/VocabularyService';
 import adminAlertInfoAction from './admin-alert-infoAction';
 import openFormAddVoca from './openFormAddVoca';
+import userItemLoadingAction from './userItemLoadingAction'
+import statusButtonLoadingAction from './statusButtonLoadingAction'
 
 
 /// get all vocabulary with topicId
@@ -10,7 +12,13 @@ const actFetchVocaWithTopicRequest = (nameTopic, topicId) => {
         return (
             VocabularyService.getAllVocabularyByTopicId(topicId).then(
                 (res) => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     dispatch(actFetchVocaWithTopic(nameTopic, res.data))
+                }
+            ).catch(
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
                 }
             )
         )
@@ -35,8 +43,14 @@ const actAddVocaForTopicRequest = (vocaDto, file_audio, file_image) => {
             .then((res) => {
                 dispatch(actAddVocabulary(res.data))
                 dispatch(openFormAddVoca.changeFormAddVocaOff())
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm từ mới thành công !","success"))
-            })
+            }).catch(
+                error => {
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!! Xin hãy thử lại","danger"))
+                }
+            )
         )
     }
 }
@@ -96,9 +110,16 @@ const actUpdateVocabularyRequest = (id , vocabularyUpdateDto, file_audio, image)
             VocabularyService.updateVocabulary(id , vocabularyUpdateDto, file_audio, image)
             .then((res) => {
                 dispatch(actUpdateVocabulary(res.data))
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
                 dispatch(openFormAddVoca.changeFormEditVocaOff())
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật từ mới thành công !","success"))
             })
+            .catch(
+                error => {
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!! Xin hãy thử lại","danger"))
+                }
+            )
         )
     }
 }

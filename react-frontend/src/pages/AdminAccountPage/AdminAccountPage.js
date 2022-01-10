@@ -18,6 +18,7 @@ class AdminAccountPage extends Component {
     }
 
     componentDidMount() {
+        this.props.onItemLoading()
         this.props.getAllUsers();
     }
 
@@ -142,6 +143,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         getAllUsers: () => {
             dispatch(allActions.userAction.actFetchUsersRequest());
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

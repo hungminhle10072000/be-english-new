@@ -22,6 +22,7 @@ class AdminExercises extends Component {
     }
 
     componentDidMount() {
+        this.props.onItemLoading()
         this.props.getAllExercise()
     }
 
@@ -189,6 +190,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         offFormEditExercise: () => {
             dispatch(allActions.adminExerciseAction.changeFormEditExerciseOff());
+        },
+        onItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

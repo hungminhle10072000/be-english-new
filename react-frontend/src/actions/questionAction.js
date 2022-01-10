@@ -1,15 +1,19 @@
 import * as Types from '../constants/ActionTypes';
 import adminAlertInfoAction from './admin-alert-infoAction';
 import QuestionService from '../services/QuestionService'
+import userItemLoadingAction from './userItemLoadingAction';
+import statusButtonLoadingAction from './statusButtonLoadingAction';
 
 // get all question exercise by id
 const actGetAllQuestionExerciseByIdRequest = (nameExericse ,id) => {
     return (dispatch) => {
         return (
             QuestionService.getAllQuestionById(id).then((res) => {
+                dispatch(userItemLoadingAction.closeItemLoading())
                 dispatch(actGetAllQuestionExerciseById(nameExericse, res.data))
             }).catch(
                 error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại ! Xin hãy thử lại.","danger"))
                 }
             )
@@ -57,10 +61,12 @@ const actAddQuestionRequest = (questionAddDto) => {
         return (
             QuestionService.addQuestionRead(questionAddDto).then((res) => {
                 dispatch(actAddQuestion(res.data))
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm thành công!!!","success"))
             })
             .catch(
                 error => {
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại ! Xin hãy thử lại.","danger"))
                 }
             )
@@ -81,10 +87,12 @@ const actGetQuestionByIdRequest = (id) => {
         return (
             QuestionService.getQuestionById(id).then((res) => {
                 dispatch(actGetQuestionById(res.data))
+                dispatch(userItemLoadingAction.closeItemLoading())
                 
             })
             .catch(
                 error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại ! Xin hãy thử lại.","danger"))
                 }
             )
@@ -106,10 +114,12 @@ const actUpdateQuestionRequest = (id, questionReadUpdateDto) => {
             QuestionService.updateQuestion(id, questionReadUpdateDto).then((res) => {
                 dispatch(actUpdateQuestion(res.data))
                 dispatch(actGetQuestionByIdRequest(res.data.id))
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công!!!","success"))
             })
             .catch(
                 error => {
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại ! Xin hãy thử lại.","danger"))
                 }
             )
