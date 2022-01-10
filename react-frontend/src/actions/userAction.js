@@ -2,6 +2,7 @@ import * as Types from '../constants/ActionTypes'
 import UserService from '../services/UserService'
 import adminAlertInfoAction from './admin-alert-infoAction'
 import openFormSendMail from './openFormSendMail'
+import userItemLoadingAction from './userItemLoadingAction'
 
 // get all users
 const actFetchUsersRequest = () => {
@@ -28,10 +29,12 @@ const actRegisterRequest = (userDto, file) => {
             UserService.register(userDto,file).then(
                 (res) => 
                 {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     dispatch(actRegisterSuccess())
                 }
             ).catch(      
-                error => {    
+                error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())    
                     if(error.response.status === 409){
                         dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
                     }
@@ -59,11 +62,13 @@ const actUserUpdatePassWordRequest = (username, passwordOld, passwordNew) => {
             .then(
                 (res) => 
                 {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật mật khẩu thành công", "success"))    
                     dispatch(actUserUpdatePassword(res.data)) 
                 }
             ).catch(       
                 error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     if(error.response.status === 409){
                         dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật mật khẩu thất bại", "danger"))           
                     }
@@ -165,10 +170,12 @@ const actUpdateUserInfoRequest = (userDto, file, checkFile) => {
                     dispatch(actUpdateUser(res.data));
                     dispatch(actGetUserRequest(res.data.id));
                     dispatch(actLoginUser(res.data));
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công","success")) 
                 }
-            ).catch(           
+            ).catch(
                 error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     if(error.response.status === 409){
                         dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập đã tồn tại ! \n Yêu cầu đổi tên đăng nhập khác.", "danger"))           
                     }
@@ -232,10 +239,12 @@ const actLoginUserRequest = (username, password) => {
                             localStorage.setItem('w2rt3','uiasq');
                         }
                         dispatch(actLoginUser(res.data.user));
+                        dispatch(userItemLoadingAction.closeItemLoading())
                     } 
                 }
             ).catch(
                 error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập hoặc mật khẩu của bạn chưa đúng !","danger"));
                 }
                 
@@ -259,8 +268,10 @@ const actForgetPassWordRequest = (username, email) => {
             .then(res => {
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Gửi password thành công ! Yêu cầu bạn kiểm tra email !!!","success"));
                 dispatch(openFormSendMail.changeFormSendMailOff())
+                dispatch(userItemLoadingAction.closeItemLoading())
             }).catch(
                 error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Tên đăng nhập hoặc email của bạn không chính xác !!!","danger"));
                 }
             )

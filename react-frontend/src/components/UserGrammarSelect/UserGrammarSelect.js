@@ -24,6 +24,7 @@ class UserGrammarSelect extends Component {
 
     hadnleButtonLearn = () => {
         if(this.state.idLearnGrammar > 0){
+            this.props.onOpenItemLoading()
             this.props.onUserGetGrammarLearning(this.state.idLearnGrammar)
         }
     }
@@ -51,6 +52,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onUserGetGrammarLearning: (grammarId) => {
             dispatch(allActions.userGrammarAction.actUserGetLearnGrammarRequest(grammarId))
+        },
+        onOpenItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

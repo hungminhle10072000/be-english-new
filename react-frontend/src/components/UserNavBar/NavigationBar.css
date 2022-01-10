@@ -55,7 +55,7 @@ span.text-brand {
    position: absolute;
    background-color: #d5d4c7;
    width: 260px;
-   top: 60%;
+   top: 66%;
    right: 0%;
    z-index: 10000;
    border-radius: 10px;
@@ -86,8 +86,8 @@ span.text-brand {
 	content: "";
     position: absolute;
     top: 50%;
-    margin-top: -141px;
-    left: 194px;
+    margin-top: -151px;
+    left: 199px;
     border: solid 15px transparent;
     border-bottom-color: #d5d4c7;
     z-index: 1;
@@ -112,4 +112,16 @@ span.text-brand {
 	margin-top: 1rem;
 	transition-duration: 0.4s;
 	padding: 5px;	
-} 
+}
+
+img.icon-user-login {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+}
+
+img.display-user {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+}

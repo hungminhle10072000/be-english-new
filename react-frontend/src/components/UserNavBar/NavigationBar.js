@@ -38,6 +38,7 @@ class NavigationBar extends Component {
     }
 
     handleRedirectInfo = () => {
+        this.props.onOpenItemLoading()
         this.props.history.push('/user/account/edit/' + this.props.itemUserLogin.id)
     }
     handleRedirectMyCourse = () =>{
@@ -73,12 +74,12 @@ class NavigationBar extends Component {
                         {checkUserLogin ?   
                         <Nav className="ml-auto" className="div-setting-user">
                             <Nav.Item>
-                                <img style={{borderRadius: '50%'}} className='icon-user-login' src={this.props.itemUserLogin.avartar} width='70px' height='70px'/>
+                                <img className='icon-user-login' src={this.props.itemUserLogin.avartar}/>
                                 {/* <BiUserCircle color='black' className='icon-user-login'/> */}
                             </Nav.Item> 
                             <div className="setting-user">
                                 <div className='display-info-login'>
-                                    <img src={this.props.itemUserLogin.avartar} width='70px' height='70px'/>
+                                    <img className='display-user' src={this.props.itemUserLogin.avartar}/>
                                     <span style={{fontWeight: 600, color: 'black', fontSize: '1rem'}}>{this.props.itemUserLogin.fullname}</span>
                                 </div>
                                 <div className="setting-user-item setting-edit-info" onClick={() => this.handleRedirectInfo()}>
@@ -112,6 +113,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onGetUserLogin: (id) => {
             dispatch(allActions.userAction.actRememberUserLoginRequest(id))
+        },
+        onOpenItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }

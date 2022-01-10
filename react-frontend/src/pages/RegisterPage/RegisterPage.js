@@ -8,6 +8,7 @@ import { BiSave, BiReset, BiLogIn } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 import allActions from '../../actions/index';
 import PropTypes from "prop-types";
+import * as ReactBootstrap from 'react-bootstrap';
 
 
 class RegisterPage extends Component {
@@ -18,9 +19,14 @@ class RegisterPage extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {history} = this.props
-        if(nextProps && nextProps.statusRegister){
+        if(nextProps && nextProps.statusRegister.statusRegister == true){
             history.push('/login');
             this.props.changeAdminAlertOn("Đăng ký tài khoản thành công","success");
+        }
+        if(nextProps && nextProps.statusItemLoading){
+            this.setState({
+                statusCheckItemLoading: nextProps.statusItemLoading.statusCheck
+            })
         }
     }
     
@@ -64,7 +70,8 @@ class RegisterPage extends Component {
             previewImage: undefined,
 
             // validation
-            validationMsg: {}
+            validationMsg: {},
+            statusCheckItemLoading: false
 
 
         }
@@ -149,6 +156,7 @@ class RegisterPage extends Component {
             userDto.phonenumber = this.state.phonenumber;
             userDto.birthday = this.state.birthday;
             userDto.role = this.state.role;
+            this.props.onOpenItemLoading()
             this.props.onAddUser(userDto,this.state.currentFile);
         }
 
@@ -194,6 +202,7 @@ class RegisterPage extends Component {
         const {validationMsg, previewImage} = this.state
         return (
             <div className="container-fluid container-register">
+                {this.state.statusCheckItemLoading ? <ReactBootstrap.Spinner animation="border" className='item-loading'/> : ''}
                 <AdminAlertInfo />
                 <div className="row mt-5">
                     <div className="col-sm-12 d-flex justify-content-center">
@@ -287,7 +296,8 @@ class RegisterPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        statusRegister: state.statusRegister
+        statusRegister: state.statusRegister,
+        statusItemLoading: state.statusItemLoading
     }
 }
 
@@ -299,6 +309,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         changeAdminAlertOn : (admin_alertContent, admin_alertType) => {
             dispatch(allActions.adminAlertInfoAction.changeAdminAlertOn(admin_alertContent, admin_alertType));
+        },
+        onOpenItemLoading: () => {
+            dispatch(allActions.userItemLoadingAction.openItemLoading())
         }
     }
 }
