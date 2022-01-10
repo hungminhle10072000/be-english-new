@@ -8,6 +8,7 @@ class UserHomePage extends Component {
         super(props);
 
         this.state = {
+            type: this.props.match.params.type,
             course: {
                 name: 'Nghĩa',
                 image: 'Image',
@@ -23,9 +24,9 @@ class UserHomePage extends Component {
 
 
     componentDidUpdate(prevProps) {
-        console.log("USER: ", this.state.userCurrent)
-        if (prevProps.courses != this.props.courses) {
+        if (prevProps.courses != this.props.courses || prevProps.type !== this.props.type) {
             this.setState({
+                type: this.props.match.params.type,
                 courses: this.props.courseReducer,
                 userCurrent: this.props.userCurrent
             })
@@ -33,10 +34,10 @@ class UserHomePage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("USER: ", this.state.userCurrent)
         if (nextProps && nextProps.courseReducer) {
             const courses = nextProps.courseReducer;
             this.setState({
+                type: this.props.match.params.type,
                 courses: courses,
                 userCurrent: nextProps.userCurrent
             })
@@ -44,9 +45,10 @@ class UserHomePage extends Component {
     }
 
     componentDidMount() {
-        console.log("USER: ", this.state.userCurrent)
+       
         this.props.getAllCourses();
         this.setState({
+            type: this.props.match.params.type,
             courses: this.props.courseReducer,
             userCurrent: this.props.userCurrent
         })
@@ -79,9 +81,9 @@ class UserHomePage extends Component {
                 }
             }
         }
-
-
         return (
+           
+
             <div>
                 {this.state.userCurrent.id !== -1 ? (
                     <div className='container-fluid main-content-user-courses'>
@@ -90,10 +92,13 @@ class UserHomePage extends Component {
                             {this.showItemsCourse(coursesOfUser)}
                         </div>
                         <br />
-                        <h2>Khoá học chưa đăng ký</h2>
-                        <div className='row'>
-                            {this.showItemsCourse(coursesOtherwise)}
-                        </div>
+                        {this.props.match.params.type == 0 && 
+                        <div>
+                            <h2>Khoá học chưa đăng ký</h2>
+                            <div className='row'>
+                                {this.showItemsCourse(coursesOtherwise)}
+                            </div>
+                        </div>}
                     </div>
                 ) : (
                     <div className='container-fluid main-content-user-courses'>

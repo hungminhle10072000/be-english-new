@@ -40,7 +40,9 @@ class NavigationBar extends Component {
     handleRedirectInfo = () => {
         this.props.history.push('/user/account/edit/' + this.props.itemUserLogin.id)
     }
-    
+    handleRedirectMyCourse = () =>{
+        this.props.history.push('/user/courses/'+'1')
+    }
     render() {
         const checkUserLogin = this.state.idUserLogin !== null;
         return (
@@ -82,7 +84,7 @@ class NavigationBar extends Component {
                                 <div className="setting-user-item setting-edit-info" onClick={() => this.handleRedirectInfo()}>
                                     <FaUserEdit/> <span>Thay đổi thông tin</span>
                                 </div>
-                                <div className="setting-user-item">
+                                <div className="setting-user-item"  onClick={() => this.handleRedirectMyCourse()}>
                                     <MdOndemandVideo/> <span>Khóa học của tôi</span>
                                 </div>
                                 <div className="setting-user-item setting-logout" onClick={e => this.logout(e)}> 
