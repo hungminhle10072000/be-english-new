@@ -20,7 +20,7 @@ class AdminItemComment extends Component {
                 label: 'Xác nhận',
                 onClick: () => {
                     this.props.onDeleteComment(this.props.comment.id);
-                    this.props.changeAdminAlertOn("Xóa thành công","danger");
+                    // this.props.changeAdminAlertOn("Xóa thành công","danger");
                 }
               },
               {

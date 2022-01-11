@@ -1,5 +1,6 @@
 import * as Types from '../constants/ActionTypes'
 import CommentService from '../services/CommentService'
+import adminAlertInfoAction from './admin-alert-infoAction'
 
 // get by id
 // get comment by lesson id
@@ -155,9 +156,15 @@ const actDeleteCommentRequest = (id) => {
     return dispatch => {
         return (
             CommentService.deleteComment(id).then((res) => {
-               
-                dispatch(actDeleteComment(res.data))
+                // dispatch(actDeleteComment(res.data))
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Xóa thành công!!!","success"))
+                dispatch(actFetchCommentRequest())
             })
+            .catch(
+                error => {
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Xóa thất bại!!!","danger"))
+                }
+            )
         )
     }
 }
