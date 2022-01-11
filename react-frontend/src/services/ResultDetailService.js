@@ -10,6 +10,23 @@ const headers = {
 const RESULTDETAIL_API_BASE_URL = '/api/resultdetail'
 class ResultDetailService {
 
+    addAnswers(newListAnswer) {
+        let formData = new FormData()
+      const jsonLesson = JSON.stringify(newListAnswer)
+      const blob = new Blob([jsonLesson], {
+          type: 'application/json'
+      });
+      formData.append("answers",blob)
+
+      axios.post(RESULTDETAIL_API_BASE_URL+'/addAnswers',formData,{
+        headers: {
+            ...headers,
+            'Content-Type': 'multipart/form-data',
+            ...authHeader()
+        }
+    })
+    }
+
     getResultDetailByUserIdAndExerciseId(userId, exerciseId) {
         return axios.get(RESULTDETAIL_API_BASE_URL+'/findResultDetailsByUserIdAndExerciseId/'+userId+"/"+exerciseId,{
             headers: {

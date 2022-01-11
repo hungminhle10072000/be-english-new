@@ -33,6 +33,11 @@ class AdminLessonPage extends Component {
         if (lessons!= undefined && lessons.length > 0) {
             result = lessons.map((lesson,key) => <AdminItemLesson lesson={lesson} key={key} onOpenModal={this.onOpenModal} linkVideo={lesson.video}/>) 
         }
+        if (this.state.id == -1 && lessons!= undefined && lessons.length > 0) {
+            lessons.sort((a,b) =>   a.courseId !== b.courseId ? (a.courseId - b.courseId) : (a.chapterId !=b.chapterId ? a.chapterId - b.chapterId : a.numPriority - b.numPriority)
+            );
+            result = lessons.map((lesson,key) => <AdminItemLesson lesson={lesson} key={key} onOpenModal={this.onOpenModal} linkVideo={lesson.video}/>) 
+        }
         return result;
     }
 
@@ -94,11 +99,11 @@ class AdminLessonPage extends Component {
                             <div className="jumbotron manager-account">
                                 <h2>Quản lí bài học</h2>  
                             </div>
-                            
+                            {this.state.id != -1 &&
                             <Link to={`/admin/lesson/add/${this.state.id}`} style={{textDecoration:"none"}}>
                                 <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
                             </Link>
-                         
+                            }
                             <input onChange={(event) => this.callback(event.target.value)}
                             type="text" name="search" placeholder="Tìm kiếm ..." className="searchAccount" />
                         </div>

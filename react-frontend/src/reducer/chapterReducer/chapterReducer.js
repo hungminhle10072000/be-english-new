@@ -5,7 +5,6 @@ const initialState = []
 
 const chapterReducer = (state=initialState, action) => {
     const {chapters} = action
-    console.log('Reducer')
     switch(action.type) {
         case FETCH_CHAPTERS:
             return [...chapters]

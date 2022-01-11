@@ -14,6 +14,7 @@ import ResultService from '../../services/ResultService'
 import ResultDetailService from '../../services/ResultDetailService'
 import ExerciseService from '../../services/ExerciseService';
 import { useParams } from 'react-router-dom';
+import QuestionService from '../../services/QuestionService';
 
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -40,10 +41,7 @@ function UserExercisePage() {
   console.log('UserCurrent: ',userCurrent)
 
   useEffect(() => {
-
-    axios.get('http://localhost:8080/api/question/findQuestionByExerciseId/'+params.id,{
-        headers: {...headers, ...authHeader()},
-    })
+    QuestionService.getQuestionByExerciseId(params.id)
     .then(res => {
         quizData.data = res.data;
       })
@@ -63,21 +61,7 @@ function UserExercisePage() {
     if (step ===3) {
       clearInterval(interval)
       newListAnswer = listAnswer.map(x => {x.userId=userCurrent.id; return x} )
-      
-      let formData = new FormData()
-      const jsonLesson = JSON.stringify(newListAnswer)
-      const blob = new Blob([jsonLesson], {
-          type: 'application/json'
-      });
-      formData.append("answers",blob)
-
-      axios.post('http://localhost:8080/api/resultdetail/addAnswers',formData,{
-        headers: {
-            ...headers,
-            'Content-Type': 'multipart/form-data',
-            ...authHeader()
-        }
-    })
+      ResultDetailService.addAnswers(newListAnswer)
     }
   },[step])
 

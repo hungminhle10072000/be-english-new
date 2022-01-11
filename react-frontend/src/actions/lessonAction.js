@@ -50,7 +50,6 @@ const actGetLessonRequest = (id) => {
 }
 
 const actGetLesson = (lesson) => {
-    console.log('Lesson2: ',lesson)
     return {
         type:Types.EDIT_LESSON,
         lesson

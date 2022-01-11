@@ -11,6 +11,13 @@ const headers = {
 
 class QuestionService {
 
+    getQuestionByExerciseId(exerciseId) {
+        console.log('AB')
+        return axios.get(QUESTION_API_END_POINT+'/findQuestionByExerciseId/'+exerciseId,{
+            headers: {...headers, ...authHeader()},
+        })    
+    }
+
     // get all question of exercise by id
     getAllQuestionById(idExercise) {
         return axios.get(QUESTION_API_END_POINT + '/' + idExercise, {headers: {...headers, ...authHeader()}})
