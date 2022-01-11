@@ -16,12 +16,12 @@ function End({results, data, onReset,  onAnswersCheck, time}) {
         <div className='card'>
             <div className='card-content'>
                 <div className='content'>
-                    <h3>Your results</h3>
-                    <p>{correctAnswers} of {data.length}</p>
+                    <h3>Kết quả của bạn</h3>
+                    <p>{correctAnswers} / {data.length}</p>
                     <p><strong>{Math.floor(correctAnswers * 100 / data.length)} %</strong></p>
-                    <p><strong>Your time: </strong>{formatTime(time)}</p>
-                    <button className='button is-info mr-2' onClick={onAnswersCheck}>Check your answers</button>
-                    <button className='button is-success' onClick={onReset}>Try again</button>
+                    <p><strong>Thời gian: </strong>{formatTime(time)}</p>
+                    <button className='button is-info mr-2' onClick={onAnswersCheck}>Xem lại kết quả</button>
+                    <button className='button is-success' onClick={onReset}>Làm lại</button>
                 </div>
             </div>
         </div>

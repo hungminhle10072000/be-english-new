@@ -18,4 +18,5 @@ public class LessonDto {
     private int numLessonOfChapter;
     private String courseName;
     private List<CommentDto> commentDtos;
+    private Long courseId;
 }

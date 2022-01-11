@@ -16,9 +16,13 @@ class AdminChapterPage extends Component {
     }
 
     showItemsChapter(chapters) {
+        console.log("CHapters, ",chapters)
         var result = null;
         if (chapters!= undefined && chapters.length > 0) {
             result = chapters.sort((a,b) => a.numPriority - b.numPriority).map((chapter,key) => <AdminItemChapter chapter={chapter} key={key}/>) 
+        }
+        if (this.state.id == -1 && chapters!= undefined && chapters.length > 0) {
+            result = chapters.sort((a,b) =>  (a.courseId !== b.courseId) ? a.courseId - b.courseId : a.numPriority - b.numPriority).map((chapter,key) => <AdminItemChapter chapter={chapter} key={key}/>) 
         }
         return result;
     }
@@ -56,11 +60,12 @@ class AdminChapterPage extends Component {
                             <div className="jumbotron manager-account">
                                 <h2>Quản lí chương học</h2>  
                             </div>
-                            
+                            {this.state.id != -1 &&
                             <Link to={`/admin/chapter/add/${this.state.id}`} style={{textDecoration:"none"}}>
-                                <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
+                            <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
                             </Link>
-                         
+                            
+                            }
                             <input onChange={(event) => this.callback(event.target.value)}
                             type="text" name="search" placeholder="Tìm kiếm ..." className="searchAccount" />
                         </div>

@@ -7,9 +7,9 @@ function Start({onQuizStart}) {
         <div className="card">
             <div className='card-content'>
                 <div className='content'>
-                    <h1>Start the quiz</h1>
-                    <p>Good Luck!</p>
-                    <button className='button is-info is-medium' onClick={onQuizStart}>Start</button>
+                    <h1>Bắt đầu làm bài</h1>
+                    <p>Chúc bạn may mắn!</p>
+                    <button className='button is-info is-medium' onClick={onQuizStart}>Bắt Đầu</button>
                 </div>
             </div>
         </div>

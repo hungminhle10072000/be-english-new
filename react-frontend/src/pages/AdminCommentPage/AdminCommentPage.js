@@ -74,7 +74,18 @@ class AdminCommentPage extends Component {
                 content:this.state.text,
                 parentId:this.state.parentid,
                 lessonId:commentParent.lessonId,
-                userId: this.props.userCurrent.id
+                grammarId: commentParent.grammarId,
+                vocabularyTopicId: commentParent.vocabularyTopicId,
+                userId: this.props.userCurrent.id,
+            }
+            if (commentDto.grammarId !== null) {
+                commentDto.type = "3"
+            } else if (commentDto.vocabularyTopicId !== null) {
+                commentDto.type = "2"
+            } else if (commentDto.lessonId !== null){
+                commentDto.type = "1"
+            } else {
+                commentDto.type = commentParent.type
             }
             this.setState({
                 isShow:false,

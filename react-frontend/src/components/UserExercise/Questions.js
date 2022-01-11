@@ -42,7 +42,7 @@ function Questions({data, onAnswerUpdate,numberOfQuestion, activeQuestion, onSet
                 index={i}
                  />
             ))}
-            <button className="button is-link is-medium is-fullwidth mt-4" onClick={nextClickHandler}>Next Page</button>
+            <button className="button is-link is-medium is-fullwidth mt-4" onClick={nextClickHandler}>Nộp bài</button>
         </div>
     )
 }

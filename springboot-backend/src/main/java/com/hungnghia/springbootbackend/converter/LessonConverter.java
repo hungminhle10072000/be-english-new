@@ -34,6 +34,7 @@ public class LessonConverter {
         lessonDto.setChapterId(lessonEntity.getChapterEntity().getId());
         lessonDto.setChapterName(lessonEntity.getChapterEntity().getName());
         lessonDto.setCourseName(lessonEntity.getChapterEntity().getCourseEntity().getName());
+        lessonDto.setCourseId(lessonEntity.getChapterEntity().getCourseEntity().getId());
         List<LessonEntity> lessonEntities = lessonEntity.getChapterEntity().getLessonEntityList();
         if (lessonEntities != null) {
             lessonDto.setNumLessonOfChapter(lessonEntities.size());

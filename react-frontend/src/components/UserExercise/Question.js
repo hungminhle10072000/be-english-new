@@ -38,7 +38,7 @@ function Question({data, onAnswerUpdate,numberOfQuestion, activeQuestion, onSetA
         <div className="card question">
             <div className="card-content">
                 <div className="content">
-                    <h2 className="mb-5">{"Câu "+ index +": "+ data.question}</h2>
+                    <h2 className="mb-5">{"Question "+ (index + 1) +": "+ data.question}</h2>
                     <div className="control" ref={radiosWrapper}>
                         {data.choices.map((choice,i) => (
                             <label className="radio has-background-light" key={i}>
