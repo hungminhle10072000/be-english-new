@@ -27,8 +27,8 @@ const actGetCommentByTopicIdRequest = (lessonId) => {
     return dispatch => {
         return (
             CommentService.getCommentByTopicId(lessonId).then((res) => {
-                console.log("ResData",res.data)
                 dispatch(actGetCommentByTopicId(res.data));
+                // console.log("Giá trị của comment:" + res.data.length)
             })
         )
     }
@@ -46,7 +46,7 @@ const actGetCommentByGrammarIdRequest = (grammarId) => {
     return dispatch => {
         return (
             CommentService.getCommentByGrammarId(grammarId).then((res) => {
-                console.log("ResData",res.data)
+                // console.log("ResData",res.data)
                 dispatch(actGetCommentByGrammarId(res.data));
             })
         )

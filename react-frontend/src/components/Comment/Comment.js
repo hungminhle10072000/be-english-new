@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
 import moment from 'moment'
+import './Comment.css'
 
 const Comment = ({ comment,replies,currentUserId,replyingComment, setReplyingComment, addComment , parentId = null}) => {
     const canReply = Boolean(currentUserId)
@@ -9,12 +10,12 @@ const Comment = ({ comment,replies,currentUserId,replyingComment, setReplyingCom
     return (
         <div className="comment">
             <div className="comment-image-container">
-                <img width={"60px"} src={comment.userDto.avatar} alt="/user-icon.png" />
+                <img src={comment.userDto.avatar} alt="/user-icon.png" />
             </div>
             <div className="comment-right-part">
                 <div className="comment-content">
-                    <div className="comment-author"></div>
-                    <div>{comment.userDto.fullname} {moment(comment.time).format("DD/MM/YYYY hh:mm:ss")}</div>
+                    {/* <div className="comment-author"></div> */}
+                    <div><span className="item-fullname-comment">{comment.userDto.fullname}</span> <span className="item-date-comment">{moment(comment.time).format("DD/MM/YYYY hh:mm:ss")}</span></div>
 
                 </div>
                 <div className="comment-text">{comment.content}</div>

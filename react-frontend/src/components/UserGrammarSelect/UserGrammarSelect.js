@@ -26,6 +26,7 @@ class UserGrammarSelect extends Component {
         if(this.state.idLearnGrammar > 0){
             this.props.onOpenItemLoading()
             this.props.onUserGetGrammarLearning(this.state.idLearnGrammar)
+            this.props.onGetCommentByGrammarId(this.state.idLearnGrammar);
         }
     }
 
@@ -55,6 +56,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onOpenItemLoading: () => {
             dispatch(allActions.userItemLoadingAction.openItemLoading())
+        },
+        onGetCommentByGrammarId: (grammarId) => {
+            dispatch(allActions.commentAction.actGetCommentByGrammarIdRequest(grammarId))
         }
     }
 }

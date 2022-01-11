@@ -26,7 +26,7 @@ class UserGrammar extends Component {
         if(nextProps && nextProps.UserItemLearnGrammar){
             const {UserItemLearnGrammar} = nextProps
             this.setState({
-                comments: this.props.comments,
+                // comments: this.props.comments,
                 userCurrent: this.props.userCurrent,
                 itemGrammarLearning: UserItemLearnGrammar
             })
@@ -35,43 +35,52 @@ class UserGrammar extends Component {
         if(nextProps && nextProps.userValueSelectGrammar){
             const {userValueSelectGrammar} = nextProps
             this.setState({
-                comments: this.props.comments,
+                // comments: this.props.comments,
                 userCurrent: this.props.userCurrent,
                 userValueSelectGrammar: userValueSelectGrammar
             })
         }
-    }
-    componentDidUpdate(prevProps) {
-        if (prevProps.comments !== this.props.comments) {
+
+        if(nextProps && nextProps.comments){
+            const {comments} = nextProps
             this.setState({
-                comments: this.props.comments,
+                userCurrent: this.props.userCurrent,
+                comments: comments
             })
-            this.props.onGetCommentByGrammarId(this.state.learningGrammarId);
         }
     }
+
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.comments !== null && prevProps.comments.length !== this.props.comments.length && prevProps.comments !== this.props.comments) {
+    //         this.setState({
+    //             comments: this.props.comments,
+    //         })
+    //         this.props.onGetCommentByGrammarId(this.state.learningGrammarId);
+    //     }
+    // }
 
     componentDidMount() {
         this.props.onItemLoading()
         this.props.onUserGetAllGrammar();
-        this.setState({
-            comments: this.props.comments,
-            itemGrammarLearning: this.props.UserItemLearnGrammar
-        })
-        console.log("Item",this.state.itemGrammarLearning)
-        if (this.state.learningGrammarId !== 0) {
-            this.props.onGetCommentByGrammarId(this.state.learningGrammarId);
-        }
+        // this.setState({
+        //     comments: this.props.comments,
+        //     itemGrammarLearning: this.props.UserItemLearnGrammar
+        // })
+        // if (this.props.UserItemLearnGrammar.id !== undefined && this.props.UserItemLearnGrammar.id > 0) {
+        //     this.props.onGetCommentByGrammarId(this.props.UserItemLearnGrammar.id);
+        // }
     }
-    componentWillMount() {
-        this.props.onItemLoading()
-        this.props.onUserGetAllGrammar();
-        this.setState({
-            comments: this.props.comments,
-        })
-        if (this.state.learningGrammarId !== 0) {
-            this.props.onGetCommentByGrammarId(this.state.learningGrammarId);
-        }
-    }
+
+    // componentWillMount() {
+    //     this.props.onItemLoading()
+    //     this.props.onUserGetAllGrammar();
+    //     this.setState({
+    //         comments: this.props.comments,
+    //     })
+    //     if (this.state.learningGrammarId !== 0) {
+    //         this.props.onGetCommentByGrammarId(this.state.learningGrammarId);
+    //     }
+    // }
     
     onChangeGrammarId(grammarId) {
         this.setState({
@@ -81,10 +90,14 @@ class UserGrammar extends Component {
     }
 
     render() {
+        // if (this.props.UserItemLearnGrammar.id !== undefined && this.props.UserItemLearnGrammar.id > 0) {
+        //     this.props.onGetCommentByGrammarId(this.props.UserItemLearnGrammar.id);
+        // }
         return (
             <div className='container-fluid main-content-user-grammar'>
                 <div className='row div-grammar-select justify-content-center'>
                     <div className='col-md-12'>
+                        {/* <UserGrammarSelect /> */}
                         <UserGrammarSelect onChangeGrammarId={this.onChangeGrammarId}/>
                     </div>
                 </div>

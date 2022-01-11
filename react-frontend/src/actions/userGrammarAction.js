@@ -2,6 +2,7 @@ import * as Types from '../constants/ActionTypes';
 import GrammarService from '../services/GrammarService'
 import userItemLoadingAction from './userItemLoadingAction'
 import adminAlertInfoAction from './admin-alert-infoAction'
+import commentAction from './commentAction'
 
 // user get all users
 const actUserFetchAllGrammarRequest = () => {
@@ -12,6 +13,7 @@ const actUserFetchAllGrammarRequest = () => {
                 dispatch(actUserCreateValueSelectGrammar(res.data))
                 if(res.data.length > 0){
                     dispatch(actUserGetLearnGrammarRequest(res.data[0].id))
+                    dispatch(commentAction.actGetCommentByGrammarIdRequest(res.data[0].id))
                 }
             })
             .catch(      

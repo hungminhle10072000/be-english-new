@@ -3,6 +3,7 @@ import * as FaIcons from 'react-icons/fa';
 import {MdOndemandVideo} from 'react-icons/md'
 import {GoBook} from 'react-icons/go'
 import {FaAdversal} from 'react-icons/fa'
+import {GiPrayer} from 'react-icons/gi'
 
 export const UserSideBar = [
   {
@@ -26,7 +27,7 @@ export const UserSideBar = [
   {
     title: 'Bài tập',
     path: '/user/exercise',
-    icon: <MdOndemandVideo color='black'/>,
+    icon: <GiPrayer color='black'/>,
     cName: 'nav-user-text'
   }
 ];

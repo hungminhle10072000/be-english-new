@@ -10,7 +10,8 @@ const commentReducer = (state=initialState, action) => {
     const {comments} = action
     switch(action.type) {
         case FETCH_COMMENTS:
-            return [...comments]
+            console.log("Giá trị của comment:" + comments.length)
+            return comments;
         case ADD_COMMENT:
             return [...state,action.comment]
         case DELETE_COMMENT:
