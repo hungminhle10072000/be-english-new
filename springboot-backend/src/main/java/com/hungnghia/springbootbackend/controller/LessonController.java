@@ -22,6 +22,14 @@ public class LessonController {
         LessonDto lesson = lessonService.addLesson(lessonDto,video);
         return lesson;
     }
+
+    @PostMapping("/add2")
+    public LessonDto addLesson(@RequestPart("lessonDto") LessonDto lessonDto) {
+        lessonService.updateNumOfPriority(lessonDto);
+        LessonDto lesson = lessonService.addLesson(lessonDto,null);
+        return lesson;
+    }
+
     @PutMapping("/update")
     public LessonDto updateLesson(@RequestPart("lessonDto") LessonDto lessonDto,@RequestPart("video") MultipartFile video) {
         LessonDto lesson = lessonService.updateLesson(lessonDto,video);

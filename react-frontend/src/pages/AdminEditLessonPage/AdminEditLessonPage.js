@@ -6,11 +6,13 @@ import { BiSave, BiReset } from "react-icons/bi";
 import { connect } from 'react-redux';
 import validator from 'validator';
 import allActions from '../../actions';
-import Dropzone from '../../components/DropZone'
+import { Button,Nav,NavItem,NavLink,TabContent,TabPane,Row,Col,Card,CardTitle,CardText } from 'reactstrap';
+
 
 class AdminEditLessonPage extends React.Component {
     constructor(props) {
         super(props)
+        this.toggle = this.toggle.bind(this);
         this.state = {  
             lesson: {
                 id:this.props.match.params.id,
@@ -24,6 +26,7 @@ class AdminEditLessonPage extends React.Component {
             videoFile:'',
             validationMsg: '',
             confirmDialog: false,
+            activeTab: '1',
         }
 
     }
@@ -112,7 +115,6 @@ class AdminEditLessonPage extends React.Component {
     handleConfirmationBox = (event) => {
         event.preventDefault();
         const isValid = this.validateAll()
-        console.log("is Valid: ", isValid)
         if (!isValid) return
         else {
             if (!this.state.confirmDialog) {
@@ -129,6 +131,30 @@ class AdminEditLessonPage extends React.Component {
                 })
             }
         }
+    }
+
+
+    toggle(tab) {
+        if (this.state.activeTab !== tab) {
+          this.setState({ activeTab: tab });
+        }
+      }
+
+    resetVideoFile() {
+        let randomString = Math.random().toString(36);
+      
+        this.setState({
+          theInputKey: randomString,
+              videoFile:''
+        });
+      }
+    clearLink() {
+        this.setState({
+            lesson: {
+                ...this.state.lesson,
+                video:''
+            },
+        }) 
     }
 
     render() {
@@ -184,9 +210,50 @@ class AdminEditLessonPage extends React.Component {
                         <p className="msg-error">{this.state.validationMsg.name}</p>
                         <br></br>
                         <label htmlFor="name"><b>Bài giảng:</b></label>
-                        {/* <Dropzone onChange = {(event)=>this.isChangedVideo(event)} value={this.state.lesson.video}/> */}
-                        <input className="video" type="file" onChange = {(event)=>this.isChangedVideo(event)} />
-                        {/* <video src={'x'} width="600" height="300" controls="controls" autoplay="true" /> */}
+                        <div>
+                            <Nav tabs>
+                                <NavItem>
+                                    <NavLink
+                                        className="active"
+                                        onClick={()=> this.toggle('1')}
+                                    >
+                                        Gán Link
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className=""
+                                        onClick={() => this.toggle('2')}
+                                    >
+                                        Tải lên
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                            <TabContent activeTab={this.state.activeTab}>
+                                <TabPane tabId="1">
+                                    <Row>
+                                        <Col sm="12" style={{display: 'inline-block'}}>
+                                            <br/>
+                                            <input id='linkLesson' name='video' style= {{width:'90%'}} placeholder='Nhập link bài giảng.'
+                                            onChange={(event)=> this.isChange(event)}  value={this.state.lesson.video}></input>
+                                            <button style={{marginLeft:'10px'}} onClick={()=> this.clearLink()}>Xoá</button>
+                                            <br/>
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                                <TabPane tabId="2">
+                                    <Row>
+                                        <Col sm="12">
+                                            <Card body style={{display:'inline-block', width:'100%'}}>
+                                            <input className="videoFile"  key={this.state.theInputKey || '' } type="file"  onChange = {(event)=>this.isChangedVideo(event)} style={{ display: 'inline-block'}} />
+                                             {this.state.videoFile && <button style={{ display: 'inline-block', fontSize:'25px', fontStyle:'bold', color:'red', backgroundColor:'Transparent', border:'none'}}  onClick={()=> this.resetVideoFile()}>x</button> }
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                            </TabContent>
+                            <p className="msg-error">{this.state.validationMsg.video}</p>
+                        </div>
                         <div className="div-button-account">
                             <Link to="/admin/lesson">
                                 <button onClick={(event) => this.handleConfirmationBox(event)}

@@ -36,15 +36,26 @@ class LessonService {
         });
         formData.append("lessonDto",blob)
         formData.append("video",video)
-
-        console.log('Form Data: ',video)
-        return axios.post(LESSON_API_BASE_URL+'/add',formData,{
-            headers: {
-                ...headers,
-                'Content-Type': 'multipart/form-data',
-                ...authHeader()
-            }
-        })
+        console.log('LESSON: ',lesson)
+        console.log('VIDEO: ',video)
+        if (video !== null && video.size > 0) {
+            return axios.post(LESSON_API_BASE_URL+'/add',formData,{
+                headers: {
+                    ...headers,
+                    'Content-Type': 'multipart/form-data',
+                    ...authHeader()
+                }
+            })
+        } else {
+            return axios.post(LESSON_API_BASE_URL+'/add2',formData,{
+                headers: {
+                    ...headers,
+                    'Content-Type': 'multipart/form-data',
+                    ...authHeader()
+                }
+            })
+        }
+        
     
         
     }
@@ -67,15 +78,9 @@ class LessonService {
         const blob = new Blob([jsonLesson], {
             type: 'application/json'
         });
-
-        console.log("Video: ", video)
-
         if (video ==='') {
-            console.log("Video 1: ",video)
             formData.append("lessonDto",blob)
             formData.append("video",video)
-    
-            console.log('Form Data: ',video)
             return axios.put(LESSON_API_BASE_URL+'/update2',formData,{
                 headers: {
                     ...headers,
