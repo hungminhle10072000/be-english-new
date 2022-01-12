@@ -17,6 +17,7 @@ class UserLearningPage extends Component {
                 id: -1
             },
             learningLessonId:0,
+            learningLessonName:'',
             comments:[],
             isLogin:true,
             linkVideo:'https://web-english.s3.ap-southeast-1.amazonaws.com/1637087592056-trumua.mp4',
@@ -37,7 +38,7 @@ class UserLearningPage extends Component {
             console.log('Prev',prevProps.course.chapters )
             console.log('Cur',this.props.course.chapters )
             if (course.chapters.length > 0 && course.chapters[0].lessons.length >0) {
-                this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id)
+                this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id,course.chapters[0].lessons[0].name)
             }
         }
 
@@ -66,6 +67,11 @@ class UserLearningPage extends Component {
                 userCurrent: this.props.userCurrent
             })
         }
+   
+        if (prevProps.course.id !== this.props.course.id) {
+            console.log("CCha")
+            this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id,course.chapters[0].lessons[0].name)
+        }
     }
     componentDidMount() {
         this.props.onEditCourse(this.state.course.id);
@@ -77,7 +83,7 @@ class UserLearningPage extends Component {
             userCurrent: this.props.userCurrent
         })
         if (course.chapters.length > 0 && course.chapters[0].lessons.length >0) {
-            this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id)
+            this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id,course.chapters[0].lessons[0].name)
         }
       
     }
@@ -90,21 +96,18 @@ class UserLearningPage extends Component {
                 comments: this.props.comments,
                 userCurrent: nextProps.userCurrent
             })
-            // if (course.chapters.length > 0 && course.chapters[0].lessons.length >0) {
-            //     this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id)
-            // }
         }
        
     }
     
-    changedVideo = (url,lessonId) => {
+    changedVideo = (url,lessonId,name) => {
         console.log("Changedvideo Id ",lessonId)
         this.props.onGetCommentByLessonId(lessonId)
         this.setState({linkVideo:url,
             learningLessonId:lessonId,
+            learningLessonName:name,
             comments: this.props.comments
-        })
-        
+        })   
     }
     changedIsChapter =()  => {
         this.setState({isChapter: true,
@@ -143,10 +146,12 @@ class UserLearningPage extends Component {
         }
         return(
             <div className='container-fluid mt-1'>
+                <h3>{this.state.course.name}</h3>
+                <br/>
                 <div className='row mb-3'>
                     <VideoContainer video={this.state.linkVideo}></VideoContainer>
                 </div>
-               <h3>{this.state.course.name}</h3>
+                <h4>{this.state.learningLessonName}</h4>
                <br/>
                {
                    (isSub || (this.state.userCurrent.id === -1))&&(
