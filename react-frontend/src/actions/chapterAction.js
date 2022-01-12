@@ -1,6 +1,7 @@
 import * as Types from '../constants/ActionTypes'
 import ChapterService from '../services/ChapterService'
-
+import statusButtonLoadingAction from './statusButtonLoadingAction'
+import adminAlertInfoAction from './admin-alert-infoAction'
 // get all chapters
 const actFetchChapterRequest = () => {
     return (dispatch) => {
@@ -26,7 +27,12 @@ const actAddChapterRequest = (chapter) => {
         return(
             ChapterService.addChapter(chapter).then((res)=> {
                 dispatch(actAddChapter(res.data))
-            })
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
+                window.history.back();
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm thành công !","success"))
+            }).catch(
+                error => dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+            )
         )
     }
 }
@@ -80,7 +86,12 @@ const actUpdateChapterRequest = (chapter) => {
     return dispatch => {
         ChapterService.updateChapter(chapter).then((res) => {
             dispatch(actUpdateChapter(res.data))
-        })
+            dispatch(statusButtonLoadingAction.closeButtonLoading())
+                window.history.back();
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Cập nhật thành công !","success"))
+            }).catch(
+                error => dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+            )
     }
 }
 

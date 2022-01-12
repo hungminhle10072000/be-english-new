@@ -2,7 +2,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './AdminEditLessonPage.css'
 import { Link } from 'react-router-dom'
-import { BiSave, BiReset } from "react-icons/bi";
+import { BiSave, BiReset, BiRefresh } from "react-icons/bi";
 import { connect } from 'react-redux';
 import validator from 'validator';
 import allActions from '../../actions';
@@ -27,6 +27,8 @@ class AdminEditLessonPage extends React.Component {
             validationMsg: '',
             confirmDialog: false,
             activeTab: '1',
+            theInputKey:'',
+            statusCheck: false
         }
 
     }
@@ -40,6 +42,11 @@ class AdminEditLessonPage extends React.Component {
             var {lesson} = nextProps;
             this.setState({
                 lesson: {...lesson}
+            })
+        }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
             })
         }
     }
@@ -96,9 +103,10 @@ class AdminEditLessonPage extends React.Component {
         lessonDto.courseName=this.state.lesson.courseName;
         lessonDto.numPriority=this.state.lesson.numPriority;
         lessonDto.video=this.state.lesson.video;
-        
-        window.history.back();
+        this.handleConfirmationBox();
+        this.props.onOpenButtonLoading(); 
         this.props.onEditLesson(lessonDto,this.state.videoFile)
+        
     }
     validateAll = () => {
         const msg = {}
@@ -113,7 +121,6 @@ class AdminEditLessonPage extends React.Component {
         return true;
     }
     handleConfirmationBox = (event) => {
-        event.preventDefault();
         const isValid = this.validateAll()
         if (!isValid) return
         else {
@@ -158,7 +165,8 @@ class AdminEditLessonPage extends React.Component {
     }
 
     render() {
-        return (
+        const statusCheck = this.state.statusCheck
+        return (     
             <div>
                 <h2>___________________________________________________________________________________________________________</h2>
 
@@ -255,14 +263,18 @@ class AdminEditLessonPage extends React.Component {
                             <p className="msg-error">{this.state.validationMsg.video}</p>
                         </div>
                         <div className="div-button-account">
-                            <Link to="/admin/lesson">
+                            {/* <Link to="/admin/lesson"> */}
                                 <button onClick={(event) => this.handleConfirmationBox(event)}
-                                    type="button" className="btn btn-success btn-save-account">Lưu <BiSave /></button>
-                            </Link>
+                                    type="button" disabled={statusCheck} className="btn btn-success btn-save-account">
+                                        {statusCheck && "Đang xử lý "}
+                                        {statusCheck && <BiRefresh />}
+                                        {!statusCheck && "Lưu "}
+                                        {!statusCheck && <BiSave />}
+                                        </button>
+                            {/* </Link> */}
                             <button onClick = {(event) => this.resetForm(event)}
-                                type="reset" className="btn btn-warning" >Reset <BiReset /></button>
+                                type="reset" className="btn btn-warning" >Làm mới <BiReset /></button>
                         </div>
-
                     </div>
                     <div className="col-sm-3"></div>
                 </div>
@@ -274,7 +286,8 @@ class AdminEditLessonPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         chapter: state.chapterEditReducer,
-        lesson: state.lessonEditReducer
+        lesson: state.lessonEditReducer,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -291,6 +304,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onGetLessonById: (id) => {
             dispatch(allActions.lessonAction.actGetLessonRequest(id))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom'
-import { BiSave, BiReset } from "react-icons/bi";
+import { BiSave, BiReset, BiRefresh } from "react-icons/bi";
 import chapterAction from "../../actions/chapterAction"
 import { connect } from 'react-redux';
 import validator from 'validator';
@@ -20,6 +20,7 @@ class AdminEditChapterPage extends React.Component {
             },
             validationMsg: {},
             confirmDialog: false,
+            statusCheck: false
         }
 
     }
@@ -39,13 +40,16 @@ class AdminEditChapterPage extends React.Component {
                 chapter: {...chapter}
             })
         }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
+            })
+        }
     }
 
     isChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-
-        console.log("NUMOFCHAPTER: ",this.props.course.numOfChapter)
         if (name === 'numPriority' && value < 0 || name === 'numPriority' && value > this.props.course.numOfChapter ) {
             return;
         }
@@ -72,7 +76,8 @@ class AdminEditChapterPage extends React.Component {
         chapterDto.courseId = this.state.chapter.courseId;
         chapterDto.numPriority = this.state.chapter.numPriority;
         chapterDto.name = this.state.chapter.name;
-        window.history.back();
+        this.handleConfirmationBox();
+        this.props.onOpenButtonLoading();
         this.props.onUpdateChapter(chapterDto)
     }
     validateAll = () => {
@@ -88,7 +93,6 @@ class AdminEditChapterPage extends React.Component {
         return true;
     }
     handleConfirmationBox = (event) => {
-        event.preventDefault();
         const isValid = this.validateAll()
         console.log("is Valid: ", isValid)
         if (!isValid) return
@@ -110,6 +114,7 @@ class AdminEditChapterPage extends React.Component {
     }
 
     render() {
+        const statusCheck = this.state.statusCheck
         return (
             <div>
                 <h2>___________________________________________________________________________________________________________</h2>
@@ -155,10 +160,15 @@ class AdminEditChapterPage extends React.Component {
                         <p className="msg-error">{this.state.validationMsg.name}</p>
                         <br></br>
                         <div className="div-button-account">
-                            <Link to="/admin/chapter">
+                   
                                 <button onClick={(event) => this.handleConfirmationBox(event)}
-                                    type="button" className="btn btn-success btn-save-account">Lưu <BiSave /></button>
-                            </Link>
+                                    type="button"  disabled={statusCheck} className="btn btn-success btn-save-account">
+                                          {statusCheck && "Đang xử lý "}
+                                        {statusCheck && <BiRefresh />}
+                                        {!statusCheck && "Lưu "}
+                                        {!statusCheck && <BiSave />}
+                                        </button>
+                   
                             <button onClick = {(event) => this.resetForm(event)}
                                 type="reset" className="btn btn-warning" >Reset <BiReset /></button>
                         </div>
@@ -174,7 +184,8 @@ class AdminEditChapterPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         chapter: state.chapterEditReducer,
-        course: state.courseEditReducer
+        course: state.courseEditReducer,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -189,6 +200,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onGetChapterById: (id) => {
             dispatch(allActions.chapterAction.actGetChapterRequest(id))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

@@ -1,5 +1,7 @@
 import * as Types from '../constants/ActionTypes'
 import CourseService from '../services/CourseService'
+import statusButtonLoadingAction from './statusButtonLoadingAction'
+import adminAlertInfoAction from './admin-alert-infoAction'
 
 // get all courses
 const actFetchCourseRequest = () => {
@@ -27,7 +29,12 @@ const actAddCourseRequest = (course,image) => {
         return(
             CourseService.addCourse(course,image).then((res)=> {
                 dispatch(actAddCourse(res.data))
-            })
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
+                window.history.back();
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm thành công !","success"))
+            }).catch(
+                error => dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+            )
         )
     }
 }
@@ -63,7 +70,11 @@ const actUpdateCourseRequest = (course,image) => {
     return dispatch => {
         CourseService.updateCourse(course,image).then((res) => {
             dispatch(actUpdateCourse(res.data))
-        })
+            dispatch(statusButtonLoadingAction.closeButtonLoading())
+            window.history.back();
+        }).catch(
+            error => dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+        )
     }
 }
 
