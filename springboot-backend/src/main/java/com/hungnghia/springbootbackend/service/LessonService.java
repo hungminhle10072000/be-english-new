@@ -46,8 +46,13 @@ public class LessonService {
     }
 
     public LessonDto addLesson(LessonDto lessonDto, MultipartFile video) {
+        String videoUrl;
         LessonEntity lessonEntity = lessonConverter.toEntity(lessonDto);
-        String videoUrl = amazonClient.uploadFile(video); //
+        if (video != null) {
+            videoUrl  = amazonClient.uploadFile(video); //
+        } else {
+            videoUrl = lessonDto.getVideo();
+        }
         lessonEntity.setVideo(videoUrl);
         LessonEntity lessonResult = lessonRepository.save(lessonEntity);
         return lessonConverter.toDto(lessonResult);
@@ -71,6 +76,9 @@ public class LessonService {
         }
         if (newLessonEntity.getQuestionEntityList() == null) {
             newLessonEntity.setQuestionEntityList(oldLessonEntity.getQuestionEntityList());
+        }
+        if (newLessonEntity.getVideo().isEmpty()) {
+            newLessonEntity.setVideo(oldLessonEntity.getVideo());
         }
         if (video!=null&&!video.isEmpty()) {
             String videoUrl = amazonClient.uploadFile(video); //

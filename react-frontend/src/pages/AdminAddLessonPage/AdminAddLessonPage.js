@@ -12,22 +12,29 @@ import { usePromiseTracker } from "react-promise-tracker";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import {Oval} from "react-loader-spinner";
+import { Button,Nav,NavItem,NavLink,TabContent,TabPane,Row,Col,Card,CardTitle,CardText } from 'reactstrap';
+
 
 
 class AdminAddLessonPage extends React.Component {
     constructor(props) {
         super(props)
+        this.toggle = this.toggle.bind(this);
+
         this.state = {  
+            activeTab: '1',
             lesson: {
                 chapterId:this.props.match.params.chapterId,
                 name: '',
                 chapterName:'',
                 numPriority : -1,
                 courseName:'',
-                video:null
+                videoFile:null,
+                video:''
             },
             validationMsg: {},
             confirmDialog: false,
+            theInputKey:''
         }
 
     }
@@ -57,7 +64,7 @@ class AdminAddLessonPage extends React.Component {
         this.setState({
             lesson: {     
                 ...this.state.lesson,
-                video: event.target.files[0]
+                videoFile: event.target.files[0]
             }
         })
     }
@@ -82,8 +89,9 @@ class AdminAddLessonPage extends React.Component {
         this.setState({
             lesson: {
                 ...this.state.lesson,
-                video:null,
-                name: ''
+                videoFile:null,
+                name: '',
+                video:''
             },
             validationMsg: {},
             confirmDialog: false,
@@ -95,18 +103,24 @@ class AdminAddLessonPage extends React.Component {
         lessonDto.chapterId = this.state.lesson.chapterId;
         lessonDto.name = this.state.lesson.name;
         lessonDto.numPriority = this.state.lesson.numPriority;
+        lessonDto.video = this.state.lesson.video;
         this.setState({
             confirmDialog: false
         })
         // {<Oval arialLabel="loading-indicator" />}
-         await this.props.onAddLesson(lessonDto,this.state.lesson.video)
+         await this.props.onAddLesson(lessonDto,this.state.lesson.videoFile)
         window.history.back();
     }
     validateAll = () => {
         const msg = {}
 
         if (validator.isEmpty(this.state.lesson.name.trim())) {
-            msg.name = "Yêu cầu nhập tên chương !"
+            msg.name = "Yêu cầu nhập tên bài học !"
+        }
+        if (this.state.lesson.video.trim() ==='' && (this.state.lesson.videoFile === null ||this.state.lesson.videoFile === undefined || this.state.lesson.videoFile.length === 0 )) {
+            msg.video = 'Vui lòng thêm video bài giảng !'
+        } else if (this.state.lesson.videoFile !== null && this.state.lesson.videoFile.size > 0 &&  this.state.lesson.video.trim() !=='') {
+            msg.video = 'Vui lòng chỉ tải video hoặc gắn link !'
         }
         this.setState({
             validationMsg: msg
@@ -117,7 +131,6 @@ class AdminAddLessonPage extends React.Component {
     handleConfirmationBox = (event) => {
         event.preventDefault();
         const isValid = this.validateAll()
-        // console.log("is Valid: ", isValid)
         if (!isValid) return
         else {
             if (!this.state.confirmDialog) {
@@ -136,8 +149,33 @@ class AdminAddLessonPage extends React.Component {
         }
     }
 
+    toggle(tab) {
+        if (this.state.activeTab !== tab) {
+          this.setState({ activeTab: tab });
+        }
+      }
+
+    resetVideoFile() {
+        let randomString = Math.random().toString(36);
+      
+        this.setState({
+          theInputKey: randomString,
+          lesson: {
+              ...this.state.lesson,
+              videoFile:null
+          }
+        });
+      }
+    clearLink() {
+        this.setState({
+            lesson: {
+                ...this.state.lesson,
+                video:''
+            },
+        }) 
+    }
+
     render() {
-        console.log("Gia tri so bai0 " , this.state.lesson.numOfLesson)
         return (
             <div>
                 <h2>___________________________________________________________________________________________________________</h2>
@@ -190,9 +228,53 @@ class AdminAddLessonPage extends React.Component {
                         <p className="msg-error">{this.state.validationMsg.name}</p>
                         <br></br>
                         <label htmlFor="name"><b>Bài giảng:</b></label>
-                        {/* <Dropzone onChange = {(event)=>this.isChangedVideo(event)} value={this.state.lesson.video}/> */}
-                        <input className="video" type="file" onChange = {(event)=>this.isChangedVideo(event)} />
-                        {/* <video src={'x'} width="600" height="300" controls="controls" autoplay="true" /> */}
+
+                        <div>
+                            <Nav tabs>
+                                <NavItem>
+                                    <NavLink
+                                        className="active"
+                                        onClick={()=> this.toggle('1')}
+                                    >
+                                        Gán Link
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className=""
+                                        onClick={() => this.toggle('2')}
+                                    >
+                                        Tải lên
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                            <TabContent activeTab={this.state.activeTab}>
+                                <TabPane tabId="1">
+                                    <Row>
+                                        <Col sm="12" style={{display: 'inline-block'}}>
+                                            <br/>
+                                            <input id='linkLesson' name='video' style= {{width:'90%'}} placeholder='Nhập link bài giảng.'
+                                            onChange={(event)=> this.isChange(event)}  value={this.state.lesson.video}></input>
+                                            <button style={{marginLeft:'10px'}} onClick={()=> this.clearLink()}>Xoá</button>
+                                            <br/>
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                                <TabPane tabId="2">
+                                    <Row>
+                                        <Col sm="12">
+                                            <Card body style={{display:'inline-block', width:'100%'}}>
+                                            <input className="videoFile"  key={this.state.theInputKey || '' } type="file"  onChange = {(event)=>this.isChangedVideo(event)} style={{ display: 'inline-block'}} />
+                                             {this.state.lesson.videoFile && <button style={{ display: 'inline-block', fontSize:'25px', fontStyle:'bold', color:'red', backgroundColor:'Transparent', border:'none'}}  onClick={()=> this.resetVideoFile()}>x</button> }
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                            </TabContent>
+                            <p className="msg-error">{this.state.validationMsg.video}</p>
+                        </div>
+
+
                         <div className="div-button-account">
                             <Link to="/admin/lesson">
                                 <button onClick={(event) => this.handleConfirmationBox(event)}
