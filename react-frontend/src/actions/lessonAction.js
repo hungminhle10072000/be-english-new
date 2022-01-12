@@ -1,6 +1,7 @@
 import * as Types from '../constants/ActionTypes'
 import LessonService from '../services/LessonService'
-
+import statusButtonLoadingAction from './statusButtonLoadingAction'
+import adminAlertInfoAction from './admin-alert-infoAction'
 // get all lessons
 const actFetchLessonRequest = () => {
     return (dispatch) => {
@@ -26,6 +27,7 @@ const actAddLessonRequest = (lesson,video) => {
         return(
             LessonService.addLesson(lesson,video).then((res)=> {
                 dispatch(actAddLesson(res.data))
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
             })
         )
     }
@@ -100,7 +102,11 @@ const actUpdateLessonRequest = (lesson,video) => {
     return dispatch => {
         LessonService.updateLesson(lesson,video).then((res) => {
             dispatch(actUpdateLesson(res.data))
-        })
+            dispatch(statusButtonLoadingAction.closeButtonLoading())
+            window.history.back();
+        }).catch(
+            error => dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+        )
     }
 }
 

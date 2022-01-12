@@ -2,7 +2,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './AdminEditCoursePage.css'
 import { Link } from 'react-router-dom'
-import { BiSave, BiReset } from "react-icons/bi";
+import { BiSave, BiReset, BiRefresh } from "react-icons/bi";
 import courseAction from "../../actions/courseAction"
 import { connect } from 'react-redux';
 import validator from 'validator';
@@ -22,6 +22,7 @@ class AdminEditCoursePage extends React.Component {
             currentFile: '',
             previewImage: 'https://bitly.com.vn/p8elul',
             confirmDialog: false,
+            statusCheck: false
         }
 
     }
@@ -35,6 +36,11 @@ class AdminEditCoursePage extends React.Component {
             this.setState({
                 course: {...course},
                 previewImage:course.image
+            })
+        }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
             })
         }
     }
@@ -73,8 +79,8 @@ class AdminEditCoursePage extends React.Component {
         courseDto.name = this.state.course.name;
         courseDto.image = this.state.course.image;
         courseDto.introduce = this.state.course.introduce;
-
-        window.history.back();
+        this.handleConfirmationBox();
+        this.props.onOpenButtonLoading();
         this.props.onUpdateCourse(courseDto, this.state.currentFile)
     }
     validateAll = () => {
@@ -98,7 +104,6 @@ class AdminEditCoursePage extends React.Component {
         return true;
     }
     handleConfirmationBox = (event) => {
-        event.preventDefault();
         const isValid = this.validateAll()
         console.log("is Valid: ", isValid)
         if (!isValid) return
@@ -120,7 +125,7 @@ class AdminEditCoursePage extends React.Component {
     }
 
     render() {
-    
+        const statusCheck = this.state.statusCheck
         return (
             <div>
                 <h2>___________________________________________________________________________________________________________</h2>
@@ -173,10 +178,15 @@ class AdminEditCoursePage extends React.Component {
                         <p className="msg-error">{this.state.validationMsg.introduce}</p>
                         <br></br>
                         <div className="div-button-account">
-                            <Link to="/admin/course">
+ 
                                 <button onClick={(event) => this.handleConfirmationBox(event)}
-                                    type="button" className="btn btn-success btn-save-account">Lưu <BiSave /></button>
-                            </Link>
+                                    type="button" disabled={statusCheck} className="btn btn-success btn-save-account">
+                                                           {statusCheck && "Đang xử lý "}
+                                        {statusCheck && <BiRefresh />}
+                                        {!statusCheck && "Lưu "}
+                                        {!statusCheck && <BiSave />}
+                                        </button>
+    
                             <button onClick = {(event) => this.resetForm(event)}
                                 type="reset" className="btn btn-warning" >Reset <BiReset /></button>
                         </div>
@@ -191,7 +201,8 @@ class AdminEditCoursePage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        course: state.courseEditReducer
+        course: state.courseEditReducer,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -203,6 +214,9 @@ const mapDispatchToProps = (dispatch) => {
 
         onUpdateCourse: (courseDto, file) => {
             dispatch(allActions.courseAction.actUpdateCourseRequest(courseDto, file))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }

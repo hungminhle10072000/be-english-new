@@ -2,7 +2,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './AdminAddLessonPage.css'
 import { Link } from 'react-router-dom'
-import { BiSave, BiReset } from "react-icons/bi";
+import { BiSave, BiReset, BiRefresh } from "react-icons/bi";
 import { connect } from 'react-redux';
 import validator from 'validator';
 import allActions from '../../actions';
@@ -34,7 +34,8 @@ class AdminAddLessonPage extends React.Component {
             },
             validationMsg: {},
             confirmDialog: false,
-            theInputKey:''
+            theInputKey:'',
+            statusCheck: false
         }
 
     }
@@ -56,6 +57,11 @@ class AdminAddLessonPage extends React.Component {
                     courseName: chapter.courseName,
                     numPriority:chapter.numOfLesson
                 }
+            })
+        }
+        if(nextProps && nextProps.statusButtonLoading){
+            this.setState({
+                statusCheck: nextProps.statusButtonLoading.statusCheck
             })
         }
     }
@@ -104,11 +110,9 @@ class AdminAddLessonPage extends React.Component {
         lessonDto.name = this.state.lesson.name;
         lessonDto.numPriority = this.state.lesson.numPriority;
         lessonDto.video = this.state.lesson.video;
-        this.setState({
-            confirmDialog: false
-        })
-        // {<Oval arialLabel="loading-indicator" />}
-         await this.props.onAddLesson(lessonDto,this.state.lesson.videoFile)
+        this.handleConfirmationBox();
+        this.props.onOpenButtonLoading();
+        await this.props.onAddLesson(lessonDto,this.state.lesson.videoFile)
         window.history.back();
     }
     validateAll = () => {
@@ -129,7 +133,6 @@ class AdminAddLessonPage extends React.Component {
         return true;
     }
     handleConfirmationBox = (event) => {
-        event.preventDefault();
         const isValid = this.validateAll()
         if (!isValid) return
         else {
@@ -176,6 +179,7 @@ class AdminAddLessonPage extends React.Component {
     }
 
     render() {
+        const statusCheck = this.state.statusCheck
         return (
             <div>
                 <h2>___________________________________________________________________________________________________________</h2>
@@ -276,10 +280,15 @@ class AdminAddLessonPage extends React.Component {
 
 
                         <div className="div-button-account">
-                            <Link to="/admin/lesson">
+                            {/* <Link to="/admin/lesson"> */}
                                 <button onClick={(event) => this.handleConfirmationBox(event)}
-                                    type="button" className="btn btn-success btn-save-account">Lưu <BiSave /></button>
-                            </Link>
+                                    type="button" disabled={statusCheck} className="btn btn-success btn-save-account">
+                                    {statusCheck && "Đang xử lý "}
+                                        {statusCheck && <BiRefresh />}
+                                        {!statusCheck && "Lưu "}
+                                        {!statusCheck && <BiSave />}
+                                        </button>
+                            {/* </Link> */}
                             <button onClick = {(event) => this.resetForm(event)}
                                 type="reset" className="btn btn-warning" >Làm mới <BiReset /></button>
                         </div>
@@ -295,7 +304,8 @@ class AdminAddLessonPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         chapter: state.chapterEditReducer,
-        lesson: state.lessonReducer
+        lesson: state.lessonReducer,
+        statusButtonLoading: state.statusButtonLoading
     }
 }
 
@@ -309,6 +319,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onGetChapterById: (chapterId) => {
             dispatch(allActions.chapterAction.actGetChapterRequest(chapterId))
+        },
+        onOpenButtonLoading: () => {
+            dispatch(allActions.statusButtonLoadingAction.openButtonLoading())
         }
     }
 }
