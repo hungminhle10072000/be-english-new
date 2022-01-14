@@ -94,7 +94,7 @@ class AdminAddQuestionRead extends Component {
                     <div className="col-12">
                         <div style={{marginTop: 10}}>
                             <div className="jumbotron manager-account">
-                                <h2>Thêm câu hỏi đọc</h2>  
+                                <h2>Thêm câu hỏi</h2>  
                             </div>
                         </div>
                     </div>

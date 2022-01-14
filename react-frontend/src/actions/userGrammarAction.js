@@ -14,10 +14,13 @@ const actUserFetchAllGrammarRequest = () => {
                 if(res.data.length > 0){
                     dispatch(actUserGetLearnGrammarRequest(res.data[0].id))
                     dispatch(commentAction.actGetCommentByGrammarIdRequest(res.data[0].id))
+                } else {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                 }
             })
             .catch(      
                 error => {
+                    dispatch(userItemLoadingAction.closeItemLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại !!! Xin hãy thử lại", "danger"))           
                 }        
             )

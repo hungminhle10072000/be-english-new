@@ -52,13 +52,13 @@ const actAddGrammarNameRequest = (nameGrammar) => {
         return(
             GrammarService.addGrammarWithName(nameGrammar).then((res) => {
                 dispatch(actAddGrammarName(res.data))
-                dispatch(userItemLoadingAction.closeItemLoading())
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
                 dispatch(openFormAddGrammar.changeFormGrammarOff())
                 dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm bài học thành công !","success"))
             })
             .catch(
                 error => {
-                    dispatch(userItemLoadingAction.closeItemLoading())
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
                     dispatch(adminAlertInfoAction.changeAdminAlertOff("Tác vụ thất bại!!! Xin hãy thử lại","danger"))
                 }
             )

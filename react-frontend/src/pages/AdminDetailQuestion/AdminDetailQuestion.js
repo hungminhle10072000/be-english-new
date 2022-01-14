@@ -76,10 +76,10 @@ class AdminDetailQuestion extends Component {
                             </div>
                             
                             <Link to={"/admin/addQuestion/" + this.state.idExercise + '/' + convertURL(this.state.nameExericse)} style={{textDecoration:"none"}} onClick={this.handleShow}>
-                                <button type="button" className="btn btn-success btn-add-voca-topic">Thêm câu hỏi đọc<AiOutlineFileAdd color={"white"} className="iconAddVocaTopic"/></button> 
+                                <button type="button" className="btn btn-success btn-add-voca-topic">Thêm câu hỏi<AiOutlineFileAdd color={"white"} className="iconAddVocaTopic"/></button> 
                             </Link>
 
-                            <button onClick={() => this.addQuestionListen()} type="button" className="btn btn-primary btn-add-voca-topic ml-2">Thêm câu hỏi nghe<AiOutlineFileAdd color={"white"} className="iconAddVocaTopic"/></button> 
+                            {/* <button onClick={() => this.addQuestionListen()} type="button" className="btn btn-primary btn-add-voca-topic ml-2">Thêm câu hỏi nghe<AiOutlineFileAdd color={"white"} className="iconAddVocaTopic"/></button>  */}
                             
                         </div>
                     </div>

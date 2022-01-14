@@ -5,6 +5,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import { connect } from 'react-redux'
 import allActions from '../../actions'
 import { BiSave, BiRefresh } from "react-icons/bi"
+
 class AdminItemContentGrammar extends Component {
 
     constructor(props){
@@ -75,6 +76,8 @@ class AdminItemContentGrammar extends Component {
         }
     }
 
+    
+
     render() {
         const {statusCheck} = this.state
         return (
@@ -93,7 +96,7 @@ class AdminItemContentGrammar extends Component {
                             }}
                             config={ this.editorConfig }
                             onChange={this.handleCkeditorState}
-                        />                    
+                        />             
                     </div>
                 </div>
                 <div className="mt-2 mb-2">
