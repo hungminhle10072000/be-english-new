@@ -162,7 +162,7 @@ class AdminEditCoursePage extends React.Component {
                         <p className="msg-error">{this.state.validationMsg.name}</p>
                         <br></br>
                         <label htmlFor="image"><b>Ảnh khoá học:</b></label>
-                        <input onChange={(event) => this.selectFile(event)} className="input-field" type="file"
+                        <input onChange={(event) => this.selectFile(event)} className="input-field" type="file"  accept=".png, .jpg , .jpeg , .jfif , .pjpeg , .pjp"
                          placeholder="Ảnh khoá học" name="image" id="image" />
                         <p className="msg-error">{this.state.validationMsg.image}</p>
                         {this.state.previewImage && (

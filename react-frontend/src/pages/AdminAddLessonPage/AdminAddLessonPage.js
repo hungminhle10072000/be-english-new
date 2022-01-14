@@ -1,20 +1,12 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './AdminAddLessonPage.css'
-import { Link } from 'react-router-dom'
 import { BiSave, BiReset, BiRefresh } from "react-icons/bi";
 import { connect } from 'react-redux';
 import validator from 'validator';
 import allActions from '../../actions';
-import Dropzone from '../../components/DropZone'
-import LessonService from '../../services/LessonService';
-import { usePromiseTracker } from "react-promise-tracker";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
-import {Oval} from "react-loader-spinner";
 import { Button,Nav,NavItem,NavLink,TabContent,TabPane,Row,Col,Card,CardTitle,CardText } from 'reactstrap';
-
-
 
 class AdminAddLessonPage extends React.Component {
     constructor(props) {
@@ -236,7 +228,7 @@ class AdminAddLessonPage extends React.Component {
                             <Nav tabs>
                                 <NavItem>
                                     <NavLink
-                                        className="active"
+                                        className={this.state.activeTab === '2' && 'active'}
                                         onClick={()=> this.toggle('1')}
                                     >
                                         Gán Link
@@ -244,7 +236,7 @@ class AdminAddLessonPage extends React.Component {
                                 </NavItem>
                                 <NavItem>
                                     <NavLink
-                                        className=""
+                                        className={this.state.activeTab === '1' && 'active'}
                                         onClick={() => this.toggle('2')}
                                     >
                                         Tải lên
@@ -267,7 +259,7 @@ class AdminAddLessonPage extends React.Component {
                                     <Row>
                                         <Col sm="12">
                                             <Card body style={{display:'inline-block', width:'100%'}}>
-                                            <input className="videoFile"  key={this.state.theInputKey || '' } type="file"  onChange = {(event)=>this.isChangedVideo(event)} style={{ display: 'inline-block'}} />
+                                            <input className="videoFile"  key={this.state.theInputKey || '' } type="file"  accept=".mp4,.flv" onChange = {(event)=>this.isChangedVideo(event)} style={{ display: 'inline-block'}} />
                                              {this.state.lesson.videoFile && <button style={{ display: 'inline-block', fontSize:'25px', fontStyle:'bold', color:'red', backgroundColor:'Transparent', border:'none'}}  onClick={()=> this.resetVideoFile()}>x</button> }
                                             </Card>
                                         </Col>
@@ -277,9 +269,7 @@ class AdminAddLessonPage extends React.Component {
                             <p className="msg-error">{this.state.validationMsg.video}</p>
                         </div>
 
-
                         <div className="div-button-account">
-                            {/* <Link to="/admin/lesson"> */}
                                 <button onClick={(event) => this.handleConfirmationBox(event)}
                                     type="button" disabled={statusCheck} className="btn btn-success btn-save-account">
                                     {statusCheck && "Đang xử lý "}
@@ -287,7 +277,6 @@ class AdminAddLessonPage extends React.Component {
                                         {!statusCheck && "Lưu "}
                                         {!statusCheck && <BiSave />}
                                         </button>
-                            {/* </Link> */}
                             <button onClick = {(event) => this.resetForm(event)}
                                 type="reset" className="btn btn-warning" >Làm mới <BiReset /></button>
                         </div>

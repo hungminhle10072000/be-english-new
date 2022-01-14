@@ -222,7 +222,7 @@ class AdminEditLessonPage extends React.Component {
                             <Nav tabs>
                                 <NavItem>
                                     <NavLink
-                                        className="active"
+                                         className={this.state.activeTab === '2' && 'active'}
                                         onClick={()=> this.toggle('1')}
                                     >
                                         Gán Link
@@ -230,7 +230,7 @@ class AdminEditLessonPage extends React.Component {
                                 </NavItem>
                                 <NavItem>
                                     <NavLink
-                                        className=""
+                                         className={this.state.activeTab === '1' && 'active'}
                                         onClick={() => this.toggle('2')}
                                     >
                                         Tải lên
