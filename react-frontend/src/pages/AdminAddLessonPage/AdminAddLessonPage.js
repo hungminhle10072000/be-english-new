@@ -113,7 +113,6 @@ class AdminAddLessonPage extends React.Component {
         this.handleConfirmationBox();
         this.props.onOpenButtonLoading();
         await this.props.onAddLesson(lessonDto,this.state.lesson.videoFile)
-        window.history.back();
     }
     validateAll = () => {
         const msg = {}

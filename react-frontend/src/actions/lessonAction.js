@@ -28,7 +28,13 @@ const actAddLessonRequest = (lesson,video) => {
             LessonService.addLesson(lesson,video).then((res)=> {
                 dispatch(actAddLesson(res.data))
                 dispatch(statusButtonLoadingAction.closeButtonLoading())
-            })
+                window.history.back();
+            }).catch(
+                error => { 
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger")) 
+                }
+            )
         )
     }
 }
@@ -105,7 +111,11 @@ const actUpdateLessonRequest = (lesson,video) => {
             dispatch(statusButtonLoadingAction.closeButtonLoading())
             window.history.back();
         }).catch(
-            error => dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger"))
+            
+            error => { 
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại!!!","danger")) 
+            }
         )
     }
 }
