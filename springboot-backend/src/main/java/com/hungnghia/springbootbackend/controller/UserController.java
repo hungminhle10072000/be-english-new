@@ -103,7 +103,7 @@ public class UserController {
             /*Send mail password to user*/
             MailDto mailDto = new MailDto();
             mailDto.setMailFrom("websitehoctienganhtructuye@gmail.com");
-            mailDto.setMailTo("hungduong.mess32@gmail.com");
+            mailDto.setMailTo(missPassWordDto.getEmail());
             mailDto.setMailSubject("Mật khẩu mới !!!!");
             mailDto.setMailContent("Đây là mật khẩu mới của bạn : " + newPass + " !!!! Hãy đăng nhập và đổi lại mật khẩu.");
             mailService.sendEmail(mailDto);
