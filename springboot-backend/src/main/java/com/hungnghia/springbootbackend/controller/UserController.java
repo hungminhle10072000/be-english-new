@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
@@ -102,7 +102,7 @@ public class UserController {
 
             /*Send mail password to user*/
             MailDto mailDto = new MailDto();
-            mailDto.setMailFrom("websitehoctienganhtructuye@gmail.com");
+            mailDto.setMailFrom("hungduong.mess2000@gmail.com");
             mailDto.setMailTo(missPassWordDto.getEmail());
             mailDto.setMailSubject("Mật khẩu mới !!!!");
             mailDto.setMailContent("Đây là mật khẩu mới của bạn : " + newPass + " !!!! Hãy đăng nhập và đổi lại mật khẩu.");

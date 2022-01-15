@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.xml.stream.events.Comment;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/comment")
 public class CommentController {
