@@ -67,7 +67,7 @@ class UserTopicVocabulary extends Component {
                         </Form>
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row row-topic'>
                     {this.showItemTopicVoca(resultSearch)}           
                 </div>
             </div>

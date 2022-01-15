@@ -21,7 +21,7 @@ class userItemTopicVocabulary extends Component {
 
     render() {
         return (
-            <div className='col mx-1 mb-2'>
+            <div className='col mb-2 item-topic'>
                 <div onClick={() => this.handleDetailTopic()} className="card card-topic h-100 card-item-vocabulary" style={{width: '197px', height: '169px'}}>
                     <img className="card-img-top img-user-topic" src={this.props.image} alt="Ảnh mô tả chủ đề topic"/>
                     <div className="card-body">
