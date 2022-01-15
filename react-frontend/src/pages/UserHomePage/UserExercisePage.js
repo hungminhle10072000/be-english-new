@@ -54,10 +54,6 @@ function UserExercisePage() {
           setStep(3)
         }
       })
-
-    
-
-    
     if (step ===3) {
       clearInterval(interval)
       newListAnswer = listAnswer.map(x => {x.userId=userCurrent.id; return x} )
