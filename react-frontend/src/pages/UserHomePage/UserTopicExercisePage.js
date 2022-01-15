@@ -17,7 +17,7 @@ function UserTopicExercisePage() {
     },[userCurrent])
 
     return(
-        <div>
+        <div className='row mt-3'>
             {userCurrent.id === -1 ?
             <div style={{textAlign:'center', marginTop:'150px'}}>
                 <h2> Vui lòng đăng nhập để sử dụng chức năng này.</h2>

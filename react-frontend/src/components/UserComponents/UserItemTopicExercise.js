@@ -3,11 +3,11 @@ import {Link} from "react-router-dom"
 import {Card, CardImg,CardBody,CardTitle,CardSubtitle,CardText,Button,CardGroup} from 'reactstrap';
 
 function UserItemTopicExercise({id,img, name,description, status}) {
-    return(
-        
-        <div style={{width:300+'px' ,display: 'inline-block', margin:10+'px'}}>
+    return(        
+        // <div style={{width:300+'px' ,display: 'inline-block', margin:10+'px'}}>
+        <div className='col-md-3 mb-2'>
             <Link to={"/user/exercise/"+id} style={{ textDecoration: 'none' }}>     
-            <Card >
+            <Card style={{height: '100%'}}>
                 <CardImg style={{width:300+'px', height:200+'px'}}
                     alt="Card image cap"
                     src={img}
