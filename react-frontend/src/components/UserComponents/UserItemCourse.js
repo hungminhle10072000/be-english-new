@@ -26,8 +26,7 @@ class UserItemCourse extends Component {
                         <Card.Body>
                             <Card.Title >{this.state.course.name}</Card.Title>
                             <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
+                                {this.state.course.introduce}
                             </Card.Text>
                             {/* <Button variant="primary">Go somewhere</Button> */}
                         </Card.Body>
