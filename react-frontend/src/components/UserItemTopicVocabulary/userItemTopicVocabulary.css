@@ -30,3 +30,8 @@ img.card-img-top.img-user-topic {
     z-index: 1;
     transition: all 500ms ease-in-out;
 }
+
+.col.mb-2.item-topic {
+    margin: 4px;
+    flex: 0 1 calc(20% - 8px);
+}

@@ -17,3 +17,9 @@ input.userSearchTopic.form-control {
 .text-title-topic {
     margin-left: 40%;
 }
+
+.row.row-topic {
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
+}
