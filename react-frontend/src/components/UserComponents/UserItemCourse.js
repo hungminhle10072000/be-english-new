@@ -21,13 +21,12 @@ class UserItemCourse extends Component {
         return (
             <div className='col-3 mb-2'>
                  <Link to={`/user/learning/${this.props.course.id}`} style={{ textDecoration: 'none' }}>
-                    <Card style={{borderRadius: '2rem'}}>
+                    <Card style={{borderRadius: '2rem', height: '100%'}}>
                         <Card.Img style={{ height: '10rem' }} variant="top" src={this.state.course.image} />
                         <Card.Body>
                             <Card.Title >{this.state.course.name}</Card.Title>
                             <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
+                                {this.state.course.introduce}
                             </Card.Text>
                             {/* <Button variant="primary">Go somewhere</Button> */}
                         </Card.Body>
