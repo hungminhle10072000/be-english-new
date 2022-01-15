@@ -4,7 +4,6 @@ import VideoContainer from '../../components/UserComponents/VideoContainer';
 import allActions from '../../actions';
 import { connect } from 'react-redux';
 import Comments from '../../components/Comment/Comments'
-import { Link } from 'react-router-dom'
 import './UserLearningPage.css'
 class UserLearningPage extends Component {
     constructor(props){
@@ -35,8 +34,6 @@ class UserLearningPage extends Component {
         var course = this.props.course;
        
         if (prevProps.course.chapters.length !== this.props.course.chapters.length) {
-            console.log('Prev',prevProps.course.chapters )
-            console.log('Cur',this.props.course.chapters )
             if (course.chapters.length > 0 && course.chapters[0].lessons.length >0) {
                 this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id,course.chapters[0].lessons[0].name)
             }
@@ -69,8 +66,9 @@ class UserLearningPage extends Component {
         }
    
         if (prevProps.course.id !== this.props.course.id) {
-            console.log("CCha")
-            this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id,course.chapters[0].lessons[0].name)
+            if (course.chapters.length > 0 && course.chapters[0].lessons.length >0) {
+                this.changedVideo(course.chapters[0].lessons[0].video,course.chapters[0].lessons[0].id,course.chapters[0].lessons[0].name)
+            }
         }
     }
     componentDidMount() {
@@ -101,7 +99,6 @@ class UserLearningPage extends Component {
     }
     
     changedVideo = (url,lessonId,name) => {
-        console.log("Changedvideo Id ",lessonId)
         this.props.onGetCommentByLessonId(lessonId)
         this.setState({linkVideo:url,
             learningLessonId:lessonId,

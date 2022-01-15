@@ -30,12 +30,15 @@ class AdminCommentPage extends Component {
     }
 
     showItemsComment(comments) {
-        console.log("Comments: ",comments)
         var result = null;
         if (comments!= undefined && comments.length > 0) {
-            result = comments.map((comment,key) => <AdminItemComment comment={comment} key={key} handleOpen={this.handleOpen}/>) 
+            result = comments.sort(
+                (a, b) =>
+                  new Date(b.time).getTime() - new Date(a.time).getTime()
+              ).map((comment,key) => <AdminItemComment comment={comment} key={key} handleOpen={this.handleOpen}/>) 
         }
-        return result;
+      
+        return result
     }
 
     componentDidMount() {
@@ -59,8 +62,6 @@ class AdminCommentPage extends Component {
             isShow:true,
             parentid:parentid
         })
-       
-        console.log("F", this.state.isShow)
     }
     handleSubmit = () => {
         if (this.state.text.trim() ==='') {
@@ -87,6 +88,9 @@ class AdminCommentPage extends Component {
             } else {
                 commentDto.type = commentParent.type
             }
+            if (commentParent.parentId !== null) {
+                commentDto.parentId = commentParent.parentId;
+            }
             this.setState({
                 isShow:false,
                 msgErr:''
@@ -104,7 +108,6 @@ class AdminCommentPage extends Component {
         var keyword = this.state.term;
         var comment = this.props.commentReducer;
         var resultSearch = []
-        console.log("COMMENT: ",comment)
         comment.forEach(x => {
             if (x.id.toString().indexOf(keyword)!=-1 || x.content.indexOf(keyword)!=-1 ||
              x.userDto.fullname.indexOf(keyword)!= -1) {
@@ -121,7 +124,6 @@ class AdminCommentPage extends Component {
                                 <h2>Quản lí bình luận</h2>  
                             </div>
                             
-                        
                             <input onChange={(event) => this.callback(event.target.value)}
                             type="text" name="search" placeholder="Tìm kiếm ..." className="searchAccount" />
                         </div>

@@ -1,7 +1,6 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './AdminAddCoursePage.css'
-import { Link } from 'react-router-dom'
 import { BiSave, BiReset,BiRefresh } from "react-icons/bi";
 import courseAction from "../../actions/courseAction"
 import { connect } from 'react-redux';
@@ -64,7 +63,6 @@ class AdminAddCoursePage extends React.Component {
             previewImage: undefined,
             confirmDialog: false,
         }) 
-        console.log("Course", this.state.course)
     }
     addCourse = (event) => {
         event.preventDefault();
@@ -78,9 +76,6 @@ class AdminAddCoursePage extends React.Component {
     }
     validateAll = () => {
         const msg = {}
-
-        console.log(this.state.course)
-        // console.log(this.state.introduce)
         if (validator.isEmpty(this.state.course.name)) {
             msg.name = "Yêu cầu nhập tên khoá học !"
         }
@@ -98,7 +93,6 @@ class AdminAddCoursePage extends React.Component {
     }
     handleConfirmationBox = (event) => {
         const isValid = this.validateAll()
-        console.log("is Valid: ", isValid)
         if (!isValid) return
         else {
             if (!this.state.confirmDialog) {
@@ -155,7 +149,7 @@ class AdminAddCoursePage extends React.Component {
                         <p className="msg-error">{this.state.validationMsg.name}</p>
                         <br></br>
                         <label htmlFor="image"><b>Ảnh khoá học:</b></label>
-                        <input onChange={(event) => this.selectFile(event)} className="input-field" type="file"
+                        <input onChange={(event) => this.selectFile(event)} className="input-field" type="file" accept=".png, .jpg , .jpeg , .jfif , .pjpeg , .pjp"
                         value={this.state.course.image} placeholder="Ảnh khoá học" name="image" id="iamge" />
                         <p className="msg-error">{this.state.validationMsg.image}</p>
                         {this.state.previewImage && (

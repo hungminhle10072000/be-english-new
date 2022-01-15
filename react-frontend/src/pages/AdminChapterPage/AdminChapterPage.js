@@ -16,7 +16,6 @@ class AdminChapterPage extends Component {
     }
 
     showItemsChapter(chapters) {
-        console.log("CHapters, ",chapters)
         var result = null;
         if (chapters!= undefined && chapters.length > 0) {
             result = chapters.sort((a,b) => a.numPriority - b.numPriority).map((chapter,key) => <AdminItemChapter chapter={chapter} key={key}/>) 
@@ -60,7 +59,7 @@ class AdminChapterPage extends Component {
                             <div className="jumbotron manager-account">
                                 <h2>Quản lí chương học</h2>  
                             </div>
-                            {this.state.id != -1 &&
+                            {this.props.match.params.id != -1 &&
                             <Link to={`/admin/chapter/add/${this.state.id}`} style={{textDecoration:"none"}}>
                             <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
                             </Link>
