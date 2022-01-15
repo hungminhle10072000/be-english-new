@@ -21,7 +21,7 @@ class UserItemCourse extends Component {
         return (
             <div className='col-3 mb-2'>
                  <Link to={`/user/learning/${this.props.course.id}`} style={{ textDecoration: 'none' }}>
-                    <Card style={{borderRadius: '2rem'}}>
+                    <Card style={{borderRadius: '2rem', height: '100%'}}>
                         <Card.Img style={{ height: '10rem' }} variant="top" src={this.state.course.image} />
                         <Card.Body>
                             <Card.Title >{this.state.course.name}</Card.Title>
