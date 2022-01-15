@@ -23,12 +23,10 @@ class AdminLessonPage extends Component {
           open: !prevState.open,
           linkVideo:video
         }));
-        console.log(this.state.open)
       };
 
 
     showItemsLesson(lessons) {
-        console.log(lessons)
         var result = null;
         if (lessons!= undefined && lessons.length > 0) {
             result = lessons.map((lesson,key) => <AdminItemLesson lesson={lesson} key={key} onOpenModal={this.onOpenModal} linkVideo={lesson.video}/>) 
@@ -99,7 +97,7 @@ class AdminLessonPage extends Component {
                             <div className="jumbotron manager-account">
                                 <h2>Quản lí bài học</h2>  
                             </div>
-                            {this.state.id != -1 &&
+                            {this.props.match.params.id != -1 &&
                             <Link to={`/admin/lesson/add/${this.state.id}`} style={{textDecoration:"none"}}>
                                 <button type="button" className="btn btn-success btn-add-account">Thêm mới<BsFillPersonPlusFill className="iconAddAccount"/></button> 
                             </Link>
