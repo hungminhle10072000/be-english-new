@@ -6,6 +6,7 @@ import {
 } from "react-router-dom"
 import {withRouter} from 'react-router-dom'
 import PropTypes from "prop-types"
+import { Spring, animated } from 'react-spring'
 
 class userItemTopicVocabulary extends Component {
 
@@ -21,17 +22,23 @@ class userItemTopicVocabulary extends Component {
 
     render() {
         return (
-            <div className='col mb-2 item-topic'>
-                <div onClick={() => this.handleDetailTopic()} className="card card-topic h-100 card-item-vocabulary" style={{width: '197px', height: '169px'}}>
-                    <img className="card-img-top img-user-topic" src={this.props.image} alt="Ảnh mô tả chủ đề topic"/>
-                    <div className="card-body">
-                        <h6 className="card-title">{this.props.name}</h6>
-                        {/* <Link className='btn btn-primary' to={"/user/topic-vocabulary/" + this.props.id + "/" + convertURL(this.props.name)}>
-                            Chi tiết
-                        </Link>                */}
-                    </div>
-                </div>
-            </div>
+            <Spring
+                from={{opacity: 0, marginTop: -200}}
+                to={{opacity: 1, marginTop: 0}}
+                config= {{delay: 300, duration: 1000}}
+            >
+                {props => 
+                    <animated.div style={props} className='col mb-2 item-topic'>
+                        {/* <div className='col mb-2 item-topic'> */}
+                            <div onClick={() => this.handleDetailTopic()} className="card card-topic h-100 card-item-vocabulary" style={{width: '197px', height: '169px'}}>
+                                <img className="card-img-top img-user-topic" src={this.props.image} alt="Ảnh mô tả chủ đề topic"/>
+                                <div className="card-body">
+                                    <h6 className="card-title">{this.props.name}</h6>
+                                </div>
+                            </div>
+                        {/* </div> */}
+                    </animated.div>}
+            </Spring>
         )
     }
 }

@@ -9,6 +9,7 @@ import {BiUserCircle} from 'react-icons/bi'
 import {HiOutlineLogout} from 'react-icons/hi'
 import {FaUserEdit} from 'react-icons/fa'
 import {MdOndemandVideo} from 'react-icons/md'
+import { Spring, animated } from 'react-spring'
 
 class NavigationBar extends Component {
 
@@ -49,15 +50,23 @@ class NavigationBar extends Component {
         return (
             <Navbar expand="lg" className="navBar-user-home">
                 <div className="div-brand-user">
-                    <Navbar.Brand href="/" className="navBrand-user-home">
-                        <img
-                            src="/logo.png"
-                            width="80"
-                            height="80"
-                            className="d-inline-block align-top"
-                            alt="Logo website"
-                        />
-                    </Navbar.Brand>
+                    <Spring
+                        from={{rotateZ: 0 }}
+                        to={{rotateZ: 360}}
+                    >
+                        {props =>     
+                            <animated.div style={props}>
+                                <Navbar.Brand href="/" className="navBrand-user-home">
+                                    <img
+                                        src="/logo.png"
+                                        width="80"
+                                        height="80"
+                                        className="d-inline-block align-top"
+                                        alt="Logo website"
+                                    />
+                                </Navbar.Brand>
+                            </animated.div>}
+                    </Spring>
                     {' '}
                     <span className="text-brand">Cùng nhau học tiếng anh</span>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -72,7 +81,7 @@ class NavigationBar extends Component {
                 <div>
                     <Navbar.Collapse id="basic-navbar-nav">
                         {checkUserLogin ?   
-                        <Nav className="ml-auto" className="div-setting-user">
+                        <Nav className="div-setting-user ml-auto">
                             <Nav.Item>
                                 <img className='icon-user-login' src={this.props.itemUserLogin.avartar}/>
                                 {/* <BiUserCircle color='black' className='icon-user-login'/> */}
