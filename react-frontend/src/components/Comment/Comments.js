@@ -6,8 +6,9 @@ import CommentService from '../../services/CommentService'
 const Comments = ({currentUserId,comments,learningId,type="1"}) => {
     const [backendComments, setBackendComments] = useState(comments)
     const [replyingComment, setReplyingComment] = useState(null)
+    const [activeComment, setActiveComment] = useState(null)
     const rootComments = backendComments.filter((backendComment) => backendComment.parentId===null)
-
+    
     useEffect(()=> {
         setBackendComments(comments)
     }, [comments])
@@ -43,8 +44,6 @@ const Comments = ({currentUserId,comments,learningId,type="1"}) => {
             comment.grammarId =learningId;
         }
 
-        console.log("COMMENT: ",comment)
-        
         CommentService.addComment(comment).then(
            
             (comm) => {
@@ -54,19 +53,56 @@ const Comments = ({currentUserId,comments,learningId,type="1"}) => {
         setReplyingComment(null)
     }
 
+    const updateComment = (text,commentId) => {
+
+        if (currentUserId === -1) {
+            alert('Vui lòng đăng nhập để cập nhập comment!')
+            return;
+        }
+        var comment = {
+            id: commentId,
+            content: text,
+        }    
+        CommentService.updateComment(comment).then(
+            (comm) => {
+                setBackendComments([comm.data,...backendComments]);
+        })
+        setActiveComment(null);
+    }
+
+    const deleteComment = (commentId) => {
+        if (window.confirm("Bạn có chắc chắn muốn xoá bình luận!")) {
+            CommentService.deleteComment(commentId).then(
+                (comm) => {
+                    let newLstComment = [];
+                    newLstComment =backendComments.filter((x)=> x.id != comm.data.id)
+                    setBackendComments(newLstComment)
+                }
+           )
+        }
+        
+    }
+
     return (
         
         <div className="comments">
             <h3 className="comments-title">Để lại bình luận ở bên dưới</h3>
-            <CommentForm handleSubmit={addComment}/>
+            <CommentForm submitLabel="Bình luận" handleSubmit={addComment}/>
             <br/>
             <div className="comment-container">
                 {
                 rootComments.map((rootComment) =>
-                <Comment key={rootComment.id} comment= {rootComment} 
-                replies={getReplies(rootComment.id)} currentUserId={currentUserId}
-                replyingComment={replyingComment} setReplyingComment={setReplyingComment}
-                addComment={addComment}/>)
+                <Comment key={rootComment.id}
+                comment= {rootComment} 
+                replies={getReplies(rootComment.id)}
+                currentUserId={currentUserId}
+                activeComment = {activeComment}
+                setActiveComment = {setActiveComment}
+                replyingComment={replyingComment} 
+                setReplyingComment={setReplyingComment}
+                addComment={addComment}
+                updateComment={updateComment}
+                deleteComment={deleteComment}/>)
                 }
             </div>
         </div>

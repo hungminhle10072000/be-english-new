@@ -48,6 +48,11 @@ public class CommentController {
         CommentDto commentDto = commentService.addComment(comment);
         return commentDto;
     }
+    @PutMapping("/update")
+    public CommentDto updateComment(@RequestBody CommentDto comment) {
+        CommentDto commentDto = commentService.updateComment(comment);
+        return commentDto;
+    }
     @DeleteMapping("/delete/{id}")
     public CommentDto deleteComment(@PathVariable Long id) {
         return commentService.deleteComment(id);

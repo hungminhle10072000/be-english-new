@@ -38,6 +38,15 @@ public class CommentService {
         CommentEntity result = commentRepository.save(commentEntity);
         return commentConverter.toDto(result);
     }
+
+    public CommentDto updateComment(CommentDto commentDto) {
+        CommentEntity oldComment = commentRepository.getById(commentDto.getId());
+        oldComment.setContent(commentDto.getContent());
+        /*CommentEntity commentEntity = commentConverter.toEntity(commentDto);
+        commentEntity.setTime(new Date());*/
+        CommentEntity result = commentRepository.save(oldComment);
+        return commentConverter.toDto(result);
+    }
     public List<CommentDto> getAllComment() {
         List<CommentEntity> commentEntities = commentRepository.findAll();
         List<CommentDto> commentDtos = commentConverter.toListDto(commentEntities);

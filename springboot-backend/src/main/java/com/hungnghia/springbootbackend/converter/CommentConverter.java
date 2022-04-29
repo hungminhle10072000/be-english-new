@@ -88,7 +88,7 @@ public class CommentConverter {
             commentDto.setLessonDto(lessonDto);
         }
         if (commentEntity.getUserEntity() != null) {
-            commentDto.setUserId(commentEntity.getId());
+            commentDto.setUserId(commentEntity.getUserEntity().getId());
 
         }
         if (commentEntity.getVocabularyTopicEntity() != null) {
