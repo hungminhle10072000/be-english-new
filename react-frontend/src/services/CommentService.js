@@ -35,7 +35,6 @@ class CommentService {
 
 
     addComment(comment) {
-        console.log("AddCommentService",comment)
         return axios.post(COMMENT_API_BASE_URL+'/add',comment,{
             headers: {
                 ...headers,
@@ -46,6 +45,14 @@ class CommentService {
     deleteComment(id) {
         return axios.delete(COMMENT_API_BASE_URL+'/delete/'+id,{
             headers: {...headers, ...authHeader()},
+        })
+    }
+    updateComment(comment) {
+        return axios.put(COMMENT_API_BASE_URL+'/update',comment,{
+            headers: {
+                ...headers,
+                ...authHeader()
+            }
         })
     }
 
