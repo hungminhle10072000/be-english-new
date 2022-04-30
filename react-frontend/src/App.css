@@ -8,3 +8,36 @@
   justify-content: flex-start;
 }
 
+
+/* custom table */
+.table-custom {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-custom td, .table-custom th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table-custom tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table-custom tr:hover {
+  background-color: #ddd;
+}
+
+.table-custom th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #0491aa;
+  color: white;
+}
+
+/* css td table */
+.css-td-table {
+  text-align: center;
+}

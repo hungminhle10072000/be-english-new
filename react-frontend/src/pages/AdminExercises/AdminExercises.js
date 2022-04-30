@@ -107,7 +107,7 @@ class AdminExercises extends Component {
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <table className="table table-striped table-inverse table-hover">
+                        <table className="table-bordered text-sm-center table-custom" style={{marginTop: '1rem'}}>
                             <thead className="thead-inverse">
                                 <tr>
                                     <th>ID</th>

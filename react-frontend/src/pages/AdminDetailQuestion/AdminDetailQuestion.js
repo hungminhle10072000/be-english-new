@@ -86,7 +86,7 @@ class AdminDetailQuestion extends Component {
                 </div>
                 <div className="row" style={{marginTop: '30px'}}>
                     <div className="col-12">
-                        <table className="table table-striped table-inverse table-hover">
+                        <table className="table-bordered text-sm-center table-custom">
                             <thead className="thead-inverse">
                                 <tr>
                                     <th>STT</th>

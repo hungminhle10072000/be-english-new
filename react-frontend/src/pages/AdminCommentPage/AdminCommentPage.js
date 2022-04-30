@@ -132,7 +132,7 @@ class AdminCommentPage extends Component {
                 <div className="row">
                         <div className="col-12">
                             <div className="table-responsive">
-                                <table className="table table-bordered text-sm-center" style={{marginTop: 10}}>
+                                <table className="table-bordered text-sm-center table-custom" style={{marginTop: 10}}>
                                     <thead>
                                         <tr>
                                             <th scope="col">ID</th>

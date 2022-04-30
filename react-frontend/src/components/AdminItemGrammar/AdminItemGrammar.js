@@ -40,9 +40,9 @@ class AdminItemGrammar extends Component {
         return (
             <Fragment>
                 <tr>
-                    <td>{this.props.id}</td>
-                    <td>{this.props.name}</td>
-                    <td>
+                    <td className="align-middle css-td-table">{this.props.id}</td>
+                    <td className="align-middle css-td-table">{this.props.name}</td>
+                    <td className="align-middle css-td-table">
                         <Link to="#" onClick={() => this.onEdit()}>
                             <button type="button" className="btn btn-warning btn-edit-grammar">Sửa</button>
                         </Link>

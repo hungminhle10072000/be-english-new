@@ -41,10 +41,12 @@ class AdminItemVocabularyTopic extends Component {
         return (
             <Fragment>
                 <tr>
-                    <td>{this.props.id}</td>
-                    <td>{this.props.name}</td>
-                    <td><img style={{width:100, height:100}} src={this.props.image} alt="Ảnh minh họa chủ đề"/></td>
-                    <td>
+                    <td className="align-middle css-td-table">{this.props.id}</td>
+                    <td className="align-middle css-td-table">{this.props.name}</td>
+                    <td className="align-middle css-td-table">
+                        <img style={{width:100, height:100}} src={this.props.image} alt="Ảnh minh họa chủ đề"/>
+                    </td>
+                    <td className="align-middle css-td-table">
                         <Link to="#" onClick={() => this.onEdit()}>
                             <button type="button" className="btn btn-warning btn-edit-voca-topic">Sửa</button>
                         </Link>

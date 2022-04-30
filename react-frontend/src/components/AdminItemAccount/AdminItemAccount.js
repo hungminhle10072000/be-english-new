@@ -41,17 +41,17 @@ class AdminItemAccount extends Component {
         return (
             <Fragment>
                 <tr>
-                    <td>{this.props.id}</td>
-                    <td>{this.props.fullname}</td>
-                    <td>{this.props.username}</td>
-                    <td>{this.props.email}</td>
-                    <td>{this.props.gender}</td>
-                    <td>{this.props.address}</td>
-                    <td>{this.props.phonenumber}</td>
-                    <td>{this.props.birthday}</td>
-                    <td>{this.props.role}</td>
-                    <td><img style={{width:100, height:100}} src={this.props.avartar} alt="Ảnh đại diện"/></td>
-                    <td>
+                    <td className="align-middle css-td-table">{this.props.id}</td>
+                    <td className="align-middle css-td-table">{this.props.fullname}</td>
+                    <td className="align-middle css-td-table">{this.props.username}</td>
+                    <td className="align-middle css-td-table">{this.props.email}</td>
+                    <td className="align-middle css-td-table">{this.props.gender}</td>
+                    <td className="align-middle css-td-table">{this.props.address}</td>
+                    <td className="align-middle css-td-table">{this.props.phonenumber}</td>
+                    <td className="align-middle css-td-table">{this.props.birthday}</td>
+                    <td className="align-middle css-td-table">{this.props.role}</td>
+                    <td className="align-middle css-td-table"><img style={{width:100, height:100}} src={this.props.avartar} alt="Ảnh đại diện"/></td>
+                    <td className="align-middle css-td-table">
                         {check ? 
                             <button disabled={check} type="button" className="btn btn-warning btn-edit-account mb-1">Sửa</button> 
                             : <Link to={`/admin/account/edit/${this.props.id}`}>

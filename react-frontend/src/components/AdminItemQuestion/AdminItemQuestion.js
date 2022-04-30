@@ -40,8 +40,8 @@ class AdminItemQuestion extends Component {
         return (
             <Fragment>
                 <tr>
-                    <td>{this.props.ordinal_number}</td>
-                    <td>
+                    <td className="align-middle css-td-table">{this.props.ordinal_number}</td>
+                    <td style={{textAlign: 'left'}}>
                         {this.props.paragraph} {checkPara ? <br /> : ""}
                         Câu hỏi : {this.props.content_question} <br />
                         A. {this.props.option_1} <br />
@@ -50,7 +50,7 @@ class AdminItemQuestion extends Component {
                         D. {this.props.option_4} <br />
                         Đáp án: {this.props.correct_answer}
                     </td>
-                    <td>
+                    <td className="align-middle css-td-table">
                         <Link to={`/admin/question/edit/${this.props.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-voca-topic">Sửa</button>
                         </Link>
