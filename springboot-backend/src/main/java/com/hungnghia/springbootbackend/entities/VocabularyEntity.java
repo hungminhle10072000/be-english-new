@@ -37,6 +37,9 @@ public class VocabularyEntity {
     @Column(name = "file_audio")
     private String file_audio;
 
+    @Column(name = "check_learn")
+    private boolean check_learn;
+
     @ManyToOne
     @JoinColumn(name = "vocabulary_topic_id")
     private VocabularyTopicEntity vocabularyTopicEntity;

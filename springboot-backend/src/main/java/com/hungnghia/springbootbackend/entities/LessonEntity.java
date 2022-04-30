@@ -39,4 +39,17 @@ public class LessonEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lessonEntity", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<QuestionEntity> questionEntityList;
+
+    @OneToOne
+    @JoinColumn(name = "grammar_id")
+    private GrammarEntity grammarEntity;
+
+    @OneToOne
+    @JoinColumn(name = "vocabulary_topic_id")
+    private VocabularyTopicEntity vocabularyTopicEntity;
+
+    @OneToOne
+    @JoinColumn(name = "exercise_id")
+    private ExerciseEntity exerciseEntity;
+
 }

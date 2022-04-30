@@ -42,7 +42,7 @@ class AdminNavBar extends Component {
             <>
                 <IconContext.Provider value={{ color: '#fff' }}>
                     <div className='navbar'>
-                        <h2>Quản lí website</h2>
+                        <h2 style={{color: 'white'}}>Quản lí website</h2>
                         <Link to='#' className={this.state.sidebar ? 'menu-bars-close' : 'menu-bars'}>
                             <FaIcons.FaBars onClick={this.showSidebar} />
                         </Link>

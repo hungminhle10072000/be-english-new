@@ -7,7 +7,7 @@ public class AddExerciseDto {
 
     private String name;
 
-    private String type;
+    private int type;
 
     private String description;
 

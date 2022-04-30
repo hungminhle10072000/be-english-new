@@ -23,7 +23,7 @@ public class ExerciseEntity {
     private String image;
 
     @Column(name = "type")
-    private String type;
+    private int type;
 
     @Column(name = "description")
     private String description;

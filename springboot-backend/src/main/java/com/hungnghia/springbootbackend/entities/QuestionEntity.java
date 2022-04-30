@@ -13,7 +13,7 @@ import java.util.List;
 public class QuestionEntity {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "correct_answer")
@@ -44,7 +44,10 @@ public class QuestionEntity {
     private int ordinal_number;
 
     @Column(name = "type")
-    private String type;
+    private int type;
+
+    @Column(name = "image_description")
+    private String image_description;
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")

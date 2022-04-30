@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name= "User")
+@Table(name = "User")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class UserEntity {
     @Column(name = "fullname")
     private String fullname;
 
-    @Column(name= "username")
+    @Column(name = "username")
     private String username;
 
     @Column(name = "password")
@@ -31,7 +31,7 @@ public class UserEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name= "gender")
+    @Column(name = "gender")
     private String gender;
 
     @Column(name = "address")
@@ -46,7 +46,7 @@ public class UserEntity {
     @Column(name = "avartar")
     private String avartar;
 
-    @Column(name= "role")
+    @Column(name = "role")
     private String role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
@@ -64,4 +64,7 @@ public class UserEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<CommentEntity> commentEntityList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<StatisticalEntity> statisticalEntityList;
 }
