@@ -2,12 +2,19 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import CommentService from '../../services/CommentService'
+import "antd/dist/antd.css";
 
 const Comments = ({currentUserId,comments,learningId,type="1"}) => {
     const [backendComments, setBackendComments] = useState(comments)
     const [replyingComment, setReplyingComment] = useState(null)
     const [activeComment, setActiveComment] = useState(null)
-    const rootComments = backendComments.filter((backendComment) => backendComment.parentId===null)
+    const rootComments = backendComments
+                            .filter((backendComment) => backendComment.parentId===null)
+                            .sort(
+                                (a, b) =>
+                                - new Date(a.time).getTime() - new Date(b.time).getTime()
+                              );
+
     
     useEffect(()=> {
         setBackendComments(comments)
@@ -18,7 +25,7 @@ const Comments = ({currentUserId,comments,learningId,type="1"}) => {
       .filter((backendComment) => backendComment.parentId === commentId)
       .sort(
         (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        new Date(a.time).getTime() - new Date(b.time).getTime()
       );
 
     const addComment = (body,parentId) => {
@@ -45,11 +52,18 @@ const Comments = ({currentUserId,comments,learningId,type="1"}) => {
         }
 
         CommentService.addComment(comment).then(
-           
             (comm) => {
-                setBackendComments([comm.data,...backendComments]);
-               
+                if (comm.status === 200 && comm.data.content.trim() === body.trim() ) {
+                    setBackendComments([...backendComments,comm.data])
+                } else {
+                    alert('Thêm bình luận thất bại')
+                }
+        }).catch(() => {
+            setActiveComment(null)
+            alert('Thêm bình luận thất bại')
         })
+        
+        setActiveComment(null)
         setReplyingComment(null)
     }
 
@@ -65,22 +79,27 @@ const Comments = ({currentUserId,comments,learningId,type="1"}) => {
         }    
         CommentService.updateComment(comment).then(
             (comm) => {
-                setBackendComments([comm.data,...backendComments]);
+                let index = backendComments.findIndex(x => x.id === commentId)
+                let lstNewComment = [...backendComments];
+                if (index !== -1 && lstNewComment.length >= index) {
+                    lstNewComment[index] = comm.data;
+                }
+                setBackendComments(lstNewComment);
+        }).catch(() => {
+            setActiveComment(null)
+            alert('Cập nhập bình luận thất bại')
         })
         setActiveComment(null);
     }
 
     const deleteComment = (commentId) => {
-        if (window.confirm("Bạn có chắc chắn muốn xoá bình luận!")) {
-            CommentService.deleteComment(commentId).then(
-                (comm) => {
-                    let newLstComment = [];
-                    newLstComment =backendComments.filter((x)=> x.id != comm.data.id)
-                    setBackendComments(newLstComment)
-                }
-           )
-        }
-        
+        CommentService.deleteComment(commentId).then(
+            (comm) => {
+                let newLstComment = [];
+                newLstComment =backendComments.filter((x)=> x.id != comm.data.id)
+                setBackendComments(newLstComment)
+            }
+        ).catch(()=>alert('Xoá bình luận thất bại'))
     }
 
     return (

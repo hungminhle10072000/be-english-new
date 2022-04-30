@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
 import moment from 'moment'
-import './Comment.css'
+import './Comment.css';
+import { Popconfirm } from 'antd';
 
 const Comment = ({ comment,replies,currentUserId,activeComment,setActiveComment,replyingComment, setReplyingComment, addComment, updateComment, deleteComment, parentId = null}) => {
     const fiveMinutes = 300000;
@@ -17,10 +18,21 @@ const Comment = ({ comment,replies,currentUserId,activeComment,setActiveComment,
     const isEditing = activeComment && activeComment.id === comment.id && activeComment.type === "editing";
     const isReplying = activeComment && activeComment.id === comment.id && activeComment.type === "replying"
 
+    function confirm(e) {
+        deleteComment(comment.id)
+      }
+      
+      function cancel(e) {
+        console.log(e);
+      }
+
     return (
         <div className="comment">
             <div className="comment-image-container">
-                <img src={comment.userDto.avatar} alt="/user-icon.png" />
+                <img src={comment.userDto.avatar}
+                 alt="avatar" 
+                 onError={(e) => (e.target.onerror = null, e.target.src = "https://web-english.s3.ap-southeast-1.amazonaws.com/1648460064411-download.jpg")}
+                 />
             </div>
             <div className="comment-right-part">
                 <div className="comment-content">
@@ -43,7 +55,17 @@ const Comment = ({ comment,replies,currentUserId,activeComment,setActiveComment,
                 <div className="comment-actions" >
                     {canReply && <div className="comment-action" onClick={() =>setActiveComment({id:comment.id,type:"replying"})}>Trả lời</div>}
                     {canEdit && <div className="comment-action" onClick={() =>setActiveComment({id:comment.id,type:"editing"})}>Chỉnh sửa</div>}
-                    {canDelete && <div className="comment-action" onClick={() =>deleteComment(comment.id)}>Xoá</div>}
+                    {canDelete && <div className="comment-action">
+                    <Popconfirm
+                        title="   Bạn có chắc chắn muốn xoá bình luận không?"
+                        onConfirm={confirm}
+                        onCancel={cancel}
+                        okText="Có"
+                        cancelText="Không"
+                    >
+                        <a href="#" style={{"color": "black","textDecoration": "none"}}>Xoá</a>
+                    </Popconfirm>
+                    </div>}
                 </div>
                 {
                     isReplying && <CommentForm submitLabel="Bình luận" initialText="" handleSubmit={(text) => addComment(text,replyId)} hasCancelButton handleCancel={() => {
