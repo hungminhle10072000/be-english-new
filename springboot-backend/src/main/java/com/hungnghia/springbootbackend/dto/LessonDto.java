@@ -19,4 +19,8 @@ public class LessonDto {
     private String courseName;
     private List<CommentDto> commentDtos;
     private Long courseId;
+    private Long exerciseId;
+    private Long grammarId;
+    private Long vocabularyTopicId;
+//    private List<AttachmentDto> attachments;
 }

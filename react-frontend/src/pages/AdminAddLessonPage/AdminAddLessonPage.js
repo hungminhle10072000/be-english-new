@@ -7,7 +7,8 @@ import validator from 'validator';
 import allActions from '../../actions';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Button,Nav,NavItem,NavLink,TabContent,TabPane,Row,Col,Card,CardTitle,CardText } from 'reactstrap';
-
+import SelectFrom from '../../components/AdminComponents/SelectForm.js'
+import SelectOneForm from '../../components/AdminComponents/SelectOneForm.js'
 class AdminAddLessonPage extends React.Component {
     constructor(props) {
         super(props)
@@ -22,7 +23,10 @@ class AdminAddLessonPage extends React.Component {
                 numPriority : -1,
                 courseName:'',
                 videoFile:null,
-                video:''
+                video:'',
+                exerciseId: -1,
+                grammarId: -1,
+                vocabularyTopicId: -1
             },
             validationMsg: {},
             confirmDialog: false,
@@ -31,8 +35,43 @@ class AdminAddLessonPage extends React.Component {
         }
 
     }
+    handleChangeExerciseId = (exerciseId) => {
+        this.setState({
+            lesson: {
+                ... this.state.lesson,
+                exerciseId: exerciseId
+            }
+        })
+    }
 
+    handleChangeGrammarId = (grammarId) => {
+        console.log("GrammarId: ",grammarId)
+        this.setState({
+            lesson: {
+                ... this.state.lesson,
+                grammarId: grammarId
+            }
+        })
+    }
 
+    handleChangeVocabularyTopicId = (vocabularyTopicId) => {
+        this.setState({
+            lesson: {
+                ... this.state.lesson,
+                vocabularyTopicId: vocabularyTopicId
+            }
+        })
+    }
+
+    // handleAttachmentData = (data) =>{
+    //     console.log("Data: ",data)
+    //     this.setState({
+    //         lesson: {
+    //         ...this.state.lesson,
+    //         attachments: data
+    //     }
+    // })
+    // }
 
     
     componentDidMount() {
@@ -89,7 +128,10 @@ class AdminAddLessonPage extends React.Component {
                 ...this.state.lesson,
                 videoFile:null,
                 name: '',
-                video:''
+                video:'',
+                exerciseId: -1,
+                grammarId: -1,
+                vocabularyTopicId: -1
             },
             validationMsg: {},
             confirmDialog: false,
@@ -102,6 +144,9 @@ class AdminAddLessonPage extends React.Component {
         lessonDto.name = this.state.lesson.name;
         lessonDto.numPriority = this.state.lesson.numPriority;
         lessonDto.video = this.state.lesson.video;
+        lessonDto.exerciseId = this.state.lesson.exerciseId;
+        lessonDto.grammarId = this.state.lesson.grammarId;
+        lessonDto.vocabularyTopicId = this.state.lesson.vocabularyTopicId;
         this.handleConfirmationBox();
         this.props.onOpenButtonLoading();
         await this.props.onAddLesson(lessonDto,this.state.lesson.videoFile)
@@ -228,7 +273,7 @@ class AdminAddLessonPage extends React.Component {
                             <Nav tabs>
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab === '2' && 'active'}
+                                        className={this.state.activeTab === '2' ? 'active': ''}
                                         onClick={()=> this.toggle('1')}
                                     >
                                         Gán Link
@@ -236,7 +281,7 @@ class AdminAddLessonPage extends React.Component {
                                 </NavItem>
                                 <NavItem>
                                     <NavLink
-                                        className={this.state.activeTab === '1' && 'active'}
+                                        className={this.state.activeTab === '1' ? 'active' : ''}
                                         onClick={() => this.toggle('2')}
                                     >
                                         Tải lên
@@ -268,7 +313,15 @@ class AdminAddLessonPage extends React.Component {
                             </TabContent>
                             <p className="msg-error">{this.state.validationMsg.video}</p>
                         </div>
+                        <label><b>Nội dung đính kèm:</b></label>
+                        <br/>
+                        <SelectOneForm 
+                        onChangeExerciseId = {this.handleChangeExerciseId} 
+                        onChangeVocabularyTopicId = {this.handleChangeVocabularyTopicId} 
+                        onChangeGrammarId = {this.handleChangeGrammarId}/>
 
+                        {/* <SelectFrom onAttachmentData={this.handleAttachmentData}></SelectFrom> */}
+                        <br/>
                         <div className="div-button-account">
                                 <button onClick={(event) => this.handleConfirmationBox(event)}
                                     type="button" disabled={statusCheck} className="btn btn-success btn-save-account">

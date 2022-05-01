@@ -1,9 +1,11 @@
 package com.hungnghia.springbootbackend.converter;
 
 import com.hungnghia.springbootbackend.dto.LessonDto;
-import com.hungnghia.springbootbackend.entities.ChapterEntity;
-import com.hungnghia.springbootbackend.entities.LessonEntity;
+import com.hungnghia.springbootbackend.entities.*;
 import com.hungnghia.springbootbackend.repository.ChapterRepository;
+import com.hungnghia.springbootbackend.repository.ExerciseRepository;
+import com.hungnghia.springbootbackend.repository.GrammarRepository;
+import com.hungnghia.springbootbackend.repository.VocabularyTopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,12 @@ import java.util.List;
 public class LessonConverter {
     @Autowired
     private ChapterRepository chapterRepository;
+    @Autowired
+    private ExerciseRepository exerciseRepository;
+    @Autowired
+    private GrammarRepository grammarRepository;
+    @Autowired
+    private VocabularyTopicRepository vocabularyTopicRepository;
     public LessonEntity toEntity(LessonDto lessonDto) {
         LessonEntity lessonEntity = new LessonEntity();
         lessonEntity.setId(lessonDto.getId());
@@ -22,6 +30,18 @@ public class LessonConverter {
         lessonEntity.setVideo(lessonDto.getVideo());
         ChapterEntity chapterEntity = chapterRepository.getById((long)lessonDto.getChapterId());
         lessonEntity.setChapterEntity(chapterEntity);
+        if (lessonDto.getExerciseId() != null && lessonDto.getExerciseId() > 0) {
+            ExerciseEntity exerciseEntity = exerciseRepository.getById(lessonDto.getExerciseId());
+            lessonEntity.setExerciseEntity(exerciseEntity);
+        }
+        if (lessonDto.getGrammarId() != null && lessonDto.getGrammarId() > 0) {
+            GrammarEntity grammarEntity = grammarRepository.getById(lessonDto.getGrammarId());
+            lessonEntity.setGrammarEntity(grammarEntity);
+        }
+        if (lessonDto.getVocabularyTopicId() != null && lessonDto.getVocabularyTopicId() > 0) {
+            VocabularyTopicEntity vocabularyTopicEntity = vocabularyTopicRepository.getById(lessonDto.getExerciseId());
+            lessonEntity.setVocabularyTopicEntity(vocabularyTopicEntity);
+        }
         return lessonEntity;
     }
 
