@@ -53,6 +53,9 @@ class AdminDetailQuestion extends Component {
                         option_3 = {question.option_3}
                         option_4 = {question.option_4}
                         paragraph = {question.paragraph}
+                        audio = {question.audio}
+                        image = {question.image_description}
+                        type = {question.type}
                     />
                 )
             })
@@ -79,16 +82,10 @@ class AdminDetailQuestion extends Component {
                                 <button type="button" className="btn btn-success btn-add-voca-topic">Thêm câu hỏi đọc<AiOutlineFileAdd color={"white"} className="iconAddVocaTopic"/></button> 
                             </Link>
 
-                            <Link to={"/admin/addQuestion/" + this.state.idExercise + '/' + convertURL(this.state.nameExericse)} style={{textDecoration:"none", marginLeft: "1rem"}} onClick={this.handleShow}>
-                                <button type="button" className="btn btn-danger btn-add-voca-topic">Thêm câu hỏi nghe 1<AiOutlineFileAdd color={"white"} className="iconAddVocaTopic"/></button> 
+                            <Link to={"/admin/addQuestionListen/" + this.state.idExercise + '/' + convertURL(this.state.nameExericse)} style={{textDecoration:"none", marginLeft: "1rem"}} onClick={this.handleShow}>
+                                <button type="button" className="btn btn-danger btn-add-voca-topic">Thêm câu hỏi nghe<AiOutlineFileAdd color={"white"} className="iconAddVocaTopic"/></button> 
                             </Link>
-                            
-                            <Link to={"/admin/addQuestion/" + this.state.idExercise + '/' + convertURL(this.state.nameExericse)} style={{textDecoration:"none", marginLeft: "1rem"}} onClick={this.handleShow}>
-                                <button type="button" className="btn btn-warning btn-add-voca-topic">Thêm câu hỏi nghe 2<AiOutlineFileAdd color={"white"} className="iconAddVocaTopic"/></button> 
-                            </Link>
-
-                            {/* <button onClick={() => this.addQuestionListen()} type="button" className="btn btn-primary btn-add-voca-topic ml-2">Thêm câu hỏi nghe<AiOutlineFileAdd color={"white"} className="iconAddVocaTopic"/></button>  */}
-                            
+                                                        
                         </div>
                     </div>
                 </div>
@@ -99,6 +96,7 @@ class AdminDetailQuestion extends Component {
                                 <tr>
                                     <th>STT</th>
                                     <th>Nội dung</th>
+                                    <th>Ảnh mô tả</th>
                                     <th>Chức năng</th>
                                 </tr>
                             </thead>
@@ -109,6 +107,7 @@ class AdminDetailQuestion extends Component {
                                 <tr>
                                     <th>STT</th>
                                     <th>Nội dung</th>
+                                    <th>Ảnh mô tả</th>
                                     <th>Chức năng</th>
                                 </tr>
                             </tfoot>        

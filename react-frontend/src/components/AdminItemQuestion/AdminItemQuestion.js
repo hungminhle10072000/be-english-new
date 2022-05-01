@@ -5,6 +5,7 @@ import {
     Link
 } from "react-router-dom"
 import allActions from '../../actions';
+import ReactAudioPlayer from 'react-audio-player';
 
 class AdminItemQuestion extends Component {
 
@@ -38,11 +39,15 @@ class AdminItemQuestion extends Component {
     render() {
         const checkPara = this.props.paragraph !== ''
         const checkOption4 = this.props.option_4 !== ''
+        const checkAudio = this.props.audio !== null
+        const checkImage = this.props.image !== null
+        const checkType = this.props.type === 3
         return (
             <Fragment>
                 <tr>
                     <td className="align-middle css-td-table">{this.props.ordinal_number}</td>
                     <td style={{textAlign: 'left'}}>
+                        {checkAudio ? <ReactAudioPlayer src={this.props.audio} controls/> : null}
                         {this.props.paragraph} {checkPara ? <br /> : ""}
                         Câu hỏi : {this.props.content_question} <br />
                         A. {this.props.option_1} <br />
@@ -51,10 +56,14 @@ class AdminItemQuestion extends Component {
                         {checkOption4 ? <div>D. {this.props.option_4}</div> : ""}
                         Đáp án: {this.props.correct_answer}
                     </td>
+                    <td>
+                        {checkImage ? <img style={{width:150, height:150}} src={this.props.image} alt="Ảnh mô tả" />
+                         : null}
+                    </td>
                     <td className="align-middle css-td-table">
-                        <Link to={`/admin/question/edit/${this.props.id}`}>
+                        {checkType ? <Link to={`/admin/question/edit/${this.props.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-voca-topic">Sửa</button>
-                        </Link>
+                        </Link> : null}
                         <button onClick={() => this.onDelete()}
                         type="button" className="btn btn-danger btn-delete-voca-topic">Xóa</button>
                     </td>
