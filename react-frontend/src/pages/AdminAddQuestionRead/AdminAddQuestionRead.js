@@ -14,7 +14,7 @@ class AdminAddQuestionRead extends Component {
             content_question: '',
             correct_answer: '',
             paragraph: '',
-            type: 1,
+            type: 3,
             option_1: '',
             option_2: '',
             option_3: '',
