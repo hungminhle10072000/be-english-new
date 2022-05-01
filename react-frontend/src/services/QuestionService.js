@@ -44,6 +44,30 @@ class QuestionService {
             headers:{...headers, ...authHeader(),'Content-Type': 'multipart/form-data'}
         })
     }
+
+    // add question listen 1
+    addQuestionListenType1(questionListenAdd, fileImage, fileAudio){
+        let formData = new FormData()
+
+        const json = JSON.stringify(questionListenAdd);
+        const blob = new Blob([json], {
+            type: 'application/json'
+        });
+
+        formData.append("QuestionListenAddDto",blob);
+        formData.append("fileImage", fileImage);
+        formData.append("fileAudio", fileAudio);
+
+
+        console.log(questionListenAdd);
+        console.log(fileImage);
+        console.log(fileAudio);
+
+        return axios.post(QUESTION_API_END_POINT + '/addQuestionListen',formData,{
+            headers:{...headers, ...authHeader(),'Content-Type': 'multipart/form-data'}
+        })
+
+    }
     
     // get question witd id
     getQuestionById(id) {

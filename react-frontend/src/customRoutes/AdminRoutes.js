@@ -27,6 +27,7 @@ import AdminExercises from '../pages/AdminExercises/AdminExercises';
 import AdminDetailQuestion from '../pages/AdminDetailQuestion/AdminDetailQuestion'
 import AdminAddQuestionRead from '../pages/AdminAddQuestionRead/AdminAddQuestionRead'
 import AdminEditQuestionRead from '../pages/AdminEditQuestionRead/AdminEditQuestionRead';
+import AdminAddQuestionListen from '../pages/AdminAddQuestionListen/AdminAddQuestionListen';
 
 class AdminRoutes extends Component {
     render() {
@@ -58,7 +59,7 @@ class AdminRoutes extends Component {
                     <Route exact path = "/admin/exercise/:idExercise/:nameExercise" component={AdminDetailQuestion}/>    
                     <Route exact path = "/admin/addQuestion/:idExercise/:nameExercise" component={AdminAddQuestionRead} />
                     <Route exact path = "/admin/question/edit/:idQuestion" component={AdminEditQuestionRead} />
-
+                    <Route exact path = "/admin/addQuestionListen/:idExercise/:nameExercise" component={AdminAddQuestionListen} />
                     {/* <Route exact path="/user/course" component={UserCoursePage}/>    */}
                     <Route exact path="*" component={NotFoundPage} />
                 </Switch>   

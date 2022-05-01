@@ -19,7 +19,7 @@ const findIndex = (listQuestionExercise, id) => {
 const questionReducer = (state = questionReducerInitState, action) => {
 
     let index = -1;
-    const {id, questionReadAdd,itemQuestionUpdate} = action
+    const {id, questionReadAdd,itemQuestionUpdate, questionListenAdd} = action
 
     switch (action.type) {
         case Types.GET_ALL_QUESTION_EXERCISE_BY_ID:
@@ -31,6 +31,9 @@ const questionReducer = (state = questionReducerInitState, action) => {
         case Types.ADD_QUESTION_READ:
             state.listQuestionExercise.push(questionReadAdd)
             return {...state}
+        case Types.ADD_QUESTION_LISTEN:
+            state.listQuestionExercise.push(questionListenAdd)
+            return {...state}    
         case Types.UPDATE_QUESTION:
             state.listQuestionExercise.forEach((item, index) => {
                 if(item.id === itemQuestionUpdate.id){

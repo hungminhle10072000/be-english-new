@@ -81,6 +81,31 @@ const actAddQuestion = (questionReadAdd) => {
     }
 }
 
+// add question listen 1
+const actAddQuestionListenRequest = (questionListenAddDto, fileImage, fileAudio) => {
+    return(dispatch) => {
+        return(
+            QuestionService.addQuestionListenType1(questionListenAddDto, fileImage, fileAudio).then((res) => {
+                dispatch(actAddQuestionListen(res.data))
+                dispatch(statusButtonLoadingAction.closeButtonLoading())
+                dispatch(adminAlertInfoAction.changeAdminAlertOn("Thêm thành công!!!","success"))
+            }).catch(
+                error => {
+                    dispatch(statusButtonLoadingAction.closeButtonLoading())
+                    dispatch(adminAlertInfoAction.changeAdminAlertOn("Tác vụ thất bại ! Xin hãy thử lại.","danger"))
+                }
+            )
+        )
+    }
+}
+
+const actAddQuestionListen = (questionListenAdd) => {
+    return {
+        type: Types.ADD_QUESTION_LISTEN,
+        questionListenAdd
+    }
+}
+
 // get question by id
 const actGetQuestionByIdRequest = (id) => {
     return(dispatch) => {
@@ -140,5 +165,6 @@ export default {
     actDeleteQuestionWithIdRequest,
     actAddQuestionRequest,
     actGetQuestionByIdRequest,
-    actUpdateQuestionRequest
+    actUpdateQuestionRequest,
+    actAddQuestionListenRequest
 }
