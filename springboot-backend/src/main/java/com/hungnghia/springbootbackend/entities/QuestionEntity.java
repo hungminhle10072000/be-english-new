@@ -1,6 +1,8 @@
 package com.hungnghia.springbootbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -54,8 +56,8 @@ public class QuestionEntity {
     private LessonEntity lessonEntity;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "exercise_id")
-    @JsonIgnore
     private ExerciseEntity exerciseEntity;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "questionEntity")

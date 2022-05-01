@@ -1,5 +1,6 @@
 package com.hungnghia.springbootbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -29,7 +30,7 @@ public class ExerciseEntity {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "exerciseEntity")
-//    @JsonIgnore
+    @JsonBackReference
     private List<QuestionEntity> questionEntityList;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "exerciseEntity")

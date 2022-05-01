@@ -38,13 +38,13 @@ class AdminItemExercise extends Component {
 
     render() {
         let type_exercise = ""
-        if(this.props.type === "1"){
+        if(this.props.type === 1){
             type_exercise = "Bài tập đọc"
         }
-        if(this.props.type === "2"){
+        if(this.props.type === 2){
             type_exercise = "Bài tập nghe"
         }
-        if(this.props.type === "3"){
+        if(this.props.type === 3){
             type_exercise = "Bài tập đọc và nghe"
         }
         return (
