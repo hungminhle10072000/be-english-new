@@ -4,6 +4,7 @@ import { BiSave, BiReset, BiRefresh } from "react-icons/bi"
 import allActions from '../../actions/index'
 import { connect } from 'react-redux';
 import convertURL from '../../constants/convertUrl';
+import Select from 'react-select'
 
 class AdminAddQuestionRead extends Component {
 
@@ -60,10 +61,10 @@ class AdminAddQuestionRead extends Component {
             alert("Yêu cầu nhập lựa chọn C!!!!")
             return;
         }
-        if(this.state.option_4 === ''){
-            alert("Yêu cầu nhập lựa chọn D!!!!")
-            return;
-        }
+        // if(this.state.option_4 === ''){
+        //     alert("Yêu cầu nhập lựa chọn D!!!!")
+        //     return;
+        // }
         if(this.state.correct_answer === ''){
             alert("Yêu cầu nhập đáp án đúng!!!!")
             return;
@@ -84,10 +85,36 @@ class AdminAddQuestionRead extends Component {
         this.props.onAddQuestionRead(addQuestionReadDto)
     }
 
+
+    handelOnChangeSelect = (event) => {
+        if(event.value){
+            this.setState({
+                correct_answer: event.value
+            })
+        }
+    }
+
     render() {
         const {
-            statusCheck
+            statusCheck,
+            option_1,
+            option_2,
+            option_3,
+            option_4
         } = this.state;
+        let options = []
+        if(option_1 !== ''){
+            options.push({ value: option_1, label: option_1 })
+        }
+        if(option_2 !== ''){
+            options.push({ value: option_2, label: option_2 })
+        } 
+        if(option_3 !== ''){
+            options.push({ value: option_3, label: option_3 })
+        } 
+        if(option_4 !== ''){
+            options.push({ value: option_4, label: option_4 })
+        }  
         return (
             <div className="container-fluid container-admin-add-account">
                 <div className="row">
@@ -115,27 +142,31 @@ class AdminAddQuestionRead extends Component {
 
                                 <div className='col-md-12'>
                                     <label htmlFor="option_1"><b>Lựa chọn A</b></label>    
-                                    <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Lựa chọn A" name="option_1" id="option_1" required/>
+                                    <input  onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Lựa chọn A" name="option_1" id="option_1" required/>
                                 </div>
 
                                 <div className='col-md-12'>
                                     <label htmlFor="option_2"><b>Lựa chọn B</b></label>    
-                                    <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Lựa chọn B" name="option_2" id="option_2" required/>
+                                    <input  onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Lựa chọn B" name="option_2" id="option_2" required/>
                                 </div>
 
                                 <div className='col-md-12'>
                                     <label htmlFor="option_3"><b>Lựa chọn C</b></label>    
-                                    <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Lựa chọn C" name="option_3" id="option_3" required/>
+                                    <input  onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Lựa chọn C" name="option_3" id="option_3" required/>
                                 </div>
 
                                 <div className='col-md-12'>
                                     <label htmlFor="option_4"><b>Lựa chọn D</b></label>    
-                                    <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Lựa chọn D" name="option_4" id="option_4" required/>
+                                    <input  onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Lựa chọn D" name="option_4" id="option_4" required/>
+
                                 </div>
 
                                 <div className='col-md-12'>
-                                    <label htmlFor="correct_answer"><b>Đáp án đúng</b></label>    
-                                    <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Đáp án đúng" name="correct_answer" id="correct_answer" required/>
+                                    <label htmlFor="correct_answer"><b>Đáp án đúng</b></label>
+                                    <Select options={options} defaultValue={options[0]}
+                                        onChange={(event) => this.handelOnChangeSelect(event)}
+                                    />
+                                    {/* <input onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Đáp án đúng" name="correct_answer" id="correct_answer" required/> */}
                                 </div>
                                 
                                 <div className="div-button-account mb-3 mt-3">

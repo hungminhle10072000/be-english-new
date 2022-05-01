@@ -37,6 +37,7 @@ class AdminItemQuestion extends Component {
 
     render() {
         const checkPara = this.props.paragraph !== ''
+        const checkOption4 = this.props.option_4 !== ''
         return (
             <Fragment>
                 <tr>
@@ -47,7 +48,7 @@ class AdminItemQuestion extends Component {
                         A. {this.props.option_1} <br />
                         B. {this.props.option_2} <br />
                         C. {this.props.option_3} <br />
-                        D. {this.props.option_4} <br />
+                        {checkOption4 ? <div>D. {this.props.option_4}</div> : ""}
                         Đáp án: {this.props.correct_answer}
                     </td>
                     <td className="align-middle css-td-table">
