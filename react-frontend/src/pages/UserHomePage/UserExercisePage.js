@@ -23,7 +23,7 @@ const headers = {
 }
 let listAnswer=[];
 let newListAnswer=[];
-let interval;
+// let interval;
 let quizData = {
     data: []
 };
@@ -51,11 +51,14 @@ function UserExercisePage() {
           ResultDetailService.getResultDetailByUserIdAndExerciseId(userCurrent.id,params.id).then(res=> {
             setAnswers(res.data)
           })
-          setStep(3)
+          if (step===1) {
+            setStep(3)
+          }
+         
         }
       })
     if (step ===3) {
-      clearInterval(interval)
+      // clearInterval(interval)
       newListAnswer = listAnswer.map(x => {x.userId=userCurrent.id; return x} )
       ResultDetailService.addAnswers(newListAnswer)
     }
@@ -73,7 +76,7 @@ function UserExercisePage() {
       userId:userCurrent.id
     }
     ResultService.addResult(resultDto)
-    interval = setInterval(() => setTime(prevTime => prevTime+1), 1000);
+    // interval = setInterval(() => setTime(prevTime => prevTime+1), 1000);
   }
 
   const resetClickHandler = ()=>{
@@ -83,7 +86,7 @@ function UserExercisePage() {
     setAnswers([])
     setStep(2)
     setTime(0)
-    interval = setInterval(()=> setTime(prevTime => prevTime + 1), 1000)
+    // interval = setInterval(()=> setTime(prevTime => prevTime + 1), 1000)
   }
 
   return (

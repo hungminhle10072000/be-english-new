@@ -1,5 +1,6 @@
 package com.hungnghia.springbootbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class ResultDetailEntity {
     @ManyToOne
     @MapsId("questionId")
     @JoinColumn(name = "questionId")
+    @JsonIgnore
     private QuestionEntity questionEntity;
 
     @Column(name = "user_answer")

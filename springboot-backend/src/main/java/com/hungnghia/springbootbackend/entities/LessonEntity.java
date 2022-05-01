@@ -30,6 +30,7 @@ public class LessonEntity {
 
     @ManyToOne
     @JoinColumn(name = "chapter_id")
+    @JsonIgnore
     private ChapterEntity chapterEntity;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lessonEntity", cascade = CascadeType.ALL)

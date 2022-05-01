@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                                 "/api/course/edit/**","/api/comment/getCommentByLessonId/**","/api/comment/getCommentByVocabularyTopicId/**",
                                                 "/api/comment/getCommentByGrammarId/**","/api/question/findQuestionByExerciseId/**",
                                                 "/api/resultdetail/addAnswers","/api/result/findResultsByUserIdAndExerciseId","/api/exercise/reset/**",
-                                                "/api/course/**"
+                                                "/api/course/**","/api/exercise"
 //                        , "/api/users/change-passWord"
                 ).permitAll().
                         anyRequest().authenticated().and().
