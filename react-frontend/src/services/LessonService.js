@@ -36,8 +36,6 @@ class LessonService {
         });
         formData.append("lessonDto",blob)
         formData.append("video",video)
-        console.log('LESSON: ',lesson)
-        console.log('VIDEO: ',video)
         if (video !== null && video.size > 0) {
             return axios.post(LESSON_API_BASE_URL+'/add',formData,{
                 headers: {
