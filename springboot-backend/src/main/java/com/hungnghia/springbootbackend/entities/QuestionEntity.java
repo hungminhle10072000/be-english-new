@@ -55,9 +55,10 @@ public class QuestionEntity {
 
     @ManyToOne
     @JoinColumn(name = "exercise_id")
+    @JsonIgnore
     private ExerciseEntity exerciseEntity;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "questionEntity")
-    @JsonIgnore
+//    @JsonIgnore
     private List<ResultDetailEntity> resultDetailEntityList;
 }

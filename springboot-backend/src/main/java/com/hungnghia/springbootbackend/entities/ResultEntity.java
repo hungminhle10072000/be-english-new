@@ -1,5 +1,6 @@
 package com.hungnghia.springbootbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -31,5 +32,6 @@ public class ResultEntity {
 
     @ManyToOne
     @JoinColumn(name = "excercise_id")
+    @JsonIgnore
     private ExerciseEntity exerciseEntity;
 }
