@@ -6,6 +6,7 @@ import {
     Link
 } from "react-router-dom"
 import convertURL from '../../constants/convertUrl'
+import Select from 'react-select'
 
 class AdminEditQuestionRead extends Component {
 
@@ -55,10 +56,10 @@ class AdminEditQuestionRead extends Component {
             alert("Yêu cầu nhập lựa chọn C!!!!")
             return;
         }
-        if(this.state.option_4 === ''){
-            alert("Yêu cầu nhập lựa chọn D!!!!")
-            return;
-        }
+        // if(this.state.option_4 === ''){
+        //     alert("Yêu cầu nhập lựa chọn D!!!!")
+        //     return;
+        // }
         if(this.state.correct_answer === ''){
             alert("Yêu cầu nhập đáp án đúng!!!!")
             return;
@@ -124,14 +125,45 @@ class AdminEditQuestionRead extends Component {
             })
         }
     }
+
+    handelOnChangeSelect = (event) => {
+        if(event.value){
+            this.setState({
+                correct_answer: event.value
+            })
+        }
+    }
     
     
 
     render() {
-        // this.props.onItemLoading()
         const {
-            statusCheck
+            statusCheck,
+            option_1,
+            option_2,
+            option_3,
+            option_4,
+            correct_answer
         } = this.state;
+        let indexCorrect = 0;
+        let options = []
+        if(option_1 !== ''){
+            options.push({ value: option_1, label: option_1 })
+        }
+        if(option_2 !== ''){
+            options.push({ value: option_2, label: option_2 })
+        } 
+        if(option_3 !== ''){
+            options.push({ value: option_3, label: option_3 })
+        } 
+        if(option_4 !== ''){
+            options.push({ value: option_4, label: option_4 })
+        }
+        for( const i in options){
+            if(options[i].value === correct_answer){
+                indexCorrect = i;
+            }
+        }
         return (
             <div className="container-fluid container-admin-add-account">
                 <div className="row">
@@ -178,8 +210,11 @@ class AdminEditQuestionRead extends Component {
                                 </div>
 
                                 <div className='col-md-12'>
-                                    <label htmlFor="correct_answer"><b>Đáp án đúng</b></label>    
-                                    <input value={this.state.correct_answer} onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Đáp án đúng" name="correct_answer" id="correct_answer" required/>
+                                    <label htmlFor="correct_answer"><b>Đáp án đúng</b></label>
+                                    <Select options={options} value={options[indexCorrect]}
+                                        onChange={(event) => this.handelOnChangeSelect(event)}
+                                    />    
+                                    {/* <input value={this.state.correct_answer} onChange={(event) => this.isChange(event)} className="input-field" type="text" placeholder="Đáp án đúng" name="correct_answer" id="correct_answer" required/> */}
                                 </div>
                                 
                                 <div className="div-button-account mb-3 mt-3">
