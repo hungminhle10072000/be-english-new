@@ -52,10 +52,7 @@ class LessonService {
                     ...authHeader()
                 }
             })
-        }
-        
-    
-        
+        }   
     }
 
     getLessonById(id) {

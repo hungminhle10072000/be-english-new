@@ -84,6 +84,20 @@ public class LessonService {
             String videoUrl = amazonClient.uploadFile(video); //
             newLessonEntity.setVideo(videoUrl);
         }
+//        if (newLessonEntity.getGrammarEntity() != null &&  oldLessonEntity.getGrammarEntity() != null
+//        && newLessonEntity.getGrammarEntity().getId() != oldLessonEntity.getGrammarEntity().getId()) {
+//            newLessonEntity.setGrammarEntity(oldLessonEntity.getGrammarEntity());
+//        }
+//
+//        if (newLessonEntity.getExerciseEntity() != null &&  oldLessonEntity.getExerciseEntity() != null
+//                && newLessonEntity.getExerciseEntity().getId() != oldLessonEntity.getExerciseEntity().getId()) {
+//            newLessonEntity.setExerciseEntity(oldLessonEntity.getExerciseEntity());
+//        }
+//
+//        if (newLessonEntity.getVocabularyTopicEntity() != null &&  oldLessonEntity.getVocabularyTopicEntity() != null
+//                && newLessonEntity.getVocabularyTopicEntity().getId() != oldLessonEntity.getVocabularyTopicEntity().getId()) {
+//            newLessonEntity.setVocabularyTopicEntity(oldLessonEntity.getVocabularyTopicEntity());
+//        }
         LessonEntity lesson =lessonRepository.save(newLessonEntity);
         return lessonConverter.toDto(lesson);
     }

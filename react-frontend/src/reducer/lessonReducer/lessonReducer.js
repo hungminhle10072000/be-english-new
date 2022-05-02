@@ -7,7 +7,6 @@ const lessonReducer = (state=initialState, action) => {
     const {lessons} = action
     switch(action.type) {
         case FETCH_LESSONS:
-            console.log('Lessons: ',lessons)
             return [...lessons].sort((a,b) => a.numPriority - b.numPriority)
         case ADD_LESSON:
             return [...state,action.lesson].sort((a,b) => a.numPriority - b.numPriority)

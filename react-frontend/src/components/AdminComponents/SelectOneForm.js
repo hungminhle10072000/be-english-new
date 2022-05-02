@@ -1,11 +1,21 @@
 import { Select } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import allActions from '../../actions';
 import { Row, Col } from 'antd';
 const { Option } = Select;
 
-function SelectOneForm({ onChangeExerciseId, onChangeVocabularyTopicId, onChangeGrammarId }) {
+function SelectOneForm({ 
+    onChangeExerciseId, 
+    onChangeVocabularyTopicId, 
+    onChangeGrammarId,
+    exerciseId,
+    vocaTopicId,
+    grammarId 
+}) {
+    const [valueGrammar,setValueGrammar] = useState('')
+    const [valueVocaTopic,setValueVocaTopic] = useState('')
+    const [valueExercise,setValueExercise] = useState('')
     const dispatch = useDispatch();
     const grammarList = useSelector(state => state.grammarsReducer);
     const vocaTopicList = useSelector(state => state.vocabularyTopics);
@@ -17,7 +27,7 @@ function SelectOneForm({ onChangeExerciseId, onChangeVocabularyTopicId, onChange
             "type": 1
         };
     })
-    var vocaDtos = vocaTopicList.map(x => {
+    var vocaTopicDtos = vocaTopicList.map(x => {
         return {
             "id": x.id,
             "title":x.name,
@@ -33,19 +43,52 @@ function SelectOneForm({ onChangeExerciseId, onChangeVocabularyTopicId, onChange
         }
     })
 
+    useEffect(() => {
+        var grammarDto= grammarDtos.find(x=> x.id ===grammarId)
+        var vocaTopicDto= vocaTopicDtos.find(x=> x.id ===vocaTopicId)
+        var exerciseDto= exerciseDtos.find(x=> x.id ===exerciseId)
+
+        if (grammarDto) {
+            setValueGrammar(grammarDto.title)
+        }
+        if (vocaTopicDto) {
+            setValueVocaTopic(vocaTopicDto.title)
+        }
+        if (exerciseDto) {
+            setValueExercise(exerciseDto.title)
+        }
+        
+    }, [grammarList,vocaTopicList,exerciseList])
+
+    
 
     useEffect(() => {
         dispatch(allActions.grammarAction.actFetchGrammarRequest());
         dispatch(allActions.vocabularyTopicAction.actFetchVocaTopicsRequest())
         dispatch(allActions.adminExerciseAction.actFetchAllExerciseRequest())
+        var grammarDto= grammarDtos.find(x=> x.id ===grammarId)
+        var vocaTopicDto= vocaTopicDtos.find(x=> x.id ===vocaTopicId)
+        var exerciseDto= exerciseDtos.find(x=> x.id ===exerciseId)
+
+        if (grammarDto) {
+            setValueGrammar(grammarDto.title)
+        }
+        if (vocaTopicDto) {
+            setValueVocaTopic(vocaTopicDto.title)
+        }
+        if (exerciseDto) {
+            setValueExercise(exerciseDto.title)
+        }
     }, [])
 
     function handleChangeGrammarId(value) {
         if (value) {
             const obj = JSON.parse(value)
             onChangeGrammarId(obj['id'])
+            setValueGrammar(obj['title'])
         } else {
             onChangeGrammarId(-1)
+            setValueGrammar(null)
         }
     }
 
@@ -53,8 +96,10 @@ function SelectOneForm({ onChangeExerciseId, onChangeVocabularyTopicId, onChange
         if (value) {
             const obj = JSON.parse(value)
             onChangeExerciseId(obj['id'])
+            setValueExercise(obj['title'])
         } else {
             onChangeExerciseId(-1)
+            setValueExercise(null)
         }
     }
 
@@ -62,8 +107,10 @@ function SelectOneForm({ onChangeExerciseId, onChangeVocabularyTopicId, onChange
         if (value) {
             const obj = JSON.parse(value)
             onChangeVocabularyTopicId(obj['id'])
+            setValueVocaTopic(obj['title'])
         } else {
             onChangeVocabularyTopicId(-1)
+            setValueVocaTopic(null)
         }
     }
 
@@ -73,6 +120,8 @@ function SelectOneForm({ onChangeExerciseId, onChangeVocabularyTopicId, onChange
                 <Col span={8}>
                     <label>Lý thuyết</label>
                     <Select
+                        value={valueGrammar}
+                        // defaultValue={grammarDto ? grammarDto.title : undefined}
                         allowClear
                         onChange={handleChangeGrammarId}
                         showSearch
@@ -93,8 +142,10 @@ function SelectOneForm({ onChangeExerciseId, onChangeVocabularyTopicId, onChange
                 <Col span={8}>
                     <label>Từ vựng</label>
                     <Select
+                        value={valueVocaTopic}
+                        // defaultValue={vocaTopicDto ? vocaTopicDto.title : null}
                         allowClear
-                        onChange={handleChangeExerciseId}
+                        onChange={handleChangeVocabularyTopicId}
                         showSearch
                         style={{ width: 220 }}
                         placeholder="Search to Select"
@@ -106,15 +157,15 @@ function SelectOneForm({ onChangeExerciseId, onChangeVocabularyTopicId, onChange
                             optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                         }
                     >
-                        {vocaDtos.map(x => <Option key={JSON.stringify(x)}>{x.title}</Option>)}
+                        {vocaTopicDtos.map(x => <Option key={JSON.stringify(x)}>{x.title}</Option>)}
                     </Select>
                 </Col>
                 <Col span={8}>
                     <label>Bài tập</label>
                     <Select
-                        defaultValue={undefined}
+                        value={valueExercise}
                         allowClear
-                        onChange={handleChangeVocabularyTopicId}
+                        onChange={handleChangeExerciseId}
                         showSearch
                         style={{ width: 220 }}
                         placeholder="Search to Select"
