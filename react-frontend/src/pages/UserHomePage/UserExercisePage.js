@@ -43,6 +43,7 @@ function UserExercisePage() {
   useEffect(() => {
     QuestionService.getQuestionByExerciseId(params.id)
     .then(res => {
+        console.log("QUESTION: ",res)
         quizData.data = res.data;
       })
     ResultService.getResultByUserIdAndExerciseId(userCurrent.id,params.id).then(res=> {

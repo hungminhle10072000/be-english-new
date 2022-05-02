@@ -34,11 +34,11 @@ class AdminItemChapter extends Component {
         return(
             <Fragment>
                 <tr>
-                    <td>{this.props.chapter.id}</td>
-                    <td>{this.props.chapter.name}</td>
-                    <td>{this.props.chapter.numOfLesson}</td>
-                    <td>{this.props.chapter.courseName}</td>
-                    <td>
+                    <td className="align-middle css-td-table">{this.props.chapter.id}</td>
+                    <td className="align-middle css-td-table">{this.props.chapter.name}</td>
+                    <td className="align-middle css-td-table">{this.props.chapter.numOfLesson}</td>
+                    <td className="align-middle css-td-table">{this.props.chapter.courseName}</td>
+                    <td className="align-middle css-td-table">
                         <Link to={`/admin/lesson/${this.props.chapter.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-account">Chi tiết</button>
                         </Link>

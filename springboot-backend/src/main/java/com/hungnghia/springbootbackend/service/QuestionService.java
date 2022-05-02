@@ -45,6 +45,11 @@ public class QuestionService {
                 choices.add(question.getOption_4());
                 questionRes.setChoices(choices);
                 questionRes.setAnswer(question.getCorrect_answer());
+                questionRes.setAudio(question.getAudio());
+                questionRes.setImageDescription(question.getImage_description());
+                questionRes.setType(question.getType());
+                questionRes.setExerciseId(question.getExerciseEntity() != null ? question.getExerciseEntity().getId() : -1);
+                questionRes.setLessionId(question.getLessonEntity() != null ? question.getLessonEntity().getId() : -1);
                 data.add(questionRes);
             }
         }
