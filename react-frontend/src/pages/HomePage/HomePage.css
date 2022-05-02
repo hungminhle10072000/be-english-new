@@ -1,0 +1,11 @@
+.label-course-new {
+    color: #242424;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-right: auto;
+    margin-top: 16px;
+}
+
+h2.label-course-new {
+    margin-left: 1.8rem;
+}

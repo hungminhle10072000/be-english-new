@@ -4,8 +4,14 @@ import {MdOndemandVideo} from 'react-icons/md'
 import {GoBook} from 'react-icons/go'
 import {FaAdversal} from 'react-icons/fa'
 import {GiPrayer} from 'react-icons/gi'
-
+import {AiTwotoneHome} from 'react-icons/ai'
 export const UserSideBar = [
+  {
+    title: 'Trang chủ',
+    path: '/user/home',
+    icon: <AiTwotoneHome color='black'/>,
+    cName: 'nav-user-text'
+  },
   {
     title: 'Từ vựng',
     path: '/user/topic-vocabulary',
