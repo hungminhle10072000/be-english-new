@@ -62,17 +62,6 @@ class AdminAddLessonPage extends React.Component {
             }
         })
     }
-
-    // handleAttachmentData = (data) =>{
-    //     console.log("Data: ",data)
-    //     this.setState({
-    //         lesson: {
-    //         ...this.state.lesson,
-    //         attachments: data
-    //     }
-    // })
-    // }
-
     
     componentDidMount() {
         this.props.onGetChapterById(this.state.lesson.chapterId)

@@ -39,7 +39,7 @@ public class LessonConverter {
             lessonEntity.setGrammarEntity(grammarEntity);
         }
         if (lessonDto.getVocabularyTopicId() != null && lessonDto.getVocabularyTopicId() > 0) {
-            VocabularyTopicEntity vocabularyTopicEntity = vocabularyTopicRepository.getById(lessonDto.getExerciseId());
+            VocabularyTopicEntity vocabularyTopicEntity = vocabularyTopicRepository.getById(lessonDto.getVocabularyTopicId());
             lessonEntity.setVocabularyTopicEntity(vocabularyTopicEntity);
         }
         return lessonEntity;
@@ -55,6 +55,15 @@ public class LessonConverter {
         lessonDto.setChapterName(lessonEntity.getChapterEntity().getName());
         lessonDto.setCourseName(lessonEntity.getChapterEntity().getCourseEntity().getName());
         lessonDto.setCourseId(lessonEntity.getChapterEntity().getCourseEntity().getId());
+        if (lessonEntity.getGrammarEntity() !=null) {
+            lessonDto.setGrammarId(lessonEntity.getGrammarEntity().getId());
+        }
+        if (lessonEntity.getExerciseEntity() !=null) {
+            lessonDto.setExerciseId(lessonEntity.getExerciseEntity().getId());
+        }
+        if (lessonEntity.getVocabularyTopicEntity() !=null) {
+            lessonDto.setVocabularyTopicId(lessonEntity.getVocabularyTopicEntity().getId());
+        }
         List<LessonEntity> lessonEntities = lessonEntity.getChapterEntity().getLessonEntityList();
         if (lessonEntities != null) {
             lessonDto.setNumLessonOfChapter(lessonEntities.size());
