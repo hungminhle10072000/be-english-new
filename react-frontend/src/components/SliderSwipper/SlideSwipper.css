@@ -1,10 +1,11 @@
 .div-slide-swipper {
     margin-top: 1rem;
-    /* margin-left: 1.8rem; */
+    margin-left: 1.6rem;
     background-color: hsl(0, 0%, 93%);
     padding-left: 0 !important;
     padding-right: 0 !important;
-    width: 100%;
+    width: 96%;
+    background-color: transparent;
 }
 
 button.slick-arrow.slick-prev {
@@ -15,3 +16,5 @@ button.slick-arrow.slick-prev {
 button.slick-arrow.slick-next {
     display: none !important;
 }
+
+
