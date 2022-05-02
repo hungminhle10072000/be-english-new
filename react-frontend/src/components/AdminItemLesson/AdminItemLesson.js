@@ -37,16 +37,16 @@ class AdminItemLesson extends Component {
         return(
             <Fragment>
                 <tr>
-                    <td>{this.props.lesson.id}</td>
-                    <td>{this.props.lesson.name}</td>
-                    <td>{this.props.lesson.chapterName}</td>
-                    <td>{this.props.lesson.courseName}</td>
-                    <td>        
+                    <td className="align-middle css-td-table">{this.props.lesson.id}</td>
+                    <td className="align-middle css-td-table">{this.props.lesson.name}</td>
+                    <td className="align-middle css-td-table">{this.props.lesson.chapterName}</td>
+                    <td className="align-middle css-td-table">{this.props.lesson.courseName}</td>
+                    <td className="align-middle css-td-table">        
                         <button style={{ height: "35px" }} onClick={()=>this.props.onOpenModal(this.props.linkVideo)}>
                             Play Video{" "}</button>
                            
                     </td>
-                    <td>
+                    <td className="align-middle css-td-table">
                         <Link to={`/admin/lesson/edit/${this.props.lesson.id}`}>
                             <button type="button" className="btn btn-warning btn-edit-account">Sửa</button>
                         </Link>
