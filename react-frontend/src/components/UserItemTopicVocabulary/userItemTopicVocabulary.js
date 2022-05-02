@@ -29,14 +29,16 @@ class userItemTopicVocabulary extends Component {
             >
                 {props => 
                     <animated.div style={props} className='col mb-2 item-topic'>
-                        {/* <div className='col mb-2 item-topic'> */}
-                            <div onClick={() => this.handleDetailTopic()} className="card card-topic h-100 card-item-vocabulary" style={{width: '197px', height: '169px'}}>
+                            <div className="card card-topic h-100 card-item-vocabulary" style={{width: '197px', height: '169px'}}>
                                 <img className="card-img-top img-user-topic" src={this.props.image} alt="Ảnh mô tả chủ đề topic"/>
                                 <div className="card-body">
                                     <h6 className="card-title">{this.props.name}</h6>
                                 </div>
+                                <div>
+                                    <button onClick={() => this.handleDetailTopic()}
+                                    className='btn btn-success btn-detail-topic'>Xem chi tiết</button>
+                                </div>
                             </div>
-                        {/* </div> */}
                     </animated.div>}
             </Spring>
         )

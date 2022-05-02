@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
+import TopicVocabularyNew from "../TopicVocabularyNew/TopicVocabularyNew";
 import './SlideSwipper.css';
 
 export default class SliderSwipper extends Component {
@@ -20,13 +21,23 @@ export default class SliderSwipper extends Component {
     return (
       <div>
         <Slider {...settings} className='div-slide-swipper' >
-            {numbers.map((index, item) => {
+            <TopicVocabularyNew />
+            <TopicVocabularyNew />
+            <TopicVocabularyNew />
+            <TopicVocabularyNew />
+            <TopicVocabularyNew />
+            <TopicVocabularyNew />
+            <TopicVocabularyNew />
+            <TopicVocabularyNew />
+            <TopicVocabularyNew />
+            <TopicVocabularyNew />
+            {/* {numbers.map((index, item) => {
                 return (
                     <div key={index}>
                         <h1 style={{ color: "red", fontSize: 100, textAlign: "center"}}>{item}</h1>
                     </div>
                 )
-            })}            
+            })}             */}
         </Slider>
       </div>
     );

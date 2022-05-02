@@ -1,28 +1,22 @@
-.card-topic {
-    color: #000;
+.col.mb-2.item-topic-new {
+    margin: 0 !important;
+    margin-right: 0.5rem !important;
 }
 
-img.card-img-top.img-user-topic {
-    height: 8rem !important;
-    width: 100% !important;
-    object-fit: fill;
-}
-
-.card-item-vocabulary {
+.card-item-topic-new {
     transition: all 300ms ease-in-out;
 }
 
-.card-item-vocabulary:hover {
+.card-item-topic-new:hover {
     cursor: pointer;
 }
 
-.card-item-vocabulary:hover .btn-detail-topic {
+.card-item-topic-new:hover .btn-detail-topic-new {
     display: block !important;
-    z-index: 100;
+    z-index: 2;
 }
 
-
-.card.card-topic.h-100.card-item-vocabulary:hover::after {
+.card-item-topic-new:hover::after {
     content: "";
     position: absolute;
     width: 100%;
@@ -34,12 +28,7 @@ img.card-img-top.img-user-topic {
     transition: all 500ms ease-in-out;
 }
 
-.col.mb-2.item-topic {
-    margin: 4px;
-    flex: 0 1 calc(20% - 8px);
-}
-
-.btn-detail-topic{
+.btn-detail-topic-new {
     font-size: 0.6rem !important;
     position: absolute;
     width: 5rem;
@@ -49,3 +38,4 @@ img.card-img-top.img-user-topic {
     transition: all 500ms ease-in-out;
     display: none !important;
 }
+
