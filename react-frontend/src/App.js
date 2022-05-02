@@ -12,7 +12,8 @@ import AdminHomePage from './pages/AdminHomePage/AdminHomePage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import UserCoursePage from  './pages/UserHomePage/UserCoursePage';
 import { connect } from 'react-redux';
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 class App extends Component {
 

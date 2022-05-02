@@ -13,6 +13,7 @@ import Sidebar from '../../components/UserSideBar/Sidebar'
 import AdminAlertInfo from '../../components/AdminAlertInfo/AdminAlertInfo'
 import * as ReactBootstrap from 'react-bootstrap'
 import { connect } from 'react-redux';
+import Slider from '../../components/Slider/Slider';
 
 class UserHomePage extends Component {
 
