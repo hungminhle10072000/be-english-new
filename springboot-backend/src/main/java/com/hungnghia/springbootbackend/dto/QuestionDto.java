@@ -1,5 +1,7 @@
 package com.hungnghia.springbootbackend.dto;
 
+import java.util.List;
+
 public class QuestionDto {
     private long id;
     private String correct_answer;
@@ -12,10 +14,11 @@ public class QuestionDto {
     private String audio;
     private String paragraph;
     private int ordinal_number;
-    private String type;
+    private int type;
     private LessonDto lessonDto;
     private ExerciseDto exerciseDto;
     private long exerciseId;
+    private List<ResultDetailDto> resultDetailDtoList;
 
     public long getId() {
         return id;
@@ -97,11 +100,11 @@ public class QuestionDto {
         this.ordinal_number = ordinal_number;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -127,5 +130,13 @@ public class QuestionDto {
 
     public void setExerciseId(long exerciseId) {
         this.exerciseId = exerciseId;
+    }
+
+    public List<ResultDetailDto> getResultDetailDtoList() {
+        return resultDetailDtoList;
+    }
+
+    public void setResultDetailDtoList(List<ResultDetailDto> resultDetailDtoList) {
+        this.resultDetailDtoList = resultDetailDtoList;
     }
 }
