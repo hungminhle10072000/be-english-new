@@ -1,6 +1,8 @@
 package com.hungnghia.springbootbackend.service;
 
+import com.hungnghia.springbootbackend.converter.ExerciseConverter;
 import com.hungnghia.springbootbackend.dto.AddExerciseDto;
+import com.hungnghia.springbootbackend.dto.ExerciseDto;
 import com.hungnghia.springbootbackend.entities.ExerciseEntity;
 import com.hungnghia.springbootbackend.entities.QuestionEntity;
 import com.hungnghia.springbootbackend.entities.ResultDetailEntity;
@@ -34,8 +36,17 @@ public class ExerciseService {
     @Autowired
     private AmazonClient amazonClient;
 
+    @Autowired
+    private ExerciseConverter exerciseConverter;
+
     public List<ExerciseEntity> getAllExercise() {
         return exerciseRepository.findAll();
+    }
+
+    public List<ExerciseDto> getAllExerciseUser() {
+        List<ExerciseEntity> exerciseEntities = exerciseRepository.findAll();
+        List<ExerciseDto> exerciseDtos = exerciseConverter.toListDtos(exerciseEntities);
+        return  exerciseDtos;
     }
 
     public ExerciseEntity getExerciseWithId(Long id) {

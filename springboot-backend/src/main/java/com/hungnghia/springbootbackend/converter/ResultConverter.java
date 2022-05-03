@@ -22,36 +22,42 @@ public class ResultConverter {
 
     public ResultEntity toEntity(ResultDto resultDto) {
         ResultEntity resultEntity = new ResultEntity();
-        if (resultDto.getId() !=null) {
-            resultEntity.setId(resultDto.getId());
+        if (resultDto != null) {
+            if (resultDto.getId() !=null) {
+                resultEntity.setId(resultDto.getId());
+            }
+
+            resultEntity.setCorrect_listen(resultDto.getCorrectListen());
+            resultEntity.setCorrect_read(resultDto.getCorrectRead());
+            if (resultDto.getExerciseId() !=null) {
+                ExerciseEntity exercise = exerciseRepository.getById(resultDto.getExerciseId());
+                resultEntity.setExerciseEntity(exercise);
+            }
+            if (resultDto.getUserId() !=null) {
+                UserEntity user =userRepository.getById(resultDto.getUserId());
+                resultEntity.setUserEntity(user);
+            }
         }
 
-        resultEntity.setCorrect_listen(resultDto.getCorrectListen());
-        resultEntity.setCorrect_read(resultDto.getCorrectRead());
-        if (resultDto.getExerciseId() !=null) {
-            ExerciseEntity exercise = exerciseRepository.getById(resultDto.getExerciseId());
-            resultEntity.setExerciseEntity(exercise);
-        }
-        if (resultDto.getUserId() !=null) {
-            UserEntity user =userRepository.getById(resultDto.getUserId());
-            resultEntity.setUserEntity(user);
-        }
         return resultEntity;
     }
 
     public ResultDto toDto(ResultEntity resultEntity) {
         ResultDto resultDto = new ResultDto();
-        resultDto.setId(resultEntity.getId());
-        resultDto.setCorrectListen(resultEntity.getCorrect_listen());
-        resultDto.setCorrectRead(resultEntity.getCorrect_read());
-        resultDto.setTotalRight(resultEntity.getTotal_right());
-        resultDto.setTotalWrong(resultEntity.getTotal_wrong());
-        if (resultEntity.getUserEntity()!=null) {
-            resultDto.setUserId(resultEntity.getUserEntity().getId());
+        if (resultEntity != null) {
+            resultDto.setId(resultEntity.getId());
+            resultDto.setCorrectListen(resultEntity.getCorrect_listen());
+            resultDto.setCorrectRead(resultEntity.getCorrect_read());
+            resultDto.setTotalRight(resultEntity.getTotal_right());
+            resultDto.setTotalWrong(resultEntity.getTotal_wrong());
+            if (resultEntity.getUserEntity()!=null) {
+                resultDto.setUserId(resultEntity.getUserEntity().getId());
+            }
+            if (resultEntity.getExerciseEntity() != null) {
+                resultDto.setExerciseId(resultEntity.getExerciseEntity().getId());
+            }
         }
-        if (resultEntity.getExerciseEntity() != null) {
-            resultDto.setExerciseId(resultEntity.getExerciseEntity().getId());
-        }
+
         return resultDto;
     }
 
