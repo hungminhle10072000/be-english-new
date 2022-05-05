@@ -27,4 +27,9 @@ public class ResultDetailController {
         boolean result = resultDetailService.addAnswers(answers);
         return result;
     }
+    @PostMapping("/addAnswersMobile")
+    public boolean addAnswersMobile(@RequestBody List<ResultDetailDto> answers) {
+        boolean result = resultDetailService.addAnswers(answers);
+        return result;
+    }
 }
