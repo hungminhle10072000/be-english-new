@@ -12,6 +12,7 @@ public class QuestionDto {
 
     private String content_question;
     private String audio;
+    private String imageDescription;
     private String paragraph;
     private int ordinal_number;
     private int type;
@@ -138,5 +139,13 @@ public class QuestionDto {
 
     public void setResultDetailDtoList(List<ResultDetailDto> resultDetailDtoList) {
         this.resultDetailDtoList = resultDetailDtoList;
+    }
+
+    public String getImageDescription() {
+        return imageDescription;
+    }
+
+    public void setImageDescription(String imageDescription) {
+        this.imageDescription = imageDescription;
     }
 }

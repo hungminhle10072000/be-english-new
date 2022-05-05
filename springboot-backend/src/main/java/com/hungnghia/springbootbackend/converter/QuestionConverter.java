@@ -28,6 +28,7 @@ public class QuestionConverter {
             questionEntity.setOption_2(questionDto.getOption_2());
             questionEntity.setOption_3(questionDto.getOption_3());
             questionEntity.setOption_4(questionDto.getOption_4());
+            questionEntity.setImage_description(questionDto.getImageDescription());
         }
         return questionEntity;
     }
@@ -46,6 +47,7 @@ public class QuestionConverter {
             questionDto.setParagraph(questionEntity.getParagraph());
             questionDto.setOrdinal_number(questionEntity.getOrdinal_number());
             questionDto.setType(questionEntity.getType());
+            questionDto.setImageDescription(questionEntity.getImage_description());
             if (questionEntity.getLessonEntity()!=null) {
                 questionDto.setLessonDto(lessonConverter.toDto(questionEntity.getLessonEntity()));
             }
