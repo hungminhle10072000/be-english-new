@@ -11,14 +11,20 @@ import java.util.Date;
 @Table(name = "Statistical")
 public class StatisticalEntity {
 
-    @Id
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date dateCreate;
+    @EmbeddedId
+    Use_Statistical_Key use_statistical_key;
 
-    @Column
+    @Column(name = "score")
     private int score;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @MapsId("userId")
+    @JoinColumn(name = "userId")
     private UserEntity userEntity;
+
+    @ManyToOne
+    @MapsId("dateCreateId")
+    @JoinColumn(name = "dateCreateId")
+    private DateWriteEntity dateWriteEntity;
+
 }

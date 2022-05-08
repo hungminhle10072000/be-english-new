@@ -37,7 +37,7 @@ public class VocabularyEntity {
     @Column(name = "file_audio")
     private String file_audio;
 
-//    @Column(name = "check_learn", columnDefinition = "boolean default false")
+//    @Column(name = "check_learn")
 //    private boolean check_learn;
 
     @ManyToOne
