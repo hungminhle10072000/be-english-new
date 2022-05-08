@@ -16,6 +16,7 @@ import UserEditInfomation from '../pages/UserEditInfo/UserEditInfo';
 import UserExercisePage from '../pages/UserHomePage/UserExercisePage';
 import UserTopicExercisePage from '../pages/UserHomePage/UserTopicExercisePage';
 import HomePage from '../pages/HomePage/HomePage';
+import UserStatisticalPage from '../pages/UserHomePage/UserStatisticalPage';
 
 export default class UserRoutes extends Component {
     render() {
@@ -32,7 +33,7 @@ export default class UserRoutes extends Component {
                     <Route exact path="/user/account/edit/:id" component={UserEditInfomation}/>   
                     <Route exact path="/user/exercise" component={UserTopicExercisePage}/>    
                     <Route exact path="/user/exercise/:id" component={UserExercisePage}/>   
-
+                    <Route exact path="/user/statistical" component={UserStatisticalPage}/> 
                     {/* <Route exact path="/" component={ContentPage} />
                     <Route path="*" component={NotFoundPage} /> */}
                 </Switch>   
