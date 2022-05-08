@@ -44,7 +44,7 @@ public class ResultDetailService {
             }
             if (userId !=null && exerciseId !=null) {
                 List<ResultEntity> results = resultRepository.findResultEntitiesByUserEntity_IdAndExerciseEntity_Id(userId,exerciseId);
-                if (results != null) {
+                if (results != null && results.size() > 0 ) {
                     ResultEntity result = results.get(0);
                     if (result != null) {
                         result.setTotal_right(numCorrect);
