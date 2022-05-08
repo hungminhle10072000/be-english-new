@@ -7,11 +7,14 @@ import {withRouter} from 'react-router-dom'
 import PropTypes from "prop-types"
 import { Spring, animated } from 'react-spring'
 import './TopicVocabularyNew.css';
+import iconNew from '../../assets/images/icon-new.jpg'
+
 
 class TopicVocabularyNew extends Component {
 
+
     handleDetailTopic = () => {
-        this.props.history.push('/user/topic-vocabulary/' + '1' + '/' + 'Test');
+        this.props.history.push('/user/topic-vocabulary/' + this.props.id + '/' + convertURL(this.props.name));
     }
 
     static propTypes = {
@@ -30,9 +33,10 @@ class TopicVocabularyNew extends Component {
                 {props => 
                     <animated.div style={props} className='col mb-2 item-topic-new'>
                         <div className='card card-item-topic-new'>
-                            <img className='img-topic-new' src='https://web-english.s3.ap-southeast-1.amazonaws.com/1651330558668-01.jpg' alt="Ảnh mô tả chủ đề topic"/>
+                            <img className='icon-new' src={iconNew}/>
+                            <img className='img-topic-new' src={this.props.image} alt="Ảnh mô tả chủ đề topic"/>
                             <div className='card-body'>
-                                <h6 className='card-title'>Contract</h6>
+                                <h6 className='card-title'>{this.props.name}</h6>
                             </div>
                             <div>
                                 <button onClick={() => this.handleDetailTopic()}

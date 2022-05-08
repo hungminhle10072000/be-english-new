@@ -5,7 +5,7 @@ import './SlideSwipper.css';
 
 export default class SliderSwipper extends Component {
   render() {
-    const numbers = [1,2,3,4,5,6,7,8,9];
+    const listTopicNews = this.props.dataTopicsNew
     const settings = {
       className: "center",
       infinite: true,
@@ -21,23 +21,20 @@ export default class SliderSwipper extends Component {
     return (
       <div>
         <Slider {...settings} className='div-slide-swipper' >
-            <TopicVocabularyNew />
-            <TopicVocabularyNew />
-            <TopicVocabularyNew />
-            <TopicVocabularyNew />
-            <TopicVocabularyNew />
-            <TopicVocabularyNew />
-            <TopicVocabularyNew />
-            <TopicVocabularyNew />
-            <TopicVocabularyNew />
-            <TopicVocabularyNew />
-            {/* {numbers.map((index, item) => {
+            {
+              listTopicNews != null 
+              &&
+              listTopicNews.map((topic, index) => {
                 return (
-                    <div key={index}>
-                        <h1 style={{ color: "red", fontSize: 100, textAlign: "center"}}>{item}</h1>
-                    </div>
+                  <TopicVocabularyNew 
+                        key = {index}
+                        id={topic.id}
+                        name={topic.name}
+                        image={topic.image}
+                  />
                 )
-            })}             */}
+              })
+            }
         </Slider>
       </div>
     );
