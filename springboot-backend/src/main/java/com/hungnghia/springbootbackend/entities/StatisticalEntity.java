@@ -22,9 +22,4 @@ public class StatisticalEntity {
     @JoinColumn(name = "userId")
     private UserEntity userEntity;
 
-    @ManyToOne
-    @MapsId("dateCreateId")
-    @JoinColumn(name = "dateCreateId")
-    private DateWriteEntity dateWriteEntity;
-
 }

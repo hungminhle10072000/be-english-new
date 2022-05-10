@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
@@ -17,7 +19,7 @@ public class VocabularyTopicService {
     private final AmazonClient amazonClient;
 
     @Autowired
-    public VocabularyTopicService(VocabularyTopicRepository vocabularyTopicRepository,AmazonClient amazonClient) {
+    public VocabularyTopicService(VocabularyTopicRepository vocabularyTopicRepository, AmazonClient amazonClient) {
         this.vocabularyTopicRepository = vocabularyTopicRepository;
         this.amazonClient = amazonClient;
     }
@@ -32,17 +34,17 @@ public class VocabularyTopicService {
     }
 
     @Transactional
-    public VocabularyTopicEntity deleteVocabularyTopics (Long id){
+    public VocabularyTopicEntity deleteVocabularyTopics(Long id) {
         VocabularyTopicEntity vocabularyTopicEntity = getVocaTopic(id);
         vocabularyTopicRepository.delete(vocabularyTopicEntity);
         return vocabularyTopicEntity;
     }
 
-    public VocabularyTopicEntity getVocaTopic(Long id){
+    public VocabularyTopicEntity getVocaTopic(Long id) {
         return vocabularyTopicRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tồn tại chủ đề từ vựng với id : " + id));
     }
 
-    public List<VocabularyTopicEntity> getVocabularyTopics(){
+    public List<VocabularyTopicEntity> getVocabularyTopics() {
         return vocabularyTopicRepository.findAll();
     }
 
@@ -51,11 +53,19 @@ public class VocabularyTopicService {
     public VocabularyTopicEntity updateVocaTopic(Long id, String name_topic, MultipartFile image) {
         VocabularyTopicEntity vocabularyTopicEntity = vocabularyTopicRepository.getById(id);
         vocabularyTopicEntity.setName(name_topic);
-        if(!(image == null)){
+        if (!(image == null)) {
             String imageUrl = amazonClient.uploadFile(image);
             vocabularyTopicEntity.setImage(imageUrl);
         }
         return vocabularyTopicRepository.save(vocabularyTopicEntity);
+    }
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public List<VocabularyTopicEntity> getNewTopicVoca() {
+        return entityManager.createQuery("select p from VocabularyTopicEntity p order by p.id desc",
+                VocabularyTopicEntity.class).setMaxResults(10).getResultList();
     }
 
 }
