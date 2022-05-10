@@ -3,6 +3,7 @@ import {authHeader} from './auth-header';
 
 const TOPIC_VOCA_API_END_POINT = "/api/topic-vocas";
 const USER_TOPIC_VOCA_API_END_POINT = '/api/user-topic-vocas';
+const USER_TOPIC_VOCA_NEW_API_END_POINT = '/api/user-topic-vocas-new';
 
 const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -56,6 +57,11 @@ class VocabularyTopicService {
     // user get all voca topic
     userGetAllVocaTopic = () => {
         return axios.get(USER_TOPIC_VOCA_API_END_POINT);
+    }
+
+    //use get topic new
+    userGetTopicNew = () => {
+        return axios.get(USER_TOPIC_VOCA_NEW_API_END_POINT);
     }
 
 }
