@@ -1,10 +1,8 @@
 package com.hungnghia.springbootbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
 @Entity
@@ -20,6 +18,7 @@ public class StatisticalEntity {
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "userId")
+    @JsonIgnore
     private UserEntity userEntity;
 
 }

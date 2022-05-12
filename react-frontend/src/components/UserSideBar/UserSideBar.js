@@ -35,6 +35,12 @@ export const UserSideBar = [
     path: '/user/exercise',
     icon: <GiPrayer color='black'/>,
     cName: 'nav-user-text'
+  },
+  {
+    title: 'Thống kê',
+    path: '/user/statistical',
+    icon: <GiPrayer color='black'/>,
+    cName: 'nav-user-text'
   }
 ];
 

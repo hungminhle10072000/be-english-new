@@ -2,6 +2,7 @@ package com.hungnghia.springbootbackend.service;
 
 import com.hungnghia.springbootbackend.converter.ResultDetailConverter;
 import com.hungnghia.springbootbackend.dto.ResultDetailDto;
+import com.hungnghia.springbootbackend.dto.StatisticalDto;
 import com.hungnghia.springbootbackend.entities.ResultDetailEntity;
 import com.hungnghia.springbootbackend.entities.ResultEntity;
 import com.hungnghia.springbootbackend.repository.ResultDetailRepository;
@@ -19,8 +20,11 @@ public class ResultDetailService {
     private ResultDetailRepository resultDetailRepository;
     @Autowired
     private ResultRepository resultRepository;
+    @Autowired
+    private StatisticalService statisticalService;
 
     public boolean addAnswers(List<ResultDetailDto> answers) {
+        StatisticalDto statisticalDto = new StatisticalDto();
         int numCorrect = 0;
         int numWrong =0;
         Long userId = null;
@@ -53,6 +57,9 @@ public class ResultDetailService {
                     }
                 }
             }
+            statisticalDto.setUserId(userId);
+            statisticalDto.setScore(numCorrect*10);
+            statisticalService.addScore(statisticalDto);
         }
         return true;
     }

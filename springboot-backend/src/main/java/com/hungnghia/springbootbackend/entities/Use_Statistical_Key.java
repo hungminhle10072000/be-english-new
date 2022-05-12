@@ -17,4 +17,12 @@ public class Use_Statistical_Key implements Serializable {
     @Column(name = "dateCreateId")
     private Date dateCreateId;
 
+    public Use_Statistical_Key(long userId, Date dateCreateId) {
+        this.userId = userId;
+        this.dateCreateId = dateCreateId;
+    }
+
+    public Use_Statistical_Key() {
+
+    }
 }
