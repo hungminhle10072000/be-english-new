@@ -26,9 +26,6 @@ public class StatisticalConverter {
         statisticalEntity.setUse_statistical_key(useStatisticalKey);
         UserEntity userEntity = userRepository.getById(statisticalDto.getUserId());
         statisticalEntity.setUserEntity(userEntity);
-        DateWriteEntity dateWrite = new DateWriteEntity();
-        dateWrite.setDateCreate(statisticalDto.getDateCreateDate());
-        statisticalEntity.setDateWriteEntity(dateWrite);
       }
       statisticalEntity.setScore(statisticalDto.getScore());
 
