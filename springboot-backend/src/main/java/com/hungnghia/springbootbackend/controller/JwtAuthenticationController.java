@@ -1,5 +1,6 @@
 package com.hungnghia.springbootbackend.controller;
 
+import com.google.gson.Gson;
 import com.hungnghia.springbootbackend.config.JwtTokenUtil;
 import com.hungnghia.springbootbackend.dto.JwtRequest;
 import com.hungnghia.springbootbackend.dto.JwtResponse;
@@ -38,6 +39,21 @@ public class JwtAuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestPart("userDto") UserDto userDto, @RequestPart("file") MultipartFile file){
+        if(userService.checkExistUserName(userDto.getUsername())){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        else if(userService.checkExistEmail(userDto.getEmail())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        else return ResponseEntity.ok(userService.addUser(userDto, file));
+
+    }
+
+    @PostMapping("/registerMobile")
+    public ResponseEntity<?> saveUser(@RequestParam String strUser, @RequestPart("file") MultipartFile file){
+        Gson gson = new Gson();
+        UserDto userDto = gson.fromJson(strUser, UserDto.class);
+        userDto.setId(null);
         if(userService.checkExistUserName(userDto.getUsername())){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
