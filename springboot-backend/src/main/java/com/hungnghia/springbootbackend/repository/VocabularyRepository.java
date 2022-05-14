@@ -12,5 +12,4 @@ public interface VocabularyRepository extends JpaRepository<VocabularyEntity, Lo
 
     @Query("select u from VocabularyEntity u where u.vocabularyTopicEntity.id = ?1")
     List<VocabularyEntity> findVocabularyByTopic(Long id);
-
 }

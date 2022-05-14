@@ -12,7 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class VocabularyService {
@@ -29,12 +35,12 @@ public class VocabularyService {
     }
 
     @Transactional
-    public List<VocabularyEntity> findVocabularyByTopic(Long id){
+    public List<VocabularyEntity> findVocabularyByTopic(Long id) {
         return vocabularyRepository.findVocabularyByTopic(id);
     }
 
     @Transactional
-    public VocabularyEntity addVocabulary(VocabularyDto vocabularyDto, MultipartFile file_audio, MultipartFile file_image){
+    public VocabularyEntity addVocabulary(VocabularyDto vocabularyDto, MultipartFile file_audio, MultipartFile file_image) {
         VocabularyEntity vocabularyEntity = new VocabularyEntity();
         VocabularyTopicEntity vocabularyTopicEntity = vocabularyTopicRepository.findById(vocabularyDto.getIdVocabularyTopic())
                 .orElse(null);
@@ -52,19 +58,19 @@ public class VocabularyService {
     }
 
     @Transactional
-    public VocabularyEntity deleteVocabulary (Long id){
+    public VocabularyEntity deleteVocabulary(Long id) {
         VocabularyEntity vocabularyEntity = getVoca(id);
         vocabularyRepository.delete(vocabularyEntity);
         return vocabularyEntity;
     }
 
-    public VocabularyEntity getVoca(Long id){
+    public VocabularyEntity getVoca(Long id) {
         return vocabularyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tồn tại từ vựng với id : " + id));
     }
 
     /*Edit vocabulary*/
     @Transactional
-    public VocabularyEntity updateVocabulary(Long id, VocabularyUpdateDto vocabularyUpdateDto, MultipartFile file_audio, MultipartFile file_image){
+    public VocabularyEntity updateVocabulary(Long id, VocabularyUpdateDto vocabularyUpdateDto, MultipartFile file_audio, MultipartFile file_image) {
         VocabularyEntity vocabularyEntity = getVoca(id);
         vocabularyEntity.setContent(vocabularyUpdateDto.getContent());
         vocabularyEntity.setTranscribe(vocabularyUpdateDto.getTranscribe());
@@ -72,15 +78,37 @@ public class VocabularyService {
         vocabularyEntity.setMean(vocabularyUpdateDto.getMean());
         vocabularyEntity.setExplain_vocabulary(vocabularyUpdateDto.getExplain_vocabulary());
         vocabularyEntity.setExample_vocabulary(vocabularyUpdateDto.getExample_vocabulary());
-        if(!(file_audio == null)){
+        if (!(file_audio == null)) {
             String fileAudioUrl = amazonClient.uploadFile(file_audio);
             vocabularyEntity.setFile_audio(fileAudioUrl);
         }
-        if(!(file_image == null)){
+        if (!(file_image == null)) {
             String fileImageUrl = amazonClient.uploadFile(file_image);
             vocabularyEntity.setImage(fileImageUrl);
         }
         vocabularyRepository.save(vocabularyEntity);
         return vocabularyEntity;
+    }
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public List<VocabularyEntity> getRandomVoca(int countRandom) {
+        List<VocabularyEntity> vocabularyEntityList = new ArrayList<VocabularyEntity>();
+        Query queryCount = entityManager.createQuery("select count(u) from VocabularyEntity u");
+        Long size = (Long) queryCount.getSingleResult();
+        if (size < countRandom) {
+            return vocabularyRepository.findAll();
+        } else {
+            long min = 1;
+            long max = size;
+            List<Long> randList = new Random().longs(countRandom, min, max)
+                    .boxed().collect(Collectors.toList());
+            for (long index : randList) {
+                System.out.println(index);
+                vocabularyEntityList.add(vocabularyRepository.findById(index).get());
+            }
+        }
+        return vocabularyEntityList;
     }
 }
