@@ -116,8 +116,9 @@ public class StatisticalService {
     return calendar.getTime();
   }
   private Date[] getDaysOfWeek(Date refDate, int firstDayOfWeek) {
+    Date newRefDate = new Date(refDate.getTime()-24*60*60*1000);
     Calendar calendar = Calendar.getInstance();
-    calendar.setTime(refDate);
+    calendar.setTime(newRefDate);
     calendar.set(Calendar.DAY_OF_WEEK, firstDayOfWeek);
     Date[] daysOfWeek = new Date[7];
     for (int i = 0; i < 7; i++) {
