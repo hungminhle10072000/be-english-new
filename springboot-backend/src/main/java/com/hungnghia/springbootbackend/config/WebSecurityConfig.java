@@ -1,4 +1,5 @@
 package com.hungnghia.springbootbackend.config;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,17 +48,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/authenticate", "/register","/api/users/check-username-email","/api/user-topic-vocas",
-                                                "/api/user-vocabulary/**","/api/user-grammars","/api/user-grammars/**","/api/course/getAll",
-                                                "/api/course/edit/**","/api/comment/getCommentByLessonId/**","/api/comment/getCommentByVocabularyTopicId/**",
-                                                "/api/comment/getCommentByGrammarId/**","/api/question/findQuestionByExerciseId/**",
-                                                "/api/resultdetail/addAnswers","/api/result/findResultsByUserIdAndExerciseId","/api/exercise/reset/**",
-                                                "/api/course/**","/api/exercise","/api/exercise/getAll", "/api/user-topic-vocas-new"
-                ,"/registerMobile"
+                .authorizeRequests().antMatchers("/authenticate", "/register", "/api/users/check-username-email", "/api/user-topic-vocas",
+                        "/api/user-vocabulary/**", "/api/user-grammars", "/api/user-grammars/**", "/api/course/getAll",
+                        "/api/course/edit/**", "/api/comment/getCommentByLessonId/**", "/api/comment/getCommentByVocabularyTopicId/**",
+                        "/api/comment/getCommentByGrammarId/**", "/api/question/findQuestionByExerciseId/**",
+                        "/api/resultdetail/addAnswers", "/api/result/findResultsByUserIdAndExerciseId", "/api/exercise/reset/**",
+                        "/api/course/**", "/api/exercise", "/api/exercise/getAll", "/api/user-topic-vocas-new"
+                        , "/registerMobile", "/api/user-vocabulary/random/**"
 //                        , "/api/users/change-passWord"
                 ).permitAll().
-                        anyRequest().authenticated().and().
-                        exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                anyRequest().authenticated().and().
+                exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

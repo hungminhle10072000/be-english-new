@@ -25,25 +25,25 @@ public class VocabularyController {
 
     /*get all vocabulary with topic*/
     @GetMapping(value = "/vocabulary/{idTopic}")
-    public List<VocabularyEntity> getAllVocabularyWithTopic(@PathVariable Long idTopic){
+    public List<VocabularyEntity> getAllVocabularyWithTopic(@PathVariable Long idTopic) {
         return vocabularyService.findVocabularyByTopic(idTopic);
     }
 
     /*user getl all vocabulary with id topic*/
     @GetMapping(value = "/user-vocabulary/{idTopic}")
-    public List<VocabularyEntity> userGetAllVocabularyWithTopic(@PathVariable Long idTopic){
+    public List<VocabularyEntity> userGetAllVocabularyWithTopic(@PathVariable Long idTopic) {
         return vocabularyService.findVocabularyByTopic(idTopic);
     }
 
     /*add vocabulary for topicId*/
     @PostMapping("/vocabulary")
-    public VocabularyEntity addVocabulary(@RequestPart("vocabularyDto") VocabularyDto vocabularyDto, @RequestPart("file_audio")MultipartFile file_audio, @RequestPart("file_image") MultipartFile file_image){
+    public VocabularyEntity addVocabulary(@RequestPart("vocabularyDto") VocabularyDto vocabularyDto, @RequestPart("file_audio") MultipartFile file_audio, @RequestPart("file_image") MultipartFile file_image) {
         return vocabularyService.addVocabulary(vocabularyDto, file_audio, file_image);
     }
 
     /*Delete vocabulary with id*/
     @DeleteMapping("/vocabulary/{id}")
-    public ResponseEntity<VocabularyEntity> deleteVocabulary(@PathVariable String id){
+    public ResponseEntity<VocabularyEntity> deleteVocabulary(@PathVariable String id) {
         long idVoca = Long.parseLong(id);
         VocabularyEntity vocabularyEntity = vocabularyService.deleteVocabulary(idVoca);
         return ResponseEntity.ok(vocabularyEntity);
@@ -51,7 +51,7 @@ public class VocabularyController {
 
     /*Get vocabulary with id*/
     @GetMapping("/vocabulary/getVocaByid/{id}")
-    public ResponseEntity<VocabularyEntity> getVocabularyWithId(@PathVariable("id") Long id){
+    public ResponseEntity<VocabularyEntity> getVocabularyWithId(@PathVariable("id") Long id) {
         VocabularyEntity vocabularyEntity = vocabularyService.getVoca(id);
         return ResponseEntity.ok(vocabularyEntity);
     }
@@ -59,9 +59,15 @@ public class VocabularyController {
     /*Update vocabulary*/
     @PutMapping("/vocabulary/{id}")
     public ResponseEntity<VocabularyEntity> updateVocabulary(@PathVariable("id") Long id, @RequestPart("vocabularyUpdateDto") VocabularyUpdateDto vocabularyUpdateDto,
-                                                             @RequestParam(name="file_audio", required = false) MultipartFile file_audio, @RequestParam(name="file_image", required = false) MultipartFile file_image){
+                                                             @RequestParam(name = "file_audio", required = false) MultipartFile file_audio, @RequestParam(name = "file_image", required = false) MultipartFile file_image) {
         VocabularyEntity vocabularyEntity = vocabularyService.updateVocabulary(id, vocabularyUpdateDto, file_audio, file_image);
         return ResponseEntity.ok(vocabularyEntity);
+    }
+
+    /*get random vocabulary limit count*/
+    @GetMapping("/user-vocabulary/random/{total}")
+    public ResponseEntity<?> getRandomVocabulary(@PathVariable("total") int total) {
+        return ResponseEntity.ok(vocabularyService.getRandomVoca(total));
     }
 
 }
