@@ -94,19 +94,18 @@ public class VocabularyService {
     private EntityManager entityManager;
 
     public List<VocabularyEntity> getRandomVoca(int countRandom) {
+
+        List<Long> listIdVoca = vocabularyRepository.findListIdVoca();
         List<VocabularyEntity> vocabularyEntityList = new ArrayList<VocabularyEntity>();
-        Query queryCount = entityManager.createQuery("select count(u) from VocabularyEntity u");
-        Long size = (Long) queryCount.getSingleResult();
-        if (size < countRandom) {
+        if (listIdVoca.size() < countRandom) {
             return vocabularyRepository.findAll();
         } else {
-            long min = 1;
-            long max = size;
-            List<Long> randList = new Random().longs(countRandom, min, max)
+            List<Long> randList = new Random().longs(countRandom, 0, listIdVoca.size() - 1)
                     .boxed().collect(Collectors.toList());
-            for (long index : randList) {
-                System.out.println(index);
-                vocabularyEntityList.add(vocabularyRepository.findById(index).get());
+            for (long indexRandom : randList) {
+                int indexConvert = (int) indexRandom;
+                Long idVoca = listIdVoca.get(indexConvert);
+                vocabularyEntityList.add(vocabularyRepository.findById(idVoca).get());
             }
         }
         return vocabularyEntityList;
