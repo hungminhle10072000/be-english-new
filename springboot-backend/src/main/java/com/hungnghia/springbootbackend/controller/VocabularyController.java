@@ -70,4 +70,10 @@ public class VocabularyController {
         return ResponseEntity.ok(vocabularyService.getRandomVoca(total));
     }
 
+    @PutMapping("/user-vocabulary/write-score/{totalCorrect}")
+    public ResponseEntity<?> writeScore(@PathVariable("totalCorrect") int totalCorrect) {
+//        return ResponseEntity.badRequest().body("Write score failed");
+        return ResponseEntity.ok("Write score success");
+    }
+
 }
