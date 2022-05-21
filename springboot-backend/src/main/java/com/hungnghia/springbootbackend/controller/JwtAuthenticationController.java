@@ -50,17 +50,17 @@ public class JwtAuthenticationController {
     }
 
     @PostMapping("/registerMobile")
-    public ResponseEntity<?> saveUser(@RequestParam String strUser, @RequestPart("file") MultipartFile file){
+    public String saveUser(@RequestParam String strUser, @RequestPart("file") MultipartFile file){
         Gson gson = new Gson();
         UserDto userDto = gson.fromJson(strUser, UserDto.class);
         userDto.setId(null);
         if(userService.checkExistUserName(userDto.getUsername())){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return "409";
         }
         else if(userService.checkExistEmail(userDto.getEmail())){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return "400";
         }
-        else return ResponseEntity.ok(userService.addUser(userDto, file));
+        else return userService.addUser(userDto, file) != null ? "200" : "0";
 
     }
 
