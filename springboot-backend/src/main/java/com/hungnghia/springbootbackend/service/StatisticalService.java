@@ -34,6 +34,51 @@ public class StatisticalService {
     return statisticalDtos;
   }
 
+  public List<StatisticalDto> findStatisticalOfWeekByUserId(long userId) {
+    Date refDate = new Date();
+    Date[] days = getDaysOfWeek(refDate, Calendar.getInstance().getFirstDayOfWeek());
+
+    List<StatisticalEntity> statisticalEntitiesOfWeek = new ArrayList<>();
+    List<StatisticalEntity> statisticalEntities = statisticalRepository.findStatisticalEntitiesByUserEntity_Id(userId);
+
+
+
+    if (statisticalEntities != null && statisticalEntities.size() > 0) {
+      for (Date day : days) {
+        System.out.println(day);
+        boolean flag =false;
+        int tmpDay = day.getDate();
+        int tmpMonth = day.getMonth();
+        int tmpYear = day.getYear();
+        System.out.println(tmpDay+"-"+tmpMonth+"-"+tmpYear);
+        for (int i=0 ;i < statisticalEntities.size();i++) {
+          Date dbDate =statisticalEntities.get(i).getUse_statistical_key().getDateCreateId();
+          if (dbDate.getDate() == tmpDay &&
+              dbDate.getMonth() == tmpMonth &&
+              dbDate.getYear() == tmpYear) {
+            statisticalEntitiesOfWeek.add(statisticalEntities.get(i));
+            flag = true;
+          }
+        }
+        if (flag == false) {
+          StatisticalEntity statisticalEntity = new StatisticalEntity();
+          Use_Statistical_Key useStatisticalKey= new Use_Statistical_Key();
+          useStatisticalKey.setUserId(userId);
+          useStatisticalKey.setDateCreateId(day);
+          statisticalEntity.setUse_statistical_key(useStatisticalKey);
+          statisticalEntity.setScore(0);
+          statisticalEntitiesOfWeek.add(statisticalEntity);
+        }
+      }
+    }
+    List<StatisticalDto> statisticalDtos = new ArrayList<>();
+    if (statisticalEntitiesOfWeek.size() > 0) {
+      statisticalDtos = statisticalConverter.toListDtos(statisticalEntitiesOfWeek);
+    }
+    return statisticalDtos;
+  }
+
+
   public StatisticalDto addScore(StatisticalDto statisticalDto) {
     StatisticalEntity statisticalRes = null;
     if (statisticalDto.getDateCreateDate() == null) {
@@ -70,4 +115,17 @@ public class StatisticalService {
     calendar.set(year, month, day, 0, 0, 0);
     return calendar.getTime();
   }
+  private Date[] getDaysOfWeek(Date refDate, int firstDayOfWeek) {
+    Date newRefDate = new Date(refDate.getTime()-24*60*60*1000);
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(newRefDate);
+    calendar.set(Calendar.DAY_OF_WEEK, firstDayOfWeek);
+    Date[] daysOfWeek = new Date[7];
+    for (int i = 0; i < 7; i++) {
+      daysOfWeek[i] = calendar.getTime();
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
+    }
+    return daysOfWeek;
+  }
+
 }
