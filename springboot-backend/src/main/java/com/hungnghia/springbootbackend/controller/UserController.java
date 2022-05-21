@@ -72,19 +72,19 @@ public class UserController {
 //    public ResponseEntity<?> saveUser(@RequestParam String strUser, @RequestPart("file") MultipartFile file){
 
     @PutMapping("/usersMobile")
-    public int updateUser(@RequestParam String strUser, @RequestPart("file") MultipartFile file){
+    public String updateUser(@RequestParam String strUser, @RequestPart("file") MultipartFile file){
         Gson gson = new Gson();
         UserDto userDto = gson.fromJson(strUser, UserDto.class);
 
         if(userService.checkExistUpdateUserName(userDto.getUsername(), userDto.getId())){
-            return 409;
+            return "409";
         }
         else if(userService.checkExistUpdateEmail(userDto.getEmail(),userDto.getId())){
-            return 400;
+            return "400";
         }
         else {
             UserEntity updateUser = userService.updateUser(userDto.getId(), userDto, file);
-            return updateUser !=null ? 200 : 0;
+            return updateUser !=null ? updateUser.getAvartar() : "0";
         }
     }
     @PutMapping("/usersMobile2")
