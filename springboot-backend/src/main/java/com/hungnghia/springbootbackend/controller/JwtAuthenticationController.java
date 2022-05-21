@@ -55,7 +55,8 @@ public class JwtAuthenticationController {
         UserDto userDto = gson.fromJson(strUser, UserDto.class);
         userDto.setId(null);
         if(userService.checkExistUserName(userDto.getUsername())){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            ResponseEntity res = new ResponseEntity<>(HttpStatus.CONFLICT);
+            return res;
         }
         else if(userService.checkExistEmail(userDto.getEmail())){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

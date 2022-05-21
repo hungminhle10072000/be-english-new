@@ -1,5 +1,6 @@
 package com.hungnghia.springbootbackend.controller;
 
+import com.google.gson.Gson;
 import com.hungnghia.springbootbackend.dto.MailDto;
 import com.hungnghia.springbootbackend.dto.MissPassWordDto;
 import com.hungnghia.springbootbackend.dto.UserDto;
@@ -67,7 +68,40 @@ public class UserController {
             return ResponseEntity.ok(updateUser);
         }
     }
+//    @PostMapping("/registerMobile")
+//    public ResponseEntity<?> saveUser(@RequestParam String strUser, @RequestPart("file") MultipartFile file){
 
+    @PutMapping("/usersMobile")
+    public int updateUser(@RequestParam String strUser, @RequestPart("file") MultipartFile file){
+        Gson gson = new Gson();
+        UserDto userDto = gson.fromJson(strUser, UserDto.class);
+
+        if(userService.checkExistUpdateUserName(userDto.getUsername(), userDto.getId())){
+            return 409;
+        }
+        else if(userService.checkExistUpdateEmail(userDto.getEmail(),userDto.getId())){
+            return 400;
+        }
+        else {
+            UserEntity updateUser = userService.updateUser(userDto.getId(), userDto, file);
+            return updateUser !=null ? 200 : 0;
+        }
+    }
+    @PutMapping("/usersMobile2")
+    public int updateUser2( @RequestParam String strUser){
+        Gson gson = new Gson();
+        UserDto userDto = gson.fromJson(strUser, UserDto.class);
+        if(userService.checkExistUpdateUserName(userDto.getUsername(), userDto.getId())){
+            return 409;
+        }
+        else if(userService.checkExistUpdateEmail(userDto.getEmail(),userDto.getId())){
+            return 400;
+        }
+        else {
+            UserEntity updateUser = userService.updateUser(userDto.getId(), userDto, null);
+            return updateUser !=null ? 200 : 0;
+        }
+    }
     @PutMapping("/users/edit2/{id}")
     public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
         if(userService.checkExistUpdateUserName(userDto.getUsername(), userDto.getId())){
