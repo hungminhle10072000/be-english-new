@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/resultdetail/addAnswers", "/api/result/findResultsByUserIdAndExerciseId", "/api/exercise/reset/**",
                         "/api/course/**", "/api/exercise", "/api/exercise/getAll", "/api/user-topic-vocas-new"
                         , "/registerMobile", "/api/user-vocabulary/random/**","/api/user-vocabulary/write-score/**","/api/statistical/**"
-                        ,"/api/statistical/**","/api/usersMobile","/api/usersMobile2"
+                        ,"/api/statistical/**","/api/usersMobile","/api/usersMobile2", "/api/users/change-passWord-mobile"
 //                        , "/api/users/change-passWord"
                 ).permitAll().
                 anyRequest().authenticated().and().

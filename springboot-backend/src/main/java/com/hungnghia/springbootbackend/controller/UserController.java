@@ -163,4 +163,25 @@ public class UserController {
         }
     }
 
+
+    @PutMapping("/users/change-passWord-mobile")
+    public String changPassWordMobile (@RequestParam("username") String username,@RequestParam("passwordOld") String passwordOld, @RequestParam("passwordNew") String passwordNew){
+        boolean checkPassWordOld = userService.checkPassWordOld(username, passwordOld);
+        if(!checkPassWordOld){
+            System.out.println("Mật khẩu không chính xác");
+            return  "400";
+        } else {
+            try{
+                 String password = userService.userUpdatePassWord(username, passwordNew);
+                 if (password != null && password.trim().length() > 0) {
+                     return "200";
+                 }
+                return "0";
+            } catch (Exception e){
+                System.out.println("Cập nhật mật khẩu thất bại");
+                return "0";
+            }
+        }
+    }
+
 }
