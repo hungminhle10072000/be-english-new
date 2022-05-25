@@ -1,6 +1,7 @@
 package com.hungnghia.springbootbackend.controller;
 
 import com.hungnghia.springbootbackend.dto.StatisticalDto;
+import com.hungnghia.springbootbackend.dto.StatisticalMasterDto;
 import com.hungnghia.springbootbackend.service.StatisticalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class StatisticalController {
     return statisticalService.findStatisticalOfMonthByUserId(userId);
   }
   @GetMapping("/getStatisticalOfWeekByUserId/{userId}")
-  public List<StatisticalDto> getStatisticalOfWeekByUserId(@PathVariable Long userId) {
+  public StatisticalMasterDto getStatisticalOfWeekByUserId(@PathVariable Long userId) {
     return statisticalService.findStatisticalOfWeekByUserId(userId);
   }
 }

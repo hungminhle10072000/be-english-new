@@ -2,9 +2,12 @@ package com.hungnghia.springbootbackend.service;
 
 import com.hungnghia.springbootbackend.converter.StatisticalConverter;
 import com.hungnghia.springbootbackend.dto.StatisticalDto;
+import com.hungnghia.springbootbackend.dto.StatisticalMasterDto;
 import com.hungnghia.springbootbackend.entities.StatisticalEntity;
 import com.hungnghia.springbootbackend.entities.Use_Statistical_Key;
+import com.hungnghia.springbootbackend.entities.UserEntity;
 import com.hungnghia.springbootbackend.repository.StatisticalRepository;
+import com.hungnghia.springbootbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.*;
@@ -15,6 +18,8 @@ public class StatisticalService {
   private StatisticalRepository statisticalRepository;
   @Autowired
   private StatisticalConverter statisticalConverter;
+  @Autowired
+  private UserRepository userRepository;
 
   public List<StatisticalDto> findStatisticalOfMonthByUserId(long userId) {
     List<StatisticalEntity> statisticalEntitiesOfMonth = new ArrayList<>();
@@ -34,13 +39,14 @@ public class StatisticalService {
     return statisticalDtos;
   }
 
-  public List<StatisticalDto> findStatisticalOfWeekByUserId(long userId) {
+  public StatisticalMasterDto findStatisticalOfWeekByUserId(long userId) {
+    int TARGET = 1000;
     Date refDate = new Date();
-    Date[] days = getDaysOfWeek(refDate, Calendar.getInstance().getFirstDayOfWeek());
+    Date[] days = getDaysOfWeek(refDate, 2);
 
     List<StatisticalEntity> statisticalEntitiesOfWeek = new ArrayList<>();
     List<StatisticalEntity> statisticalEntities = statisticalRepository.findStatisticalEntitiesByUserEntity_Id(userId);
-
+    UserEntity user = userRepository.findById(userId).get();
 
 
     if (statisticalEntities != null && statisticalEntities.size() > 0) {
@@ -75,15 +81,37 @@ public class StatisticalService {
     if (statisticalEntitiesOfWeek.size() > 0) {
       statisticalDtos = statisticalConverter.toListDtos(statisticalEntitiesOfWeek);
     }
-    return statisticalDtos;
+
+    StatisticalMasterDto statisticalMasterDto = new StatisticalMasterDto();
+    statisticalMasterDto.setStatisticalDtoList(statisticalDtos);
+    statisticalMasterDto.setFullname(user.getFullname());
+    if (statisticalEntities != null && statisticalEntities.size() > 0) {
+      StatisticalEntity statisticalCurrent = statisticalEntities.get(statisticalEntities.size()-1);
+      System.out.println("Prev: "+statisticalCurrent.getUse_statistical_key().getDateCreateId().getDate());
+      System.out.println("Next: "+refDate.getDate());
+      if (statisticalCurrent.getUse_statistical_key().getDateCreateId().getDate() == refDate.getDate() ) {
+
+        statisticalMasterDto.setProcess(statisticalCurrent.getScore() / TARGET);
+        for (int i = statisticalEntities.size() -1; i >=0; i--) {
+          if (statisticalEntities.get(i).getScore() > TARGET) {
+            statisticalMasterDto.setStreak(statisticalMasterDto.getStreak()+1);
+          }
+        }
+      }
+    }
+
+
+    return statisticalMasterDto;
   }
 
 
   public StatisticalDto addScore(StatisticalDto statisticalDto) {
     StatisticalEntity statisticalRes = null;
+    Date curr = getStartOfDay(new Date());
     if (statisticalDto.getDateCreateDate() == null) {
-      statisticalDto.setDateCreateDate(new Date(System.currentTimeMillis()/(24*60*60*1000)*(24*60*60*1000)));
+      statisticalDto.setDateCreateDate(curr);
     }
+
     StatisticalEntity statisticalEntity = statisticalConverter.toEntity(statisticalDto);
     if (statisticalEntity != null) {
       Use_Statistical_Key statisticalKey = statisticalEntity.getUse_statistical_key();
@@ -116,7 +144,7 @@ public class StatisticalService {
     return calendar.getTime();
   }
   private Date[] getDaysOfWeek(Date refDate, int firstDayOfWeek) {
-    Date newRefDate = new Date(refDate.getTime()-24*60*60*1000);
+    Date newRefDate = new Date(refDate.getTime());
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(newRefDate);
     calendar.set(Calendar.DAY_OF_WEEK, firstDayOfWeek);
