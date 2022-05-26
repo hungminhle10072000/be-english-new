@@ -1,5 +1,6 @@
 package com.hungnghia.springbootbackend.service;
 
+import com.hungnghia.springbootbackend.dto.StatisticalDto;
 import com.hungnghia.springbootbackend.dto.VocabularyDto;
 import com.hungnghia.springbootbackend.dto.VocabularyUpdateDto;
 import com.hungnghia.springbootbackend.entities.VocabularyEntity;
@@ -26,12 +27,14 @@ public class VocabularyService {
     private final VocabularyRepository vocabularyRepository;
     private final VocabularyTopicRepository vocabularyTopicRepository;
     private final AmazonClient amazonClient;
+    private final StatisticalService statisticalService;
 
     @Autowired
-    public VocabularyService(VocabularyRepository vocabularyRepository, VocabularyTopicRepository vocabularyTopicRepository, AmazonClient amazonClient) {
+    public VocabularyService(VocabularyRepository vocabularyRepository, VocabularyTopicRepository vocabularyTopicRepository, AmazonClient amazonClient, StatisticalService statisticalService) {
         this.vocabularyRepository = vocabularyRepository;
         this.vocabularyTopicRepository = vocabularyTopicRepository;
         this.amazonClient = amazonClient;
+        this.statisticalService = statisticalService;
     }
 
     @Transactional
@@ -109,5 +112,17 @@ public class VocabularyService {
             }
         }
         return vocabularyEntityList;
+    }
+
+    public String writeScore(long userId, int numberCorrect) {
+        StatisticalDto statisticalDto = new StatisticalDto();
+        statisticalDto.setUserId(userId);
+        statisticalDto.setScore(numberCorrect*10);
+        StatisticalDto result = statisticalService.addScore(statisticalDto);
+        if (result != null) {
+            return "Success";
+        } else {
+            return  "Error";
+        }
     }
 }

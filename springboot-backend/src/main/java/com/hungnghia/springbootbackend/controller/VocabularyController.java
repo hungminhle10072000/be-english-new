@@ -72,8 +72,12 @@ public class VocabularyController {
 
     @PutMapping("/user-vocabulary/write-score/{totalCorrect}")
     public ResponseEntity<?> writeScore(@PathVariable("totalCorrect") int totalCorrect) {
-//        return ResponseEntity.badRequest().body("Write score failed");
-        return ResponseEntity.ok("Write score success");
+
+        String isSuccess = vocabularyService.writeScore(1,totalCorrect);
+        if (isSuccess.trim().equals("Success")) {
+            return ResponseEntity.ok("Write score success");
+        }
+        return ResponseEntity.badRequest().body("Write score failed");
     }
 
 }

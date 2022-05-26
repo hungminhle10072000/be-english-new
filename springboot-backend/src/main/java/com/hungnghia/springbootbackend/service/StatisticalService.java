@@ -141,7 +141,7 @@ public class StatisticalService {
     int month = calendar.get(Calendar.MONTH);
     int day = calendar.get(Calendar.DATE);
     calendar.set(year, month, day, 0, 0, 0);
-    return calendar.getTime();
+    return new Date(calendar.getTime().getTime()/1000*1000);
   }
   private Date[] getDaysOfWeek(Date refDate, int firstDayOfWeek) {
     Date newRefDate = new Date(refDate.getTime());
