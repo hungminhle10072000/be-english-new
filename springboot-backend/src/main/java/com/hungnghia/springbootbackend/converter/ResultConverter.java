@@ -29,6 +29,8 @@ public class ResultConverter {
 
             resultEntity.setCorrect_listen(resultDto.getCorrectListen());
             resultEntity.setCorrect_read(resultDto.getCorrectRead());
+            resultEntity.setTotal_right(resultDto.getTotalRight());
+            resultEntity.setTotal_wrong(resultDto.getTotalWrong());
             if (resultDto.getExerciseId() !=null) {
                 ExerciseEntity exercise = exerciseRepository.getById(resultDto.getExerciseId());
                 resultEntity.setExerciseEntity(exercise);
