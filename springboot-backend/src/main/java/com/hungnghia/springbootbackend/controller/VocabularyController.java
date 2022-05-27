@@ -70,10 +70,10 @@ public class VocabularyController {
         return ResponseEntity.ok(vocabularyService.getRandomVoca(total));
     }
 
-    @PutMapping("/user-vocabulary/write-score/{totalCorrect}")
-    public ResponseEntity<?> writeScore(@PathVariable("totalCorrect") int totalCorrect) {
+    @PutMapping("/user-vocabulary/write-score/{userId}/{totalCorrect}")
+    public ResponseEntity<?> writeScore(@PathVariable("totalCorrect") int totalCorrect, @PathVariable("userId") Long userId) {
 
-        String isSuccess = vocabularyService.writeScore(1,totalCorrect);
+        String isSuccess = vocabularyService.writeScore(userId, totalCorrect);
         if (isSuccess.trim().equals("Success")) {
             return ResponseEntity.ok("Write score success");
         }
