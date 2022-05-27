@@ -7,10 +7,12 @@ public class StatisticalMasterDto {
   private String fullname;
   private double process;
   private int streak;
+  private int currentScore;
 
   public StatisticalMasterDto() {
     this.process = 0.0;
     this.streak = 0;
+    this.currentScore = 0;
   }
 
   public List<StatisticalDto> getStatisticalDtoList() {
@@ -34,7 +36,12 @@ public class StatisticalMasterDto {
   }
 
   public void setProcess(double process) {
-    this.process = process;
+    if (process > 1) {
+      this.process =1;
+    } else {
+      this.process = process;
+    }
+
   }
 
   public int getStreak() {
@@ -43,5 +50,13 @@ public class StatisticalMasterDto {
 
   public void setStreak(int streak) {
     this.streak = streak;
+  }
+
+  public int getCurrentScore() {
+    return currentScore;
+  }
+
+  public void setCurrentScore(int currentScore) {
+    this.currentScore = currentScore;
   }
 }
