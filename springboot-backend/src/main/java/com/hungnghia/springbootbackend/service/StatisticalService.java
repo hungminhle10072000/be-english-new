@@ -86,15 +86,17 @@ public class StatisticalService {
     statisticalMasterDto.setStatisticalDtoList(statisticalDtos);
     statisticalMasterDto.setFullname(user.getFullname());
     if (statisticalEntities != null && statisticalEntities.size() > 0) {
-      StatisticalEntity statisticalCurrent = statisticalEntities.get(statisticalEntities.size()-1);
-      System.out.println("Prev: "+statisticalCurrent.getUse_statistical_key().getDateCreateId().getDate());
-      System.out.println("Next: "+refDate.getDate());
+      int indexDayCurrent = statisticalEntities.size()-1;
+      StatisticalEntity statisticalCurrent = statisticalEntities.get(indexDayCurrent);
       if (statisticalCurrent.getUse_statistical_key().getDateCreateId().getDate() == refDate.getDate() ) {
 
-        statisticalMasterDto.setProcess(statisticalCurrent.getScore() / TARGET);
-        for (int i = statisticalEntities.size() -1; i >=0; i--) {
-          if (statisticalEntities.get(i).getScore() > TARGET) {
+        statisticalMasterDto.setProcess((double)statisticalCurrent.getScore() / TARGET);
+        statisticalMasterDto.setCurrentScore(statisticalCurrent.getScore());
+        for (int i = indexDayCurrent; i >=0; i--) {
+          if (statisticalEntities.get(i).getScore() >= TARGET) {
             statisticalMasterDto.setStreak(statisticalMasterDto.getStreak()+1);
+          } else {
+            break;
           }
         }
       }
