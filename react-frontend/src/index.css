@@ -529,3 +529,8 @@ code {
       display: none;
   }
 }
+
+/* css statistical */
+canvas.canvasjs-chart-canvas {
+  margin-top: 2%;
+}

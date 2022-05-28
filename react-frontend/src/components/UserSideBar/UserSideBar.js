@@ -5,6 +5,8 @@ import {GoBook} from 'react-icons/go'
 import {FaAdversal} from 'react-icons/fa'
 import {GiPrayer} from 'react-icons/gi'
 import {AiTwotoneHome} from 'react-icons/ai'
+import { FcStatistics } from "react-icons/fc"
+
 export const UserSideBar = [
   {
     title: 'Trang chủ',
@@ -39,7 +41,7 @@ export const UserSideBar = [
   {
     title: 'Thống kê',
     path: '/user/statistical',
-    icon: <GiPrayer color='black'/>,
+    icon: <FcStatistics color='black'/>,
     cName: 'nav-user-text'
   }
 ];
