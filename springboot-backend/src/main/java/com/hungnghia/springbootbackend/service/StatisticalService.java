@@ -20,15 +20,37 @@ public class StatisticalService {
   private StatisticalConverter statisticalConverter;
   @Autowired
   private UserRepository userRepository;
+  int TARGET = 1000;
 
-  public List<StatisticalDto> findStatisticalOfMonthByUserId(long userId) {
+  public StatisticalMasterDto findStatisticalOfMonthByUserId(long userId) {
+    Date[] daysOfMonth = getDaysOfMonth(new Date(),1);
+    StatisticalMasterDto statisticalMasterDto = new StatisticalMasterDto();
     List<StatisticalEntity> statisticalEntitiesOfMonth = new ArrayList<>();
     List<StatisticalEntity> statisticalEntities = statisticalRepository.findStatisticalEntitiesByUserEntity_Id(userId);
+    UserEntity user = userRepository.getById(userId);
     if (statisticalEntities != null && statisticalEntities.size() > 0) {
-      for (int i=0 ;i < statisticalEntities.size();i++) {
+      /*for (int i=0 ;i < statisticalEntities.size();i++) {
         if (statisticalEntities.get(i).getUse_statistical_key().getDateCreateId().getMonth() == new Date().getMonth() &&
                 statisticalEntities.get(i).getUse_statistical_key().getDateCreateId().getYear() == new Date().getYear()) {
           statisticalEntitiesOfMonth.add(statisticalEntities.get(i));
+        }
+      }*/
+      for (Date day : daysOfMonth) {
+        boolean flag = true;
+        for (int i=0 ;i < statisticalEntities.size();i++) {
+          if (isSameDay(day,statisticalEntities.get(i).getUse_statistical_key().getDateCreateId())) {
+            statisticalEntitiesOfMonth.add(statisticalEntities.get(i));
+            flag = false;
+          }
+        }
+        if (flag) {
+          StatisticalEntity statisticalEntity = new StatisticalEntity();
+          Use_Statistical_Key useStatisticalKey= new Use_Statistical_Key();
+          useStatisticalKey.setUserId(userId);
+          useStatisticalKey.setDateCreateId(day);
+          statisticalEntity.setUse_statistical_key(useStatisticalKey);
+          statisticalEntity.setScore(0);
+          statisticalEntitiesOfMonth.add(statisticalEntity);
         }
       }
     }
@@ -36,11 +58,43 @@ public class StatisticalService {
     if (statisticalEntitiesOfMonth.size() > 0) {
       statisticalDtos = statisticalConverter.toListDtos(statisticalEntitiesOfMonth);
     }
-    return statisticalDtos;
+    // Calculate Streak
+    int indexCurr = -1;
+    for (int i=0 ;i < statisticalEntities.size();i++) {
+      if (isSameDay(statisticalEntities.get(i).getUse_statistical_key().getDateCreateId(),new Date())) {
+        int currentScore = statisticalEntities.get(i).getScore();
+        statisticalMasterDto.setCurrentScore(currentScore);
+        statisticalMasterDto.setProcess((double) currentScore/TARGET);
+        statisticalMasterDto.setMonthNow(statisticalEntities.get(i).getUse_statistical_key().getDateCreateId().getMonth()+1);
+        statisticalMasterDto.setYearNow(statisticalEntities.get(i).getUse_statistical_key().getDateCreateId().getYear()+1900);
+        indexCurr = i;
+        break;
+      }
+    }
+    if (indexCurr != -1) {
+      for (int i = indexCurr; i >=0; i--) {
+        if (statisticalEntities.get(i).getScore() >= TARGET) {
+          statisticalMasterDto.setStreak(statisticalMasterDto.getStreak()+1);
+        } else {
+          break;
+        }
+      }
+    }
+    statisticalMasterDto.setStatisticalDtoList(statisticalDtos);
+    if (user != null) {
+      statisticalMasterDto.setEmail(user.getEmail());
+      statisticalMasterDto.setFullname(user.getFullname());
+    }
+    return statisticalMasterDto;
+  }
+  private boolean isSameDay(Date firstDay, Date secondDay) {
+    if (getStartOfDay(firstDay).getTime() == getStartOfDay(secondDay).getTime()) {
+      return true;
+    }
+    return false;
   }
 
   public StatisticalMasterDto findStatisticalOfWeekByUserId(long userId) {
-    int TARGET = 1000;
     Date refDate = new Date();
     Date[] days = getDaysOfWeek(refDate, 2);
 
@@ -139,12 +193,14 @@ public class StatisticalService {
   }
   private Date getStartOfDay(Date date) {
     Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
     int year = calendar.get(Calendar.YEAR);
     int month = calendar.get(Calendar.MONTH);
     int day = calendar.get(Calendar.DATE);
     calendar.set(year, month, day, 0, 0, 0);
     return new Date(calendar.getTime().getTime()/1000*1000);
   }
+
   private Date[] getDaysOfWeek(Date refDate, int firstDayOfWeek) {
     Date newRefDate = new Date(refDate.getTime());
     Calendar calendar = Calendar.getInstance();
@@ -156,6 +212,19 @@ public class StatisticalService {
       calendar.add(Calendar.DAY_OF_MONTH, 1);
     }
     return daysOfWeek;
+  }
+
+  private Date[] getDaysOfMonth(Date refDate, int firstDayOfMonth) {
+    Date newRefDate = new Date(refDate.getTime());
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(newRefDate);
+    calendar.set(Calendar.DAY_OF_MONTH, firstDayOfMonth);
+    Date[] daysOfMonth = new Date[31];
+    for (int i = 0; i < 31; i++) {
+      daysOfMonth[i] = calendar.getTime();
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
+    }
+    return daysOfMonth;
   }
 
 }

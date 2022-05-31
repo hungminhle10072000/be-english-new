@@ -26,7 +26,7 @@ public class StatisticalController {
 
 
   @GetMapping("/getStatisticalByUserId/{userId}")
-  public List<StatisticalDto> getStatisticalByUserId(@PathVariable Long userId) {
+  public StatisticalMasterDto getStatisticalByUserId(@PathVariable Long userId) {
     return statisticalService.findStatisticalOfMonthByUserId(userId);
   }
   @GetMapping("/getStatisticalOfWeekByUserId/{userId}")
