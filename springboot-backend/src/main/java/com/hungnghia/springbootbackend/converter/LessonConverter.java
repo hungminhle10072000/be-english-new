@@ -1,5 +1,6 @@
 package com.hungnghia.springbootbackend.converter;
 
+import com.hungnghia.springbootbackend.dto.CommentDto;
 import com.hungnghia.springbootbackend.dto.LessonDto;
 import com.hungnghia.springbootbackend.entities.*;
 import com.hungnghia.springbootbackend.repository.ChapterRepository;
@@ -22,6 +23,8 @@ public class LessonConverter {
     private GrammarRepository grammarRepository;
     @Autowired
     private VocabularyTopicRepository vocabularyTopicRepository;
+    @Autowired
+    private CommentConverter commentConverter;
     public LessonEntity toEntity(LessonDto lessonDto) {
         LessonEntity lessonEntity = new LessonEntity();
         lessonEntity.setId(lessonDto.getId());
@@ -70,7 +73,11 @@ public class LessonConverter {
         } else {
             lessonDto.setNumLessonOfChapter(0);
         }
-
+        List<CommentEntity> commentEntities = lessonEntity.getCommentEntityList();
+        if (commentEntities != null && commentEntities.size() > 0) {
+            List<CommentDto> commentDtos = commentConverter.toListDtoIgnore(commentEntities);
+            lessonDto.setCommentDtos(commentDtos);
+        }
         return lessonDto;
     }
 
